@@ -19,8 +19,14 @@ angular.module('starter', ['ionic'])
       if ($rootScope.slideHeaderPrevious >= e.detail.scrollTop - start) {
         $rootScope.slideHeader = false;
       }
-      $rootScope.slideHeaderPrevious = e.detail.scrollTop - start;
+     //probar: $rootScope.slideHeaderPrevious = e.detail.scrollTop - start + -10;
+     $rootScope.slideHeaderPrevious = e.detail.scrollTop - start;
+     console.log("appy");
       $rootScope.$apply();
+
+         
+
+
     });
   };
 });

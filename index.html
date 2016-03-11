@@ -1,60 +1,36 @@
 <!DOCTYPE html>
-<html ng-app="starter">
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Ionic Sub Header Show/Hide on Scroll</title>
+     <link href="css/ionic.app.css" rel="stylesheet">
+    
+    
+    
+ 
+
+        <link rel="stylesheet" href="css/style.css">
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <html ng-app="starter">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <style>
-
-    .bar-positive {
-  z-index: 2;
-}
-
-.bar-subheader {
-  z-index: 1;
-  -webkit-transition: top 0.25s ease;
-  transition: top 0.25s ease;
-}
-
-.has-subheader {
-  top: 44px;
-}
-.has-subheader .scroll {
-  padding-top: 44px;
-}
-
-body.bar-subheader-slide-away .bar-subheader {
-  top: 0;
-}
-body.bar-subheader-slide-away .has-subheader {
-  top: 44px;
-}
-
-    </style>
+    
+    <title>Ionic Sub Header Show/Hide on Scroll</title>
+       
   </head>
   <body ng-controller="MyCtrl" ng-class="{'bar-subheader-slide-away': slideHeader}">
 
     <ion-pane>
-      <ion-header-bar class="bar-positive">
-        <h1 class="title">Ionic Sub Header Show/Hide on Scroll</h1>
-      </ion-header-bar>
-      <ion-header-bar class="bar-subheader bar-dark">
+
+      <ion-header-bar class="bar-subheader bar-dark bar bar-header disable-user-behavior">
         <h1 class="title">Hide this sub header on scroll down and display on scroll up!</h1>
       </ion-header-bar>
       <ion-content scroll-watch>
@@ -172,7 +148,7 @@ body.bar-subheader-slide-away .has-subheader {
     </ion-pane>
   </body>
 </html>
-
+    <script src='http://code.ionicframework.com/1.0.0-beta.13/js/ionic.bundle.min.js'></script>
 
         <script src="js/index.js"></script>
 
@@ -180,3 +156,4 @@ body.bar-subheader-slide-away .has-subheader {
     
     
   </body>
+</html>

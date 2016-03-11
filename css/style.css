@@ -1,33 +1,20 @@
-/* Empty. Add your own CSS if you like */
 
-.larger {
-    font-size: 120px;
+.bar-subheader {
+  z-index: 1;
+  -webkit-transition: top 0.25s ease;
+  transition: top 0.25s ease;
 }
 
-
-/** Error Messages **/
-
-/** Styling for the username field **/
-label.item.has-error {
-  border-bottom: 2px solid red;
+.has-subheader {
+  top: 0px;
+}
+.has-subheader .scroll {
+  padding-top: 0px;
 }
 
-/** Styling for the password field when an error exists**/
-label.item.has-error-lr {
-  border-bottom: 2px solid red;
+body.bar-subheader-slide-away .bar-subheader {
+  top: -44px;
 }
-
-/** Styling for the password field when an error has been resolved**/
-label.item.valid-lr {
-  border-left: 2px solid green;
-  border-right: 2px solid green;
-}
-
-/** Styling for the error text and container **/
-.form-errors {
-  margin: 5px 0
-}
-.form-error {
-  padding: 2px 0 2px 16px;
-  color: red;
+body.bar-subheader-slide-away .has-subheader {
+  top: 0px;
 }
