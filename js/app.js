@@ -14,6 +14,11 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       url: '/movie/:movieid',
       templateUrl: 'view.html',
       controller: 'ViewCtrl'
+    })
+     .state('detail', {
+      url: '/detail',
+      templateUrl: 'detail.html',
+      controller: 'ListCtrl'
     });
  
   $urlRouterProvider.otherwise("/");
@@ -97,6 +102,154 @@ nameApp.controller('ListCtrl', function($scope, $http, Movies, $state, Navigatio
     prop: "world"
   };
  
+ //Tiene q ir al factory esta parte
+$scope.subastas=[
+
+   {
+  idSubasta:1,
+  nombrePonente:"Maria",
+  idPonente:1,
+  tipo:"Cena",
+  tipoSubasta:"subasta",
+  valorInicial:30,
+  vip:true,
+  estado:"estadoActivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"3h 23min",
+  image:'img/user1.jpg',
+  descripcion:"Cena en restaurante vegetariano/hindu",
+  col:'left-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ },
+
+    {
+  idSubasta:2,
+  nombrePonente:"Pedro J.",
+  idPonente:2,
+  tipo:"Entretenimiento",
+  tipoSubasta:"subasta",
+  valorInicial:15,
+  vip:false,
+    estado:"estadoActivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"5h 10min",
+  image:'img/user2.jpg',
+  descripcion:"Salida por la tarde al cine",
+  col:'right-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ },
+
+     {
+  idSubasta:3,
+  nombrePonente:"Luis Mora",
+  idPonente:3,
+  tipo:"Entretenimiento",
+  tipoSubasta:"subasta",
+  valorInicial:25,
+  vip:false,
+    estado:"estadoInactivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"10h 47min",
+  image:'img/user4.png',
+  descripcion:"Acompanante para spa - masaje",
+  col:'left-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ },
+
+      {
+  idSubasta:4,
+  nombrePonente:"Paul G.",
+  idPonente:4,
+  tipo:"Cena",
+  tipoSubasta:"subasta",
+  valorInicial:15,
+  vip:true,
+    estado:"estadoActivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"11h 47min",
+  image:'img/user5.jpg',
+  descripcion:"Cena norcturna, lugar a escoger",
+  col:'right-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ },
+   {
+  idSubasta:1,
+  nombrePonente:"Maria",
+  idPonente:1,
+  tipo:"Cena",
+  tipoSubasta:"subasta",
+  valorInicial:30,
+  vip:true,
+  estado:"estadoActivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"3h 23min",
+  image:'img/user1.jpg',
+  descripcion:"Cena en restaurante vegetariano/hindu",
+  col:'left-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ },
+
+    {
+  idSubasta:2,
+  nombrePonente:"Pedro J.",
+  idPonente:2,
+  tipo:"Entretenimiento",
+  tipoSubasta:"subasta",
+  valorInicial:15,
+  vip:false,
+    estado:"estadoActivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"5h 10min",
+  image:'img/user2.jpg',
+  descripcion:"Salida por la tarde al cine",
+  col:'right-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ },
+
+     {
+  idSubasta:3,
+  nombrePonente:"Luis Mora",
+  idPonente:3,
+  tipo:"Entretenimiento",
+  tipoSubasta:"subasta",
+  valorInicial:25,
+  vip:false,
+    estado:"estadoInactivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"10h 47min",
+  image:'img/user4.png',
+  descripcion:"Acompanante para spa - masaje",
+  col:'left-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ },
+
+      {
+  idSubasta:4,
+  nombrePonente:"Paul G.",
+  idPonente:4,
+  tipo:"Cena",
+  tipoSubasta:"subasta",
+  valorInicial:15,
+  vip:true,
+    estado:"estadoActivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoLimite:"11h 47min",
+  image:'img/user5.jpg',
+  descripcion:"Cena norcturna, lugar a escoger",
+  col:'right-column',
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ }
+   ];
+
+ //
   $scope.searchMovieDB = function() {
  
     Movies.list($scope.movie.name, function(movies) {

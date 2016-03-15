@@ -1,20 +1,353 @@
 
-.bar-subheader {
-  z-index: 1;
-  -webkit-transition: top 0.25s ease;
-  transition: top 0.25s ease;
+.bar-positive{
+
+  background-color: #23262a !important;
+  border:none !important;
+}
+.user-image{
+
+  border-radius: 200px;
 }
 
-.has-subheader {
-  top: 0px;
-}
-.has-subheader .scroll {
-  padding-top: 0px;
+.frame_look_feel {
+background-color: red;
 }
 
-body.bar-subheader-slide-away .bar-subheader {
-  top: -44px;
+
+
+#container {width:100%;}
+
+.left-column {
+    width: 47%;
+    float: left;
+margin-left: 1.5%;
+    background-color: #EAEAEA;
 }
-body.bar-subheader-slide-away .has-subheader {
-  top: 0px;
+.right-column {
+    width: 47%;
+    float: right;
+margin-right: 1.5%;
+       background-color: #EAEAEA;
+
 }
+.infoBox {
+    width: 100%;
+    margin: -1px; 
+
+
+    margin-top:9px;
+    float:left;
+}
+
+.pujasE{
+
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
+
+.numbers{
+height: 30px;
+width: 30px;
+vertical-align: middle;
+
+}
+ .descSubasta{
+}
+}
+
+
+background-color: #fafafa;
+border-radius: 0px 0px 10px 10px;
+ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+ }
+
+.estadoSubastador{
+
+height: 10px;
+width: 10px;
+border-radius: 300px;
+position: absolute;
+margin-top: 13px;
+}
+
+.estadoActivo{background-color:green;}
+.estadoInactivo{background-color:gray;}
+
+
+.feed-category {
+    height: -webkit-calc(50vw - 15px);
+    height: calc(50vw - 15px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border-radius: 10px 10px 0px 0px;
+    position: relative;
+    display: block; }
+
+  .feed-category .category-image {
+      width: 100%;
+      height: 100%;
+     border-radius: 10px 10px 0px 0px; }
+
+    .feed-category .category-bg {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      border-radius: 10px 10px 0px 0px;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(39, 44, 48, 0.3) 40%, rgba(62, 69, 76, 0.3) 60%, rgba(85, 94, 104, 0.3)); }
+
+     .feed-category .category-title {
+      color: #FFFFFF;
+      position: absolute;
+      top: 0px;
+      left: 4px;
+      font-weight: 500;
+      text-transform: capitalize; }
+
+      .tiempoRestante{
+
+        position: absolute;
+margin-top: 7px;
+margin-left: 33px;
+      }
+
+.euroI{position: absolute;
+top: 0;
+right: 0;
+margin-top: 7.5px;
+margin-right: 5px;}
+
+.crownI{
+
+position: absolute;
+bottom: 0;
+right: 0;
+margin-bottom: 5px;
+margin-right: 5px;
+
+}
+
+
+.precioA{
+
+position: absolute;
+top: 0px;
+right: 0px;
+margin-right: 25px;
+margin-top: 8px;
+color: white;
+font-size: 18px;
+}
+
+.tipoS{
+
+  font-size: 15px;
+padding-top: 6px;
+margin-left: 4px;
+color: #e53935;
+}
+.fake-statusbar {
+  height: 20px;
+  max-height: 20px;
+  font-size: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  color: #fff;
+  padding: 2px 3px 3px 3px;
+  background-color: #4a87ee;
+}
+.fake-statusbar .time {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.fake-statusbar .pull-left { float: left; }
+.fake-statusbar .pull-right { float: right; }
+
+.bar-header {
+  height: 44px !important;
+}
+.bar-header > * {
+  margin-top: 0px !important;
+}
+
+.scroll-content{
+  top:0 !important
+}
+
+
+.itemContenido{}
+
+
+
+ion-side-menu ion-content {
+  background-color: #23262a; }
+ion-side-menu ion-item.item {
+  border-right: none;
+  border-left: none;
+  border-color: #33383e; }
+  ion-side-menu ion-item.item .item-content {
+    background-color: #23262a; }
+    ion-side-menu ion-item.item .item-content .icon:before {
+      background-color: #3E454C;
+      color: #FFFFFF;
+      border-radius: 50%;
+      font-size: 22px;
+      width: 32px;
+      height: 32px;
+      line-height: 32px; }
+  ion-side-menu ion-item.item .item-content.activated {
+    background-color: #555e68; }
+  ion-side-menu ion-item.item .menu-text {
+    color: #cccccc;
+    font-weight: 500; }
+ion-side-menu ion-item.item:first-child {
+  border-top: none; }
+ion-side-menu ion-item.item:last-child {
+  border-bottom: none; }
+ion-side-menu .heading-item .item-content {
+  height: 120px;
+  padding-top: 45px;
+  padding-left: 115px;
+  background-color: #272c30;
+  padding-bottom: 0px; }
+ion-side-menu .heading-item .user-image-container {
+  width: 90px;
+  position: absolute;
+  top: 16px;
+  left: 12px; }
+  ion-side-menu .heading-item .user-image-container .user-image {
+    border-radius: 50%;
+    padding: 8px;
+    border: 1px solid #999999;
+    width: 100%; }
+ion-side-menu .heading-item .greeting {
+  color: #FFFFFF;
+  font-weight: 500; }
+ion-side-menu .heading-item .message {
+  color: #999999; }
+
+.feeds-categories-view {
+  background-color: #EAEAEA !important; }
+
+  .subti{
+
+  font-size: 13px !important;
+  color: #666;
+}
+
+.crownI{
+
+position: absolute;
+top: 0;
+right: 0;
+margin-top: 10px;
+margin-right: 12px;
+
+}
+
+.crownDashboard{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 5px;
+    margin-bottom: 6px;
+
+}
+
+.dashboardSubasta{
+width: 100%;
+bottom: 0px;
+border: solid 2px lightgray;
+
+display: inline-block;
+
+text-align: center;
+border-top: none;
+border-radius: 0px 0px 10px 10px;
+}
+
+.dashboardSubasta>p{
+  font-size: 13px !important;
+color: rgb(102, 102, 102);
+
+}
+
+      .tiempoRestante{
+
+        position: absolute;
+margin-top: 7px;
+margin-left: 33px;
+      }
+
+
+.title{
+  text-align: center;
+  margin: 10px;
+}
+
+.test-content{
+  text-align: center;
+  padding:80px;
+  color: white;
+}
+
+
+
+#clockdiv{
+    font-family: sans-serif;
+    color: #fff;
+    display: inline-block;
+    font-weight: 100;
+    text-align: center;
+    font-size: 30px;
+}
+
+#clockdiv > div{
+    padding: 10px;
+    border-radius: 3px;
+    background: #00BF96;
+    display: inline-block;
+}
+
+#clockdiv div > span{
+    padding: 15px;
+    border-radius: 3px;
+    background: #00816A;
+    display: inline-block;
+}
+
+.smalltext{
+    padding-top: 5px;
+    font-size: 16px;
+}
+
+
+
+
+.time-to {
+  text-align: center;
+  font-family: Bangers;
+  color: white;
+  font-size: 35px;
+  letter-spacing: 2px;
+}
+.time-to span {
+  display: block;
+  font-size: 25px;
+  color: #666;
+  margin-top: 12px;
+}
+
+.tituloFiltro{
+
+  color:#666;
+}
+
