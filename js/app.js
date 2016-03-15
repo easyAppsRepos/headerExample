@@ -19,6 +19,12 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       url: '/detail',
       templateUrl: 'detail.html',
       controller: 'ListCtrl'
+    })
+
+     .state('pujas', {
+      url: '/pujas',
+      templateUrl: 'pujas.html',
+      controller: 'ListCtrl'
     });
  
   $urlRouterProvider.otherwise("/");
