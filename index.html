@@ -42,7 +42,7 @@
         </label>
  
           <ion-list can-swipe="true">
-            <ion-item item="group" collection-repeat="movie in movies" collection-item-width="'100%'" collection-item-height="100" href="#/movie/{{movie.id}}" class="item-thumbnail-left" transitiontype="flip" direction="left" go-native>
+            <ion-item item="group" collection-repeat="movie in movies" collection-item-width="'100%'" collection-item-height="100" href="#/movie/{{movie.id}}" class="item-thumbnail-left" transitiontype="fade"  go-native>
                 <img ng-src="https://image.tmdb.org/t/p/w92{{movie.poster_path}}" onerror="this.src = 'https://www.ginesisnatural.com/images/no_image.jpg';">
                 <h2>{{movie.original_title}}</h2>
                 <h4>{{movie.release_date}}</h4>
