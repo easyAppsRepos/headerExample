@@ -99,7 +99,76 @@
     <script id="detail.html" type="text/ng-template">
     <ion-view view-title="Details">   
       <ion-content>
-        <h1>evertym ok</h1>
+        <div style="height: 45px;"></div>
+
+        <div style="position: absolute; width: 94%;" class="list card">
+        <div class="item item-avatar">
+        <img src='img/user1.jpg'>
+        <img src='img/crown.png' class='crownI'> 
+        <h2>Maria</h2>
+        <p>Conectado</p>
+
+        </div>
+
+
+
+        <div class="item item-body">
+
+
+        <ion-slide-box>
+
+        <ion-slide ng-repeat="page in pages"> 
+
+
+        <div ng-if="slideVisible($index)" style="background-color:{{page.background}}">
+        <h1 class="test-content">{{page.text}}</h1> 
+        </div>
+
+
+
+        </ion-slide>
+
+        </ion-slide-box>
+
+        </div>
+        <div class="item item-body">
+        <div>
+        <div class="row"style="text-align: center;">
+        <div class='col col-50'>
+        <a>34</a><img style="vertical-align: middle; height: 38px; width: 38px;" src="img/euro.png">
+        <br><span class='subti'>Puja mas alta</span>
+        </div>
+        <div class='col col-50'>
+        <img style="vertical-align: middle; height: 38px; width: 38px;" src="img/time.png"><a>2h 34min</a>
+        <br><span class='subti'>Tiempo restante</span>
+        </div>
+        </div>
+        </div>
+
+        <p>
+        </p>
+        </div>
+        <div class="item item-body">
+        <div>
+        <h2 style="margin-top: 0px;">Cena / Bebida</h2>
+        <p> Me ofrezco para cena en restaurante vegetariano o hindu, tu eliges</p>
+        </div>
+        </div>
+        <div class="item item-body">
+        <div>
+        <h3 style="margin-top: 0px;">Detalles adicionales</h3>
+        <p> Me ofrezco para cena en restaurante vegetariano o hindu, tu eliges</p>
+        </div>
+        <div style="height: 55px;"></div>
+        </div>
+
+
+
+
+
+        </div>
+
+      
       </ion-content>
     </ion-view>     
   </script>   

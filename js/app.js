@@ -92,7 +92,30 @@ nameApp.service('Navigation', function($state) {
   };
 });
  
-nameApp.controller('ListCtrl', function($scope, $http, Movies, $state, Navigation) {
+nameApp.controller('ListCtrl', function($scope, $http, Movies, $state,$ionicSlideBoxDelegate, Navigation) {
+
+
+    $scope.pages = [{"text":"1", "background": "#4a87ee"},
+                  {"text":"2", "background": "#43cee6"},
+                 
+                 ]
+  
+  $scope.trickOn = true;
+  
+  
+  $scope.slideVisible = function(index){
+    if(  index < $ionicSlideBoxDelegate.currentIndex() -1 
+       || index > $ionicSlideBoxDelegate.currentIndex() + 1){
+      return false;
+    }
+    
+    return true;
+  }
+  
+  $scope.toogleTrick = function(){
+    $scope.trickOn = $scope.trickOn;
+    
+  }
  
   $scope.movie = {
     name: 'Batman'
