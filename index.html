@@ -1,159 +1,83 @@
 <!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
-    <title>Ionic Sub Header Show/Hide on Scroll</title>
-     <link href="css/ionic.app.css" rel="stylesheet">
-    
-    
-    
- 
-
-        <link rel="stylesheet" href="css/style.css">
-
-    
-    
-    
-  </head>
-
-  <body>
-
-    <html ng-app="starter">
+<html ng-app="starter">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    
-    <title>Ionic Sub Header Show/Hide on Scroll</title>
-       
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
   </head>
-  <body ng-controller="MyCtrl" ng-class="{'bar-subheader-slide-away': slideHeader}">
-
-    <ion-pane>
-
-      <ion-header-bar class="bar-subheader bar-dark bar bar-header disable-user-behavior">
-        <h1 class="title">Hide this sub header on scroll down and display on scroll up!</h1>
-      </ion-header-bar>
-      <ion-content scroll-watch>
-        <div class="list">
-          <div class="item item-divider">
-            Header
+  <body >
+   
+  <!-- The nav bar that will be updated as we navigate -->
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button class="button-clear" transitiontype="flip" direction="right" go-native>
+      <i class="ion-arrow-left-c"></i> Back
+    </ion-nav-back-button>
+  </ion-nav-bar>  
+   
+  <ion-nav-view></ion-nav-view>
+          <!-- ng-click="changePage(movie.id)" --> 
+  <script id="list.html" type="text/ng-template">
+    <ion-view view-title="Search The Movie Database"> 
+      <ion-content>
+        <label class="item item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="search" placeholder="Search" ng-model="movie.name" ng-change="searchMovieDB()">
+        </label>
+ 
+          <ion-list can-swipe="true">
+            <ion-item item="group" collection-repeat="movie in movies" collection-item-width="'100%'" collection-item-height="100" href="#/movie/{{movie.id}}" class="item-thumbnail-left" transitiontype="flip" direction="left" go-native>
+                <img ng-src="https://image.tmdb.org/t/p/w92{{movie.poster_path}}" onerror="this.src = 'https://www.ginesisnatural.com/images/no_image.jpg';">
+                <h2>{{movie.original_title}}</h2>
+                <h4>{{movie.release_date}}</h4>
+                <ion-option-button class="button-light icon ion-edit">Edit</ion-option-button>
+                <ion-option-button class="button-assertive icon ion-trash-a">Share</ion-option-button>
+            </ion-item>
+          </ion-list>
+      </ion-content>
+    </ion-view>    
+  </script>  
+   
+  <script id="view.html" type="text/ng-template">
+    <ion-view view-title="Movie details">   
+      <ion-content>
+        <div class="list card">
+   
+          <div class="item item-avatar">
+            <img src="http://files.softicons.com/download/object-icons/movies-icons-by-pinchodesigns/png/32x32/Movie.png">
+            <h2>{{movie.original_title}}</h2>
+            <p>{{movie.release_date}}</p>
           </div>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <div class="item item-divider">
-            Heading
+   
+          <div class="item item-image">
+            <img ng-src="https://image.tmdb.org/t/p/w92{{movie.poster_path}}" width="200px" />
           </div>
+   
           <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <div class="item item-divider">
-            Heading
-          </div>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <div class="item item-divider">
-            Heading
-          </div>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <div class="item item-divider">
-            Scroll Distance 
-          </div>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <div class="item item-divider">
-            Heading
-          </div>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <div class="item item-divider">
-            Heading
-          </div>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <div class="item item-divider">
-            Heading
-          </div>
-          <a class="item" href="#">
-            List Item
-          </a>
-          <a class="item" href="#">
-            List Item
-          </a>
+              Average Vote: <strong>{{movie.vote_average}}</strong> (Votes: {{movie.vote_count}})
+            </a>
+   
         </div>
       </ion-content>
-    </ion-pane>
-  </body>
-</html>
-    <script src='http://code.ionicframework.com/1.0.0-beta.13/js/ionic.bundle.min.js'></script>
-
-        <script src="js/index.js"></script>
-
-    
-    
-    
+    </ion-view>     
+  </script>   
+   
+  
   </body>
 </html>
