@@ -104,8 +104,14 @@ nameApp.service('Navigation', function($state) {
   };
 });
  
-nameApp.controller('ListCtrl', function($scope, $http, Movies, $state,$ionicSlideBoxDelegate, Navigation) {
+nameApp.controller('ListCtrl', function($scope, $http, Movies, $state,$ionicSlideBoxDelegate, $ionicSideMenuDelegate, Navigation) {
 
+
+
+  $scope.openMenu = function () {
+    $ionicSideMenuDelegate.toggleLeft();
+  }
+  
 
     $scope.pages = [{"text":"1", "background": "#4a87ee"},
                   {"text":"2", "background": "#43cee6"},
