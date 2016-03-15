@@ -99,11 +99,14 @@
            <ion-nav-buttons side="left">
           <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
         </ion-nav-buttons>   
+
+
+        <div style="position: fixed; background-color: white; height: 32px; width: 75%; z-index: 5; border: 1px solid lightgray; color: rgb(102, 102, 102); border-radius: 10px; margin-top: 49px; opacity: 0.95; text-align: center; line-height: 2; margin-left: 12.5%;" class="geoBar"><i style="color: lightcoral ! important;" class="ion-ios-location"></i><a style="margin-left: 9px;" class="">Subastas a 1km de distancia</a></div>
+
+
       <ion-content style='background-color: rgb(234, 234, 234);'>
-        <label class="item item-input">
-          <i class="icon ion-search placeholder-icon"></i>
-          <input type="search" placeholder="Search" ng-model="movie.name" ng-change="searchMovieDB()">
-        </label>
+
+       <div style="height: 44px"></div>
 
           <div id="container" >
           <div class="{{subasta.col}}" ng-repeat="subasta in subastas"  >

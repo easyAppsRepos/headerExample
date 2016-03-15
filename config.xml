@@ -4,15 +4,16 @@
         xmlns       =    "http://www.w3.org/ns/widgets"
         xmlns:gap   =    "http://phonegap.com/ns/1.0"
         versionCode =   "1">
-  <name>headerExample</name>
+  <name>subastAPP</name>
   <description>
-        An Ionic Framework and Cordova project.
+        subastAPP
     </description>
   <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
     </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <preference name="orientation" value="portrait" />
    <preference name="permissions" value="none" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
