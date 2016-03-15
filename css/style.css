@@ -172,7 +172,7 @@ color: #e53935;
 .fake-statusbar .pull-right { float: right; }
 
 .bar-header {
-  height: 44px !important;
+  height: 46px !important;
 }
 .bar-header > * {
   margin-top: 0px !important;
