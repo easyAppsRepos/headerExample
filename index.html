@@ -92,7 +92,7 @@
   <script id="list.html" type="text/ng-template">
     <ion-view  view-title="subastApp"> 
     <ion-nav-buttons side="right">
-<a style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" href="#/filtros" transitiontype="slide" direction="left" go-native="">
+<a style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" href="#/filtros" transitiontype="fade" go-native="">
         Filtros
       </a>
    </ion-nav-buttons> 
@@ -111,7 +111,7 @@
           <div id="container" >
           <div class="{{subasta.col}}" ng-repeat="subasta in subastas"  >
           <div class="infoBox">
-          <a class="feed-category" href="#/detail" transitiontype="slide" direction="left"  go-native>
+          <a class="feed-category" href="#/detail" transitiontype="fade"  go-native>
           <pre-img ratio="_1_1" helper-class="square-image">
           <img class="category-image" ng-src="{{subasta.image}}" spinner-on-load>
 
@@ -166,7 +166,7 @@
     <script id="detail.html" type="text/ng-template">
     <ion-view view-title="Subasta"> 
      <ion-nav-buttons side="right">
-<a style="color: darkkhaki; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior" href="#/pujas" transitiontype="slide" direction="left" go-native="">
+<a style="color: darkkhaki; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior" href="#/pujas" transitiontype="fade"  go-native="">
         Ver pujas
       </a>
    </ion-nav-buttons> 
