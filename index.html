@@ -27,7 +27,7 @@
   <!-- The nav bar that will be updated as we navigate -->
   <ion-nav-bar class="bar-positive">
     <ion-nav-back-button class="button-clear" transitiontype="fade" go-native>
-      <i class="ion-arrow-left-c"></i> Back
+      <i class="ion-arrow-left-c"></i> 
     </ion-nav-back-button>
   </ion-nav-bar>  
    
@@ -36,11 +36,11 @@
   <script id="list.html" type="text/ng-template">
     <ion-view  view-title="subastApp"> 
     <ion-nav-buttons side="right">
-      <a class="button bar-positive ion-star" href="#/filtros" transitiontype="flip" direction="right" go-native>
+<a style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" href="#/filtros" transitiontype="flip" direction="right" go-native="">
         Filtros
       </a>
    </ion-nav-buttons> 
-      <ion-content>
+      <ion-content style='background-color: rgb(234, 234, 234);'>
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
           <input type="search" placeholder="Search" ng-model="movie.name" ng-change="searchMovieDB()">
@@ -55,7 +55,7 @@
 
           </pre-img>
           <div class="category-bg"></div>
-          <span class="category-title"><div class='estadoSubastador {{subasta.estado}}'></div><p style='margin-left: 16px;margin-top: 8px'>{{subasta.nombrePonente}}</p></span>
+          <span class="category-title"><div style="height: 9px; width: 9px; border-radius: 25px; position: absolute; margin-top: 13px;" class="estadoSubastador {{subasta.estado}}"></div><p style='margin-left: 16px;margin-top: 8px'>{{subasta.nombrePonente}}</p></span>
           <img class="icon euroI icons8-Euro-Filled" src="img/euroF.png" width="18" height="18">
           <img ng-if='subasta.vip==true'class="icon crownDashboard icons8-Euro-Filled" src="img/crown.png" width="27" height="27">
           <text class='precioA'>{{subasta.valorInicial}}</text>
@@ -78,8 +78,8 @@
   </script>  
    
   <script id="view.html" type="text/ng-template">
-    <ion-view view-title="Movie details">   
-      <ion-content>
+    <ion-view view-title="Historial de pujas">   
+      <ion-content style='background-color: rgb(234, 234, 234);'>
         <div class="list card">
    
           <div class="item item-avatar">
@@ -102,9 +102,9 @@
   </script>   
    
     <script id="detail.html" type="text/ng-template">
-    <ion-view view-title="Details"> 
+    <ion-view view-title="Subasta"> 
      <ion-nav-buttons side="right">
-      <a class="button bar-positive ion-eye" href="#/pujas" transitiontype="flip" direction="right" go-native>
+<a style="color: darkkhaki; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior" href="#/pujas" transitiontype="flip" direction="right" go-native="">
         Ver pujas
       </a>
    </ion-nav-buttons> 
@@ -112,7 +112,7 @@
         <a style="position: fixed; z-index: 3; bottom: 0px; width: 100%;" class="button button-positive disable-user-behavior" >
         Realizar puja
         </a>
-      <ion-content>
+      <ion-content style='background-color: rgb(234, 234, 234);'>
         <div style="height: 45px;"></div>
 
         <div style="position: absolute; width: 94%;" class="list card">
@@ -189,13 +189,16 @@
    
 
      <script id="pujas.html" type="text/ng-template">
-    <ion-view view-title="Movie details">   
-      <ion-content>
-            <div style="height: 85px;"></div>
+    <ion-view view-title="Historial de pujas">   
+      <ion-content style='background-color: rgb(234, 234, 234);'>
+            <div style="height: 44px;"></div>
          <div class='list card'>
           <div class='item item-body'>
               
-             <h1>realizar pja</h1>
+              <div class='time-to'>
+
+    <span countdown='' date='January 1, 2017 12:00:00'>&nbsp;</span>
+  </div>
               
 
           </div>
@@ -221,7 +224,7 @@
           </div>                    
           </div>
 
-          <button class="button button-full button-assertive">Realizar puja</button>
+          <button class="button button-full button-assertive">Realizar Puja</button>
           </div>
           </div>
       </ion-content>
@@ -231,7 +234,7 @@
 
        <script id="filtros.html" type="text/ng-template">
     <ion-view view-title="Filtros">   
-      <ion-content>
+      <ion-content style='background-color: rgb(234, 234, 234);'>
             <div style="height: 50px;"></div>
       <div class="list list-inset" style='background-color: #EAEAEA;'>
       <label class="item item-input">
