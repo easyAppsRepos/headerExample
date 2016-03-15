@@ -28,7 +28,7 @@
      <ion-side-menus>
       <ion-side-menu-content>
         <ion-nav-bar class="bar-positive nav-title-slide-ios7">
-          <ion-nav-back-button class="button-icon" transitiontype="slide" direction="right" go-native><span class="icon ion-ios-arrow-left"></span></ion-nav-back-button>
+          <ion-nav-back-button class="button-icon" transitiontype="slide" direction="right" go-native><span class="icon ion-android-arrow-back"></span>Atras</ion-nav-back-button>
         </ion-nav-bar>
         <ion-nav-view></ion-nav-view>
       </ion-side-menu-content>
@@ -42,21 +42,57 @@
         </ion-content>
       </ion-side-menu>
 
-      <ion-side-menu side="right" >
-        <ion-header-bar class="bar-header bar-dark">
-          <h1 class="title">Search</h1>
-        </ion-header-bar>
-        <ion-content>
+     <ion-side-menu side="left" class="main-menu" expose-aside-when="large">
+    <ion-content>
+      <ion-list>
+        <ion-item class="heading-item item item-avatar " nav-clear menu-close ui-sref="">
+          <div class="user-image-container">
+            <pre-img ratio="_1_1" helper-class="rounded-image">
+              <img class="user-image" ng-src="img/user1.jpg" spinner-on-load>
+            </pre-img>
+          </div>
+          <h2 class="greeting">Hola Maria</h2>
+          <p class="message">Bienvenida</p>
+        </ion-item>
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+          <i class="icon ion-android-chat"></i>
+          <h2 class="menu-text">Mensajes</h2>
+        </ion-item>
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+          <i class="icon ion-android-notifications"></i>
+          <h2 class="menu-text">Notificaciones</h2>
+        </ion-item>
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+          <i class="icon ion-android-create"></i>
+          <h2 class="menu-text">Crear propuesta</h2>
+        </ion-item>
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+          <i class="icon ion-card"></i>
+          <h2 class="menu-text">Paypal</h2>
+        </ion-item>
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+          <i class="icon ion-star"></i>
+          <h2 class="menu-text">Hazte VIP</h2>
+        </ion-item>
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+          <i class="icon ion-ios-toggle"></i>
+          <h2 class="menu-text">Filtros VIP</h2>
+        </ion-item>
+        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+          <i class="icon ion-gear-a"></i>
+          <h2 class="menu-text">Configuracion</h2>
+        </ion-item>
 
-        </ion-content>
-      </ion-side-menu>
+    </ion-list>
+    </ion-content>
+  </ion-side-menu>
     </ion-side-menus>
     
           <!-- ng-click="changePage(movie.id)" --> 
   <script id="list.html" type="text/ng-template">
     <ion-view  view-title="subastApp"> 
     <ion-nav-buttons side="right">
-<a style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" href="#/filtros" transitiontype="flip" direction="right" go-native="">
+<a style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" href="#/filtros" transitiontype="slide" direction="left" go-native="">
         Filtros
       </a>
    </ion-nav-buttons> 
@@ -72,7 +108,7 @@
           <div id="container" >
           <div class="{{subasta.col}}" ng-repeat="subasta in subastas"  >
           <div class="infoBox">
-          <a class="feed-category" href="#/detail" transitiontype="fade"  go-native>
+          <a class="feed-category" href="#/detail" transitiontype="slide" direction="left"  go-native>
           <pre-img ratio="_1_1" helper-class="square-image">
           <img class="category-image" ng-src="{{subasta.image}}" spinner-on-load>
 
@@ -127,7 +163,7 @@
     <script id="detail.html" type="text/ng-template">
     <ion-view view-title="Subasta"> 
      <ion-nav-buttons side="right">
-<a style="color: darkkhaki; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior" href="#/pujas" transitiontype="flip" direction="right" go-native="">
+<a style="color: darkkhaki; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior" href="#/pujas" transitiontype="slide" direction="left" go-native="">
         Ver pujas
       </a>
    </ion-nav-buttons> 
