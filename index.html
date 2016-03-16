@@ -28,7 +28,7 @@
      <ion-side-menus>
       <ion-side-menu-content>
         <ion-nav-bar class="bar-positive nav-title-slide-ios7">
-          <ion-nav-back-button class="button-icon" transitiontype="slide" direction="right" go-native><span class="icon ion-android-arrow-back"></span>Atras</ion-nav-back-button>
+          <ion-nav-back-button class="button-icon" transitiontype="fade" go-native><span class="icon ion-android-arrow-back"></span>Atras</ion-nav-back-button>
         </ion-nav-bar>
         <ion-nav-view></ion-nav-view>
       </ion-side-menu-content>
@@ -106,7 +106,7 @@
 
       <ion-content style='background-color: rgb(234, 234, 234);'>
 
-       <div style="height: 44px"></div>
+       <div style="height: 75px"></div>
 
           <div id="container" >
           <div class="{{subasta.col}}" ng-repeat="subasta in subastas"  >
@@ -164,7 +164,7 @@
   </script>   
    
     <script id="detail.html" type="text/ng-template">
-    <ion-view view-title="Subasta"> 
+    <ion-view view-title=""> 
      <ion-nav-buttons side="right">
 <a style="color: darkkhaki; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior" href="#/pujas" transitiontype="fade"  go-native="">
         Ver pujas
@@ -251,19 +251,25 @@
    
 
      <script id="pujas.html" type="text/ng-template">
-    <ion-view view-title="Historial de pujas">   
+    <ion-view view-title="">   
       <ion-content style='background-color: rgb(234, 234, 234);'>
             <div style="height: 44px;"></div>
          <div class='list card'>
-          <div class='item item-body'>
-              
-              <div class='time-to'>
 
-    <span countdown='' date='January 1, 2017 12:00:00'>&nbsp;</span>
-  </div>
-              
 
-          </div>
+            <div class='item item-body'>
+                      <div class="row"style="text-align: center;">
+        <div class='col col-50'>
+        <a>34</a><img style="vertical-align: middle; height: 38px; width: 38px;" src="img/euro.png">
+        <br><span class='subti'>Puja mas alta</span>
+        </div>
+        <div class='col col-50'>
+        <img style="vertical-align: middle; height: 38px; width: 38px;" src="img/time.png"><a>2h 34min</a>
+        <br><span class='subti'>Tiempo restante</span>
+        </div>
+        </div>
+             <button class="button button-full button-assertive">Realizar Puja</button> 
+            </div>
           <div class='item item-body historialDePujas'>
           <div style="text-align: center;">
             <img style="height: 26px; width: 26px;" class="" src="img/flag.png"><h2 style="color: rgb(68, 68, 68); text-align: center; display: inline-block; margin-left: 8px; margin-top: 0px ! important;">Historial de pujas</h2></div>
@@ -283,10 +289,22 @@
           <img class='numbers' src='img/3.png'>
           <a>Santiago G.</a>
           <a class='pujasE'>15€</a>
-          </div>                    
+          </div>  
+          <div class="item">
+          <img class='numbers' src='img/4.png'>
+          <a>Alvaro Ochoa</a>
+          <a class='pujasE'>10€</a>
+          </div>  
+
+                    <div class="item">
+          <img class='numbers' src='img/3.png'>
+          <a>Santiago G.</a>
+          <a class='pujasE'>5€</a>
+          </div>    
+
           </div>
 
-          <button class="button button-full button-assertive">Realizar Puja</button>
+          
           </div>
           </div>
       </ion-content>
@@ -295,7 +313,15 @@
 
 
        <script id="filtros.html" type="text/ng-template">
-    <ion-view view-title="Filtros">   
+    <ion-view view-title="Filtros"> 
+
+         <ion-nav-buttons side="right">
+<a style="font-size: 27px; color: lightblue;" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+        
+      </a>
+   </ion-nav-buttons> 
+
+
       <ion-content style='background-color: rgb(234, 234, 234);'>
             <div style="height: 50px;"></div>
       <div class="list list-inset" style='background-color: #EAEAEA;'>
@@ -308,14 +334,14 @@
       </label>
       <label class="item " >
 
-<div style="text-align: center;" class="row" >  
-      <div class="col col-50" >
+  
+      
       <div><a style='color:#444'>De</a><input style="width: 100%; border-radius: 10px; background-color: lightblue;" placeholder="" type="number"></div>
-      </div>
-        <div class="col col-50">
+      
+   
       <div><a style='color:#444'>&nbsp;a&nbsp;</a><input style="width: 100%; border-radius: 10px; background-color: lightblue;" placeholder="" type="number"></div>
-      </div>
-      </div>
+      
+     
 
       </label>
 
