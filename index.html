@@ -33,19 +33,12 @@
         <ion-nav-view></ion-nav-view>
       </ion-side-menu-content>
 
-      <ion-side-menu side="left">
-        <ion-header-bar class="bar bar-header bar-dark"></ion-header-bar>
-        <ion-content>
-          <ion-list>
-            <ion-item href="#/" menu-toggle="left">Home</ion-item>
-          </ion-list>
-        </ion-content>
-      </ion-side-menu>
 
-     <ion-side-menu side="left" class="main-menu" expose-aside-when="large">
+     <ion-side-menu side="left" class="main-menu" expose-aside-when="large" >
+
     <ion-content>
       <ion-list>
-        <ion-item class="heading-item item item-avatar " nav-clear menu-close ui-sref="">
+        <ion-item class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
           <div class="user-image-container">
             <pre-img ratio="_1_1" helper-class="rounded-image">
               <img class="user-image" ng-src="img/user1.jpg" spinner-on-load>
@@ -312,6 +305,7 @@
   </script> 
 
 
+
        <script id="filtros.html" type="text/ng-template">
     <ion-view view-title="Filtros"> 
 
@@ -389,6 +383,24 @@
   </div>
       </ion-content>
     </ion-view>     
+  </script> 
+
+
+
+  <script id="miPerfil.html" type="text/ng-template">
+      <ion-view view-title="Perfil">
+			<ion-nav-buttons side="right">
+			<a style="font-size: 27px; color: lightblue;" class="button bar-positive  ion-checkmark-circled disable-user-behavior"></a>
+			</ion-nav-buttons>
+			<!--
+			<ion-nav-buttons side="left"  >
+			<a style="font-size: 27px; color: lightblue;"  class="button bar-positive  ion-android-arrow-back disable-user-behavior" href="#/" transitiontype="fade"  go-native></a>
+			</ion-nav-buttons>
+			-->
+
+			<ion-content style='background-color: rgb(234, 234, 234);'>
+			</ion-content>
+      </ion-view>
   </script> 
 
   </body>

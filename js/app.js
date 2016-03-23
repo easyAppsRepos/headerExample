@@ -30,6 +30,12 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       url: '/filtros',
       templateUrl: 'filtros.html',
       controller: 'ListCtrl'
+    })
+
+      .state('miPerfil', {
+      url: '/miPerfil',
+      templateUrl: 'miPerfil.html',
+      controller: 'ListCtrl'
     });
  
  
