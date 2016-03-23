@@ -39,7 +39,40 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
  
 nameApp.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
- 
+
+ var push = PushNotification.init({
+    "android": {
+        "senderID": "332867885048"
+    },
+    "ios": {
+        "alert": "true",
+        "badge": "true",
+        "sound": "true"
+    },
+    "windows": {}
+});
+
+push.on('registration', function(data) {
+    
+   //alert("alert1");
+   alert(data.registrationId);
+   //localStorage.setItem('pushKey', data.registrationId);
+
+
+
+});
+
+push.on('notification', function(data) {
+
+  alert('Tienes una notificacion: '+data.title);
+
+});
+
+push.on('error', function(e) {
+    console.log(e.message);
+
+}); 
+
     // then override any default you want
     window.plugins.nativepagetransitions.globalOptions.duration = 500;
     window.plugins.nativepagetransitions.globalOptions.iosdelay = 350;
