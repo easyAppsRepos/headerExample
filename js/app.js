@@ -43,6 +43,13 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       templateUrl: 'userFotos.html',
       controller: 'ListCtrl'
     })
+
+            .state('misMensajes', {
+      url: '/misMensajes',
+      templateUrl: 'misMensajes.html',
+      controller: 'ListCtrl'
+    })
+            
       ;
  
  

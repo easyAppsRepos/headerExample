@@ -47,7 +47,7 @@
           <h2 class="greeting">Hola Maria</h2>
           <p class="message">Bienvenida</p>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+        <ion-item class="item-icon-left" nav-clear menu-close href='#/misMensajes' transitiontype="fade" go-native>
           <i class="icon ion-android-chat"></i>
           <h2 class="menu-text">Mensajes</h2>
         </ion-item>
@@ -463,6 +463,61 @@
       </ion-content>
     </ion-view>     
   </script> 
+
+
+
+  <script id="misMensajes.html" type="text/ng-template">
+      <ion-view title='Conversaciones' >
+
+			
+			<ion-nav-buttons side="left"  >
+			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
+			</ion-nav-buttons>
+			
+
+			<ion-content style='background-color: rgb(234, 234, 234); color:#666'>
+			<div style="margin-top: 45px"></div>
+	
+					<div class='chatContainer'>
+					<div class='tituloGrande'>
+					<a>Tus subastas</a></div>
+					<div style='padding-top: 20px'class="list">
+
+					<a class="item item-avatar" href="#">
+					<img src="img/user2.jpg">
+					<h2>Pedro J</h2>
+					<p>Cena en restaurante hindu</p>
+					</a>
+					<a class="item item-avatar" href="#">
+					<img src="img/user4.png">
+					<h2>Luis Mora</h2>
+					<p>Cine jueves por la tarde</p>
+					</a>
+
+					</div>
+				</div>
+
+	<div style="margin-top: 25px; width: 90%; margin-left: 5%; background-color: gray; height: 2px; opacity: 0.4;"></div>
+
+					<div class='chatContainer'>
+					<div class='tituloGrande'>
+						<a>Subastas Ganadas</a>
+					</div>
+					<div style="text-align: center; margin-top: 20px">
+						<img src='img/buzon.png'></br>
+						<a>Buzon vacio</a>
+			
+					</div>
+					</div>
+	
+			
+
+			</ion-content>
+      </ion-view>
+  </script> 
+
+
+
 
   </body>
 </html>
