@@ -542,11 +542,12 @@
       <ion-modal-view>
         <ion-header-bar align-title="center">
             <button class="button button-clear button-icon ion-close" ng-click="closeModal();"></button>
-            <h1 class="title">{{multipleSelect.title}}</h1>
+            <h1 class="title">Categorias</h1>
             <button class="button button-clear button-icon ion-checkmark" ng-click="saveOptions();"></button>
         </ion-header-bar>
         <ion-content scroll="false">
         <div style="height: 45px"></div>
+
             <ul class="list">
                 <li class="item item-toggle" ng-repeat="option in multipleSelect.tempOptions" ng-if="!multipleSelect.renderCheckbox">
                     {{ option[multipleSelect.valueProperty] }}
@@ -577,14 +578,46 @@
         </header>
          <content has-header="true" padding="true">
          <div style="height: 45px"></div>
-           <ion-multiple-select title="Select Users" options="users" key-property="id" value-property="name" selected-property="selected" class="item item-input item-icon-right">
-            <div class="input-label">
-              User
-            </div>
-            <i class="icon ion-android-arrow-dropdown"></i>
-          </ion-multiple-select>
-          <textarea class="padding" disabled="disabled">{{ getOptionsSelected(users, 'name', 'selected') }}</textarea>
+         <div class='formA'>
+            <div><div><img src='img/camera.png'></div></div>
+	            <div class="list">
+	            	  <label class="item">
+		           <ion-multiple-select title="Select Users" options="users" key-property="id" value-property="name" selected-property="selected" class="item item-input item-icon-right">
+		            <div class="input-label">
+		              <p>¿Que Propones?</p>
+		            </div>
+		            <i class="icon ion-android-arrow-dropdown"></i>
+		          </ion-multiple-select>
+		          <span class="padding input-label" disabled="disabled"><p>{{ getOptionsSelected(users, 'name', 'selected') }}</p></span>
+		          </label>
+		             <label class="item">
+		             <p>Compartir cita con</p>
+		             </label>
+		           <label class="item">
+		           <ion-checkbox ng-model="filter.blue" style='color: #666;font-size: 14px;'>Chico</ion-checkbox>
+  					<ion-checkbox ng-model="filter.yellow" style='color: #666;font-size: 14px;'>Chica</ion-checkbox>
+		           </label>
+		            <label class="item row" style="text-align: center;">
+		            <div class='col col-50'><p>Duracion <br> de cita</p><input class='inputCol50' type="number">horas</div>
+		             <div class='col col-50'><p>Duracion <br> en subasta</p><input class='inputCol50' type="number">dias</div>
+		           </label>
+		            <label class="item">
+		             <textarea style="width: 100%; height: 100px;" placeholder="Describe tu propuesta" maxlength="150"></textarea>
+		             </label>
+		            <label class="item row" style="text-align: center;">
+		            <div class='col col-50'><p>Tipo</p> 
+						<select>
+						<option>Fijo</option>
+						<option selected>Subasta</option>
+	
+						</select>
+    				</div>
+		            <div class='col col-50'><p>Precio</p><input class='inputCol50' type="number"></div>
+		             
+		           </label>
 
+	          </div>
+          </div>
         </content>
       </div>
     </script> 

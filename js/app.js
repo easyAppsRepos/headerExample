@@ -164,10 +164,44 @@ nameApp.service('Navigation', function($state) {
  nameApp.controller('nuevaPropuestaCtrl',function($scope, $timeout, $filter) { 
   
   $scope.users = [
-    {id: 1, name: "Valentina", selected: true},
-    {id: 2, name: "Juan David", selected: false},
-    {id: 3, name: "Osman", selected: false},
-    {id: 4, name: "Silva", selected: false}
+    {id: 1, name: "Pasear", selected: true},
+    {id: 2, name: "Comida", selected: false},
+    {id: 3, name: "Cena", selected: false},
+    {id: 4, name: "Tomar un café", selected: false},
+    {id: 5, name: "Discoteca", selected: false},
+    {id: 6, name: "Zoologico", selected: false},
+    {id: 7, name: "Parque de atracciones", selected: false},
+    {id: 8, name: "Cine", selected: false},
+    {id: 9, name: "Bolos", selected: false},
+    {id: 10, name: "Museo", selected: false},
+    {id: 11, name: "Teatro", selected: false},
+    {id: 12, name: "Tenis", selected: false},
+    {id: 13, name: "Nieve", selected: false},
+    {id: 14, name: "Caza", selected: false},
+    {id: 15, name: "Pesca", selected: false},
+    {id: 16, name: "Spa", selected: false},
+    {id: 17, name: "Compras", selected: false},
+    {id: 18, name: "Tapas", selected: false},
+    {id: 19, name: "Fiesta", selected: false},
+    {id: 20, name: "Pic-Nic", selected: false},
+    {id: 21, name: "Senderismo", selected: false},
+    {id: 22, name: "Rutas", selected: false},
+    {id: 23, name: "Ciclismo", selected: false},
+    {id: 24, name: "Navegar", selected: false},
+    {id: 25, name: "Balocesto", selected: false},
+    {id: 26, name: "Futbol", selected: true},
+    {id: 27, name: "Gimnasio", selected: false},
+    {id: 28, name: "Piscina", selected: false},
+    {id: 29, name: "Paddel", selected: false},
+    {id: 30, name: "Hipica", selected: false},
+    {id: 31, name: "Karaoke", selected: false},
+    {id: 32, name: "Festival", selected: false},
+    {id: 33, name: "Concierto", selected: false},
+    {id: 34, name: "Deportes de riesgo", selected: false},
+     {id:35, name: "Patinaje", selected: false},
+    {id: 36, name: "Motos", selected: true},
+    {id: 37, name: "Clases particulares", selected: false},
+
   ];
   
   $scope.groups = [

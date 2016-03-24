@@ -1,6 +1,18 @@
 
+.formA{
 
+  width: 92%;
+margin-left: 4%;
+}
 
+.inputCol50
+{
+  width: 90px;
+  margin: auto;
+  text-align: center;
+  background-color: lightgray;
+  border-radius: 5px; 
+}
 .modal{
 
   background-color: rgb(234, 234, 234); 
