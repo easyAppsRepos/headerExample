@@ -1,9 +1,18 @@
+
+
+
+.modal{
+
+  background-color: rgb(234, 234, 234); 
+
+}
+
 .tituloGrande{
 text-align: center;
 padding-top: 20px;
 font-size: 20px;
 color: darkgray;
-  
+
 }
 .interes{}
 .roundedBorder{

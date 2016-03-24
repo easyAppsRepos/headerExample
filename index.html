@@ -37,7 +37,7 @@
      <ion-side-menu side="left" class="main-menu" expose-aside-when="large" >
 
     <ion-content>
-      <ion-list>
+      <ion-list ng-controller='ListCtrl'>
         <ion-item class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
           <div class="user-image-container">
             <pre-img ratio="_1_1" helper-class="rounded-image">
@@ -51,11 +51,11 @@
           <i class="icon ion-android-chat"></i>
           <h2 class="menu-text">Mensajes</h2>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+        <ion-item class="item-icon-left" nav-clear menu-close href='#/misAlertas' transitiontype="fade" go-native>
           <i class="icon ion-android-notifications"></i>
           <h2 class="menu-text">Notificaciones</h2>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close ui-sref="">
+        <ion-item class="item-icon-left" nav-clear menu-close href='#' ng-click="modal.show()">
           <i class="icon ion-android-create"></i>
           <h2 class="menu-text">Crear propuesta</h2>
         </ion-item>
@@ -505,7 +505,7 @@
 					</div>
 					<div style="text-align: center; margin-top: 20px">
 						<img src='img/buzon.png'></br>
-						<a>Buzon vacio</a>
+						<a>Buzon vacio</a>	
 			
 					</div>
 					</div>
@@ -515,6 +515,79 @@
 			</ion-content>
       </ion-view>
   </script> 
+
+
+  <script id="misAlertas.html" type="text/ng-template">
+      <ion-view title='Notificaciones'>		
+			<ion-nav-buttons side="left"  >
+			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
+			</ion-nav-buttons>
+			
+
+			<ion-content style='background-color: rgb(234, 234, 234); color:#666'>
+			<div style="margin-top: 45px"></div>
+	
+			
+					<div style="text-align: center; padding-top: 30px">
+						<img src='img/noti.png'></br>
+						<a>No hay notificaciones</a>	
+			
+					</div>
+			</ion-content>
+      </ion-view>
+  </script> 
+
+
+  <script id="templates/multipleSelect.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar align-title="center">
+            <button class="button button-clear button-icon ion-close" ng-click="closeModal();"></button>
+            <h1 class="title">{{multipleSelect.title}}</h1>
+            <button class="button button-clear button-icon ion-checkmark" ng-click="saveOptions();"></button>
+        </ion-header-bar>
+        <ion-content scroll="false">
+        <div style="height: 45px"></div>
+            <ul class="list">
+                <li class="item item-toggle" ng-repeat="option in multipleSelect.tempOptions" ng-if="!multipleSelect.renderCheckbox">
+                    {{ option[multipleSelect.valueProperty] }}
+                    <label class="toggle toggle-assertive">
+                        <input type="checkbox" ng-model="option[multipleSelect.selectedProperty]">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </li>
+                <li class="item item-checkbox" ng-repeat="option in multipleSelect.tempOptions" ng-if="multipleSelect.renderCheckbox">
+                   <label class="checkbox">
+                     <input type="checkbox" ng-model="option[multipleSelect.selectedProperty]">
+                   </label>
+                   {{ option[multipleSelect.valueProperty] }}
+                </li>
+            </ul>
+        </ion-content>
+    </ion-modal-view>
+    </script>
+
+    <script id="modal.html" type="text/ng-template">
+      <div class="modal" ng-controller='nuevaPropuestaCtrl'>
+        <header class="bar bar-header bar-positive">
+         <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+          <h1 class="title">Crear Propuesta</h1>
+          <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-checkmark-circled"></span></div>
+        </header>
+         <content has-header="true" padding="true">
+         <div style="height: 45px"></div>
+           <ion-multiple-select title="Select Users" options="users" key-property="id" value-property="name" selected-property="selected" class="item item-input item-icon-right">
+            <div class="input-label">
+              User
+            </div>
+            <i class="icon ion-android-arrow-dropdown"></i>
+          </ion-multiple-select>
+          <textarea class="padding" disabled="disabled">{{ getOptionsSelected(users, 'name', 'selected') }}</textarea>
+
+        </content>
+      </div>
+    </script> 
 
 
 
