@@ -1,4 +1,21 @@
 
+.interes{}
+.roundedBorder{
+  height: 122px;
+width: 122px;
+display: block;
+margin: auto;
+border: 2px solid #64ffda;
+border-radius: 200px;
+box-shadow: 0 0 8px rgba(44, 243, 251, 0.8);
+-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+
+}
+.miPerfil{
+
+  background-color: #4db6ac !important;
+}
 .bar-positive{
 
   background-color: #23262a !important;

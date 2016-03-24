@@ -36,7 +36,14 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       url: '/miPerfil',
       templateUrl: 'miPerfil.html',
       controller: 'ListCtrl'
-    });
+    })
+
+      .state('userFotos', {
+      url: '/userFotos',
+      templateUrl: 'userFotos.html',
+      controller: 'ListCtrl'
+    })
+      ;
  
  
   $urlRouterProvider.otherwise("/");
