@@ -49,6 +49,11 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       templateUrl: 'misMensajes.html',
       controller: 'ListCtrl'
     })
+      .state('modalNewP', {
+      url: '/modalNewP',
+      templateUrl: 'modalNewP.html',
+      controller: 'ListCtrl'
+    })   
             .state('misAlertas', {
       url: '/misAlertas',
       templateUrl: 'misAlertas.html',
@@ -161,140 +166,11 @@ nameApp.service('Navigation', function($state) {
   };
 });
  
- nameApp.controller('nuevaPropuestaCtrl',function($scope, $timeout, $filter) { 
-  
-  $scope.users = [
-    {id: 1, name: "Pasear", selected: true},
-    {id: 2, name: "Comida", selected: false},
-    {id: 3, name: "Cena", selected: false},
-    {id: 4, name: "Tomar un café", selected: false},
-    {id: 5, name: "Discoteca", selected: false},
-    {id: 6, name: "Zoologico", selected: false},
-    {id: 7, name: "Parque de atracciones", selected: false},
-    {id: 8, name: "Cine", selected: false},
-    {id: 9, name: "Bolos", selected: false},
-    {id: 10, name: "Museo", selected: false},
-    {id: 11, name: "Teatro", selected: false},
-    {id: 12, name: "Tenis", selected: false},
-    {id: 13, name: "Nieve", selected: false},
-    {id: 14, name: "Caza", selected: false},
-    {id: 15, name: "Pesca", selected: false},
-    {id: 16, name: "Spa", selected: false},
-    {id: 17, name: "Compras", selected: false},
-    {id: 18, name: "Tapas", selected: false},
-    {id: 19, name: "Fiesta", selected: false},
-    {id: 20, name: "Pic-Nic", selected: false},
-    {id: 21, name: "Senderismo", selected: false},
-    {id: 22, name: "Rutas", selected: false},
-    {id: 23, name: "Ciclismo", selected: false},
-    {id: 24, name: "Navegar", selected: false},
-    {id: 25, name: "Balocesto", selected: false},
-    {id: 26, name: "Futbol", selected: true},
-    {id: 27, name: "Gimnasio", selected: false},
-    {id: 28, name: "Piscina", selected: false},
-    {id: 29, name: "Paddel", selected: false},
-    {id: 30, name: "Hipica", selected: false},
-    {id: 31, name: "Karaoke", selected: false},
-    {id: 32, name: "Festival", selected: false},
-    {id: 33, name: "Concierto", selected: false},
-    {id: 34, name: "Deportes de riesgo", selected: false},
-     {id:35, name: "Patinaje", selected: false},
-    {id: 36, name: "Motos", selected: true},
-    {id: 37, name: "Clases particulares", selected: false},
-
-  ];
-  
-  $scope.groups = [
-    {Id: 1, Name: "Admin", Selected: false},
-    {Id: 2, Name: "Developers", Selected: false},
-    {Id: 3, Name: "Testers", Selected: false},
-    {Id: 4, Name: "Users", Selected: false}
-  ];
-  
-  $scope.getOptionsSelected = function(options, valueProperty, selectedProperty){
-    var optionsSelected = $filter('filter')(options, function(option) {return option[selectedProperty] == true; });
-    return optionsSelected.map(function(group){ return group[valueProperty]; }).join(", ");
-  };
-});
-
-
-//directiva para la seleccion multiple
- nameApp.directive('ionMultipleSelect', ['$ionicModal', '$ionicGesture', function ($ionicModal, $ionicGesture) {
-  return {
-    restrict: 'E',
-    scope: {
-      options : "="
-    },
-    controller: function ($scope, $element, $attrs) {
-      $scope.multipleSelect = {
-        title:            $attrs.title || "Select Options",
-        tempOptions:      [],
-        keyProperty:      $attrs.keyProperty || "id",
-        valueProperty:    $attrs.valueProperty || "value",
-        selectedProperty: $attrs.selectedProperty || "selected",
-        templateUrl:      $attrs.templateUrl || 'templates/multipleSelect.html',
-        renderCheckbox:   $attrs.renderCheckbox ? $attrs.renderCheckbox == "true" : true,
-        animation:        $attrs.animation || 'slide-in-up'
-      };
-
-      $scope.OpenModalFromTemplate = function (templateUrl) {
-        $ionicModal.fromTemplateUrl(templateUrl, {
-          scope: $scope,
-          animation: $scope.multipleSelect.animation
-        }).then(function (modal) {
-          $scope.modal = modal;
-          $scope.modal.show();
-        });
-      };
-      
-      $ionicGesture.on('tap', function (e) {
-       $scope.multipleSelect.tempOptions = $scope.options.map(function(option){
-         var tempOption = { };
-         tempOption[$scope.multipleSelect.keyProperty] = option[$scope.multipleSelect.keyProperty];
-         tempOption[$scope.multipleSelect.valueProperty] = option[$scope.multipleSelect.valueProperty];
-         tempOption[$scope.multipleSelect.selectedProperty] = option[$scope.multipleSelect.selectedProperty];
-         
-         return tempOption;
-       });
-        $scope.OpenModalFromTemplate($scope.multipleSelect.templateUrl);
-      }, $element);
-      
-      $scope.saveOptions = function(){
-        for(var i = 0; i < $scope.multipleSelect.tempOptions.length; i++){
-          var tempOption = $scope.multipleSelect.tempOptions[i];
-          for(var j = 0; j < $scope.options.length; j++){
-            var option = $scope.options[j];
-            if(tempOption[$scope.multipleSelect.keyProperty] == option[$scope.multipleSelect.keyProperty]){
-              option[$scope.multipleSelect.selectedProperty] = tempOption[$scope.multipleSelect.selectedProperty];
-              break;
-            }
-          }
-        }
-        $scope.closeModal();
-      };
-      
-      $scope.closeModal = function () {
-        $scope.modal.remove();
-      };
-      $scope.$on('$destroy', function () {
-          if ($scope.modal){
-              $scope.modal.remove();
-          }
-      });
-    }
-  };
-}]);
+ 
 
 nameApp.controller('ListCtrl', function($scope, $ionicModal, $http, Movies, $state,$ionicSlideBoxDelegate, $ionicSideMenuDelegate, Navigation) {
 
-   $ionicModal.fromTemplateUrl('modal.html', function($ionicModal) {
-        $scope.modal = $ionicModal;
-    }, {
-        // Use our scope for the scope of the modal to keep it simple
-        scope: $scope,
-        // The animation we want to use for the modal entrance
-        animation: 'slide-in-up'
-    });  
+
 
   $scope.openMenu = function () {
     $ionicSideMenuDelegate.toggleLeft();
