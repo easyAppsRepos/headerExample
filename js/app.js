@@ -88,6 +88,9 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
 nameApp.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
 
+
+//PUSH FUNCIONANDO
+/*
  var push = PushNotification.init({
     "android": {
         "senderID": "332867885048"
@@ -119,7 +122,8 @@ push.on('notification', function(data) {
 push.on('error', function(e) {
     console.log(e.message);
 
-}); 
+});
+*/ 
 
     // then override any default you want
     window.plugins.nativepagetransitions.globalOptions.duration = 500;
