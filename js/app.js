@@ -38,6 +38,25 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ListCtrl'
     })
 
+            .state('filtrosVIP', {
+      url: '/filtrosVIP',
+      templateUrl: 'filtrosVIP.html',
+      controller: 'ListCtrl'
+    })
+
+
+            .state('configuracion', {
+      url: '/configuracion',
+      templateUrl: 'configuracion.html',
+      controller: 'ListCtrl'
+    })
+
+
+            .state('paypal;', {
+      url: '/paypal',
+      templateUrl: 'paypal.html',
+      controller: 'ListCtrl'
+    })
       .state('userFotos', {
       url: '/userFotos',
       templateUrl: 'userFotos.html',
