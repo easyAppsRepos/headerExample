@@ -78,11 +78,36 @@
   </ion-side-menu>
     </ion-side-menus>
     
-          <!-- ng-click="changePage(movie.id)" --> 
-  <script id="list.html" type="text/ng-template">
+          <!-- modal -->
+
+				<script id="my-modal.html" type="text/ng-template">
+				<ion-modal-view class="ion-nifty-modal">
+				<div class="ion-modal-content-custom">
+				<ion-content class="padding">
+	
+					<label class="item item-input">
+					<i class="icon ion-search placeholder-icon"></i>
+					<input type="text" placeholder="Search">
+						</label>
+						<label >
+					<a style='margin-top: 7px;color:#666' href="#" class="item item-icon-left">
+					<i class="icon ion-ios-location"></i>
+					Donde lo buscas
+					</a>
+
+					</label>
+				
+				<button class="button button-full" style="background-color: rgb(45, 96, 165); color: rgb(255, 255, 255); border: 1px solid rgb(255, 255, 255);" ng-click="closeModal()">Buscar</button>
+				</ion-content>
+				</div>
+				</ion-modal-view>
+				</script>
+
+
+  <script id="list.html" type="text/ng-template" >
     <ion-view  view-title="subastApp" hide-back-button="true"> 
     <ion-nav-buttons side="right">
-<a style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" href="#/filtros" transitiontype="fade" go-native="">
+<a ng-controller='MyController' style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" ng-click="openModal('slide-in-up')">
         Filtros
       </a>
    </ion-nav-buttons> 
