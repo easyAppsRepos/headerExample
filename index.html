@@ -87,7 +87,7 @@
 	
 					<label class="item item-input">
 					<i class="icon ion-search placeholder-icon"></i>
-					<input type="text" placeholder="Search">
+					<input type="text" placeholder="Nombre o palabra">
 						</label>
 						<label >
 					<a style='margin-top: 7px;color:#666' href="#" class="item item-icon-left">
@@ -104,11 +104,51 @@
 				</script>
 
 
+				<script id="my-modal2.html" type="text/ng-template">
+				<ion-modal-view class="modalSelect">
+				<div class="ion-modal-content-custom">
+				<ion-content class="padding">
+	
+		<ion-list>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Pasear");' ng-value="'Pasear'">Pasear</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Comida");' ng-value="'Comida'">Comida</ion-radio>
+    <ion-radio ng-model="choice" ng-click='setCategoria("Cena");' ng-value="'Cena'">Cena</ion-radio>
+  <ion-radio ng-model="choice" ng-value="'Tomar un café'" ng-click='setCategoria("Tomar un cafe");'>Tomar un café</ion-radio>
+    <ion-radio ng-model="choice" ng-click='setCategoria("Discoteca");' ng-value="'Discoteca'">Discoteca</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Zoologico");' ng-value="'Zoologico'">Zoologico</ion-radio>
+    <ion-radio ng-model="choice" ng-click='setCategoria("Parque de atracciones");' ng-value="'Parque de atracciones'">Parque de atracciones</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Cine");' ng-value="'Cine'">Cine</ion-radio>
+    <ion-radio ng-model="choice" ng-click='setCategoria("Bolos");' ng-value="'Bolos'">Bolos</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Museo");' ng-value="'Museo'">Museo</ion-radio>
+    <ion-radio ng-model="choice"ng-click='setCategoria("Teatro");'  ng-value="'Teatro'">Teatro</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Tenis");' ng-value="'Tenis'">Tenis</ion-radio>
+    <ion-radio ng-model="choice" ng-click='setCategoria("Nieve");' ng-value="'Nieve'">Nieve</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Caza");' ng-value="'Caza'">Caza</ion-radio>
+    <ion-radio ng-model="choice" ng-click='setCategoria("Pesca");' ng-value="'Pesca'">Pesca</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Spa");' ng-value="'Spa'">Spa</ion-radio>
+    <ion-radio ng-model="choice"ng-click='setCategoria("Compras");' ng-value="'Compras'">Compras</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Fiesta");' ng-value="'Fiesta'">Fiesta</ion-radio>
+    <ion-radio ng-model="choice" ng-value="'Senderismo'">Senderismo</ion-radio>
+  <ion-radio ng-model="choice" ng-click='setCategoria("Rutas");' ng-value="'Rutas'">Rutas</ion-radio>
+
+</ion-list>
+				
+
+				</ion-content>
+				</div>
+				</ion-modal-view>
+				</script>
+
+
+
+
+
+
   <script id="list.html" type="text/ng-template" >
     <ion-view  view-title="subastApp" hide-back-button="true"> 
     <ion-nav-buttons side="right">
-<a ng-controller='MyController' style="color: darkkhaki; border: 1px solid ! important; font-size: 17px;" class="button bar-positive ion-star disable-user-behavior" ng-click="openModal('slide-in-up')">
-        Filtros
+<a ng-controller='MyController' style="color: #fafafa; font-size: 17px;" class="button bar-positive ion-ios-search disable-user-behavior" ng-click="openModal('slide-in-up','my-modal.html')">
+        Buscar
       </a>
    </ion-nav-buttons> 
            <ion-nav-buttons side="left">
@@ -564,11 +604,77 @@
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
+			         <ion-nav-buttons side="right">
+<a style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+        
+      </a>
+   </ion-nav-buttons> 
+
+
 			
 
 			<ion-content style='background-color: rgb(234, 234, 234); color:#666'>
+				<div style="height: 45px"></div>
+
+								<label class=" labelForm item item-input">
+					<i class="icon ion-search placeholder-icon"></i>
+					<input type="text" placeholder="Nombre o palabra">
+						</label>
+
+					<label style="text-align: center; display: inline-flex;" class="item item-input item-stacked-label labelForm">
+				<span class="input-label" style="color: rgb(102, 102, 102);">Edad de</span>
+				<input style="margin-left: 7px;" placeholder="" type="number">
+				<span class="input-label" style="color: rgb(102, 102, 102);">a</span>
+				<input placeholder="" type="number">
+				</label>
+
+				<div class=sexSelector >
+					<div class="sexSelectorItem" ng-class="{'filtroItemActive': chico}" ng-click="activeButton('chico')">
+						<img src='img/chico{{selected}}.png'><br>
+						<spam>Chico</spam>
+					</div>
+				
+					<div class="sexSelectorItem" ng-class="{'filtroItemActive': chica}" ng-click="activeButton('chica')">
+						<img src='img/chica{{selected2}}.png'><br>
+						<spam>Chica</spam>
+					</div>
 			
-			</ion-content>
+				</div>
+
+					<label class="labelForm item item-input"  ng-controller='MyController' ng-click="openModal('fade-in-scale','my-modal2.html')">
+					<div style="color: rgb(102, 102, 102);">{{categoriaSeleccionada}}</div>
+						</label>
+
+
+								<div class=sexSelector>
+					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': subasta}" ng-click="activeButton('subasta')">
+						<img src='img/subasta{{selected3}}.png'><br>
+						<spam>Subasta</spam>
+					</div>
+				
+					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': fijo}" ng-click="activeButton('fijo')">
+						<img src='img/fijo{{selected4}}.png'><br>
+						<spam>Precio Fijo</spam>
+					</div>
+			
+
+					<div class=sexSelector>
+					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': mas}" ng-click="activeButton('mas')">
+						<img src='img/mas{{selected5}}.png'><br>
+						<spam>Mas pujado</spam>
+					</div>
+				
+					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': menos}" ng-click="activeButton('menos')">
+						<img src='img/menos{{selected6}}.png'><br>
+						<spam>Menos pujado</spam>
+					</div>
+			
+				</div>
+
+				</div>
+
+
+			</ion-content>	
       </ion-view>
   </script> 
         <script id="paypal.html" type="text/ng-template">
@@ -592,7 +698,23 @@
 			
 
 			<ion-content style='background-color: rgb(234, 234, 234); color:#666'>
-			
+			<div style="height: 45px"></div>
+			<ul class="list">
+
+  <li class="item item-toggle">
+     Notificaciones
+
+     <label class="toggle toggle-assertive">
+       <input type="checkbox">
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li>
+
+  
+
+</ul>
 			</ion-content>
       </ion-view>
   </script> 
@@ -612,15 +734,11 @@
          <div class='formA'>
             <div><div><img src='img/camera.png'></div></div>
 	            <div class="list">
-	            	  <label class="item">
-		           <ion-multiple-select title="Select Users" options="users" key-property="id" value-property="name" selected-property="selected" class="item item-input item-icon-right">
-		            <div class="input-label">
-		              <p>¿Que Propones?</p>
-		            </div>
-		            <i class="icon ion-android-arrow-dropdown"></i>
-		          </ion-multiple-select>
-		          <span class="padding input-label" disabled="disabled"><p>{{ getOptionsSelected(users, 'name', 'selected') }}</p></span>
-		          </label>
+
+					<label class=" item item-input"  ng-controller='MyController' ng-click="openModal('fade-in-scale','my-modal2.html')">
+					<div style="color: rgb(102, 102, 102);">{{categoriaSeleccionada}}</div>
+					</label>
+
 		             <label class="item" style="margin-top: 15px">
 		             <p>Compartir cita con</p>
 		             </label>

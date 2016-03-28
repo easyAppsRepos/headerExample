@@ -191,6 +191,31 @@ nameApp.controller('ListCtrl', function($scope, $ionicModal, $http, Movies, $sta
 
 
 
+$scope.chico = false;
+$scope.chica = false;
+$scope.subasta = false;
+$scope.fijo = false;
+$scope.mas = false;
+$scope.menos = false;
+$scope.selected='';
+$scope.selected2='';
+$scope.selected3='';
+$scope.selected4='';
+$scope.selected6='';
+$scope.selected5='';
+
+  $scope.activeButton = function(item) {
+    if(item=='chico'){$scope.chico = !$scope.chico; if($scope.chico==true){$scope.selected='Select'}else{$scope.selected=''}}
+    if(item=='chica'){$scope.chica = !$scope.chica; if($scope.chica==true){$scope.selected2='Select'}else{$scope.selected2=''}}
+     if(item=='subasta'){$scope.subasta = !$scope.subasta; if($scope.subasta==true){$scope.selected3='Select'}else{$scope.selected3=''}}
+    if(item=='fijo'){$scope.fijo = !$scope.fijo; if($scope.fijo==true){$scope.selected4='Select'}else{$scope.selected4=''}}
+      if(item=='mas'){$scope.mas = !$scope.mas; if($scope.mas==true){$scope.selected5='Select'}else{$scope.selected5=''}}
+    if(item=='menos'){$scope.menos = !$scope.menos; if($scope.menos==true){$scope.selected6='Select'}else{$scope.selected6=''}}
+    }
+  
+
+
+
   $scope.openMenu = function () {
     $ionicSideMenuDelegate.toggleLeft();
   }
@@ -541,8 +566,19 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
   nameApp.controller('MyController', function($scope, $ionicModal) {
   $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
 
-  $scope.openModal = function(animation) {
-    $ionicModal.fromTemplateUrl('my-modal.html', {
+
+
+
+$scope.categoriaSeleccionada='Seleccionar categoria';
+
+$scope.setCategoria=function(cat){
+$scope.categoriaSeleccionada=cat;
+   $scope.modal.hide();
+     $scope.modal.remove();
+}
+
+  $scope.openModal = function(animation, modalHtml) {
+    $ionicModal.fromTemplateUrl(modalHtml, {
       scope: $scope,
       animation: animation
     }).then(function(modal) {
@@ -550,6 +586,8 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
       $scope.modal.show();
     });
   };
+
+
   $scope.closeModal = function() {
     $scope.modal.hide();
      $scope.modal.remove();
