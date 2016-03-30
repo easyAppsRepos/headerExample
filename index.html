@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html ng-app="starter">
   <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
     <title></title>
-
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
@@ -14,13 +14,19 @@
     -->
 
     <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+
+]
+ <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&sensor=true"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
+    <script src="js/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
    <script src="js/push.js"></script>
     <!-- your app's js -->
     <script src="js/app.js"></script>
+
   </head>
   <body >
    
@@ -684,8 +690,8 @@
 			</ion-nav-buttons>
 			
 
-			<ion-content style='background-color: rgb(234, 234, 234); color:#666'>
-			
+			<ion-content>
+                   <div ng-controller='MapCtrl' id="map" data-tap-disabled="true"></div>
 			</ion-content>
       </ion-view>
   </script> 
