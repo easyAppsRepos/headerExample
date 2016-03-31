@@ -624,7 +624,8 @@ $scope.categoriaSeleccionada=cat;
 
     nameApp .controller('MapCtrl', function($scope, $ionicLoading, $compile, $cordovaGeolocation) {
 
-
+//begin
+/*
    $ionicLoading.show({
             template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
         });
@@ -639,7 +640,7 @@ $scope.categoriaSeleccionada=cat;
         $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
             var lat  = position.coords.latitude;
             var long = position.coords.longitude;
-            
+
             console.log(lat);
                          console.log(long);
             var myLatlng = new google.maps.LatLng(lat, long);
@@ -658,12 +659,13 @@ $scope.categoriaSeleccionada=cat;
         }, function(err) {
             $ionicLoading.hide();
             console.log(err);
-        }); 
+     });
+     */ 
+//emd
 
-/*
 
       function initialize() {
-        var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+        var myLatlng = new google.maps.LatLng(9.993406,-84.2306244);
         
         var mapOptions = {
           center: myLatlng,
