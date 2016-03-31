@@ -625,6 +625,7 @@ $scope.categoriaSeleccionada=cat;
     nameApp .controller('MapCtrl', function($scope, $ionicLoading, $compile, $cordovaGeolocation) {
 
 
+      function  initialize(){
    $ionicLoading.show({
             template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
         });
@@ -641,7 +642,8 @@ $scope.categoriaSeleccionada=cat;
             var long = position.coords.longitude;
 
             console.log(lat);
-                         console.log(long);
+            console.log(long);
+
             var myLatlng = new google.maps.LatLng(lat, long);
              
             var mapOptions = {
@@ -659,7 +661,7 @@ $scope.categoriaSeleccionada=cat;
             $ionicLoading.hide();
             console.log(err);
         }); 
-
+}
 /*
 
       function initialize() {
@@ -715,6 +717,7 @@ $scope.categoriaSeleccionada=cat;
         });
       };
       */
+       google.maps.event.addDomListener(window, 'load', initialize);
       $scope.clickTest = function() {
         alert('Example of infowindow with ng-click')
       };
