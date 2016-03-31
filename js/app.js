@@ -57,7 +57,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
             .state('paypal;', {
       url: '/paypal',
       templateUrl: 'paypal.html',
-      controller: 'ListCtrl'
+      controller: 'GeolocationCtrl'
     })
       .state('userFotos', {
       url: '/userFotos',
@@ -622,106 +622,15 @@ $scope.categoriaSeleccionada=cat;
 });
 
 
-    nameApp .controller('MapCtrl', function($scope, $ionicLoading, $compile, $cordovaGeolocation) {
-
-//begin
-/*
-   $ionicLoading.show({
-            template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
-        });
-
-
-    var posOptions = {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 0
-        };
-
-        $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-            var lat  = position.coords.latitude;
-            var long = position.coords.longitude;
-
-            console.log(lat);
-                         console.log(long);
-            var myLatlng = new google.maps.LatLng(lat, long);
-             
-            var mapOptions = {
-                center: myLatlng,
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };          
-             
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
-             $ionicLoading.hide(); 
-            $scope.map = map;   
-                      
-             
-        }, function(err) {
-            $ionicLoading.hide();
-            console.log(err);
-     });
-     */ 
-//emd
-
-
-      function initialize() {
-        var myLatlng = new google.maps.LatLng(9.993406,-84.2306244);
-        
-        var mapOptions = {
-          center: myLatlng,
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map"),
-            mapOptions);
-        
-        //Marker + infowindow + angularjs compiled ng-click
-
-        var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
-        var compiled = $compile(contentString)($scope);
-
-        var infowindow = new google.maps.InfoWindow({
-          content: compiled[0]
-        });
-
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: 'Uluru (Ayers Rock)'
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.open(map,marker);
-        });
-
-        $scope.map = map;
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-      
-      /*
-      $scope.centerOnMe = function() {
-        if(!$scope.map) {
-          return;
-        }
-
-        $scope.loading = $ionicLoading.show({
-          content: 'Getting current location...',
-          showBackdrop: false
-        });
-
-        navigator.geolocation.getCurrentPosition(function(pos) {
-          $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-          $scope.loading.hide();
-        }, function(error) {
-          alert('Unable to get location: ' + error.message);
-        });
-      };
-      */
-      $scope.clickTest = function() {
-        alert('Example of infowindow with ng-click')
-      };
-
-
-      
+    nameApp.controller('GeolocationCtrl', function($scope, $cordovaGeolocation) {
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $cordovaGeolocation
+      .getCurrentPosition(posOptions)
+      .then(function (position) {
+          var lat  = position.coords.latitude
+          var long = position.coords.longitude
+          alert(lat + " --- " + long);
+      }, function(err) {
+        // error
     });
-
+}) 
