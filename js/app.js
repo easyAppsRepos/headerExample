@@ -632,7 +632,7 @@ $scope.categoriaSeleccionada=cat;
 
     nameApp.controller('GeolocationCtrl', function($scope, $cordovaGeolocation) {
 
-/*
+
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
@@ -643,7 +643,9 @@ $scope.categoriaSeleccionada=cat;
       }, function(err) {
         // error
     });
-    */
+    
+   
+/*
    var options = {timeout: 10000, enableHighAccuracy: false};
  
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -661,6 +663,7 @@ $scope.categoriaSeleccionada=cat;
   }, function(error){
     console.log("Could not get location"+error);
   });
+  */
 
 
 }) 
