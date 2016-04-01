@@ -36,6 +36,10 @@
 <plugin name="phonegap-plugin-push" version="1.5.3" source="npm">
     <param name="SENDER_ID" value="332867885048" />
 </plugin>
+
+
+
+<gap:plugin name="cordova-plugin-googlemaps" version="" source="npm" />
 <gap:plugin name="cordova-plugin-geolocation" version="" source="npm" />
 <gap:plugin name="cordova-plugin-splashscreen" version="" source="npm" />
 <gap:plugin name="cordova-plugin-device" version="" source="npm" />
