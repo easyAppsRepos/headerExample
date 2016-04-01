@@ -57,8 +57,16 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
             .state('paypal;', {
       url: '/paypal',
       templateUrl: 'paypal.html',
+      controller: 'ListCtrl'
+    })
+
+      .state('mapaUsuario;', {
+      url: '/mapaUsuario',
+      templateUrl: 'mapaUsuario.html',
       controller: 'GeolocationCtrl'
     })
+
+
       .state('userFotos', {
       url: '/userFotos',
       templateUrl: 'userFotos.html',
@@ -623,6 +631,8 @@ $scope.categoriaSeleccionada=cat;
 
 
     nameApp.controller('GeolocationCtrl', function($scope, $cordovaGeolocation) {
+
+/*
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
@@ -633,4 +643,24 @@ $scope.categoriaSeleccionada=cat;
       }, function(err) {
         // error
     });
+    */
+   var options = {timeout: 10000, enableHighAccuracy: true};
+ 
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+ 
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+ 
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+ 
+    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+ 
+  }, function(error){
+    console.log("Could not get location");
+  });
+
+
 }) 

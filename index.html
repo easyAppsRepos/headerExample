@@ -464,6 +464,10 @@
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
+
+			<ion-nav-buttons side="right"  >
+			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-ios-location disable-user-behavior" href="#/mapaUsuario" transitiontype="fade"  go-native></a>
+			</ion-nav-buttons>
 			
 
 			<ion-content style='background-color: rgb(234, 234, 234);'>
@@ -683,6 +687,18 @@
 			</ion-content>	
       </ion-view>
   </script> 
+
+  <script id="mapaUsuario.html" type="text/ng-template">
+      <ion-view title='Ubicacion'>		
+
+			
+
+			<ion-content>
+                      <div id="map" data-tap-disabled="true"></div>
+			</ion-content>
+      </ion-view>
+  </script> 
+
         <script id="paypal.html" type="text/ng-template">
       <ion-view title='Cuenta PayPal'>		
 			<ion-nav-buttons side="left"  >
@@ -691,7 +707,7 @@
 			
 
 			<ion-content>
-                   <button class='full-button bar-positive'></button>
+                     
 			</ion-content>
       </ion-view>
   </script> 
