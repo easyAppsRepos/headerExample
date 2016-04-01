@@ -644,10 +644,10 @@ $scope.categoriaSeleccionada=cat;
         // error
     });
     */
-   var options = {timeout: 10000, enableHighAccuracy: true};
+   var options = {timeout: 10000, enableHighAccuracy: false};
  
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
- 
+ console.log("position is: Latitud: "+position.coords.latitude+" Longitud: "+ position.coords.longitude);
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
  
     var mapOptions = {
@@ -659,7 +659,7 @@ $scope.categoriaSeleccionada=cat;
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
  
   }, function(error){
-    console.log("Could not get location");
+    console.log("Could not get location"+error);
   });
 
 

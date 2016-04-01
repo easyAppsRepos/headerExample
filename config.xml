@@ -38,8 +38,6 @@
 </plugin>
 
 
-
-<gap:plugin name="cordova-plugin-googlemaps" version="" source="npm" />
 <gap:plugin name="cordova-plugin-geolocation" version="" source="npm" />
 <gap:plugin name="cordova-plugin-splashscreen" version="" source="npm" />
 <gap:plugin name="cordova-plugin-device" version="" source="npm" />
