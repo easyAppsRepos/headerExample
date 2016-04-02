@@ -1,3 +1,4 @@
+var map;
 var nameApp = angular.module('starter', ['ionic','ngCordova']);
  
 nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -640,6 +641,21 @@ $scope.categoriaSeleccionada=cat;
           var lat  = position.coords.latitude
           var long = position.coords.longitude
           alert(lat + " --- " + long);
+                map = new GMaps({
+        div: '#map',
+        lat: lat, 
+        lng: long,
+        zoom: 10,
+        zoomControl : true,
+        zoomControlOpt: {
+            style : 'SMALL',
+            position: 'TOP_RIGHT'
+        },
+        panControl : true,
+        streetViewControl : true,
+        mapTypeControl : false
+      });
+
       }, function(err) {
         // error
     });
