@@ -4,9 +4,9 @@
         xmlns       =    "http://www.w3.org/ns/widgets"
         xmlns:gap   =    "http://phonegap.com/ns/1.0"
         versionCode =   "1">
-  <name>subastAPP</name>
+  <name>GoldDate</name>
   <description>
-        subastAPP
+        GoldDate
     </description>
   <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
@@ -31,7 +31,7 @@
 
 <preference name="StatusBarOverlaysWebView" value="false" />
 <preference name="StatusBarStyle" value="lightcontent" />
-
+<preference name="StatusBarBackgroundColor" value="#6239AB" />
 
   <preference name="android-build-tool" value="gradle" />
 <plugin name="phonegap-plugin-push" version="1.5.3" source="npm">
