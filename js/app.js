@@ -595,7 +595,7 @@ $scope.propuesta.categoria=cat;
 
 	  $cordovaCamera.getPicture(options).then(
 		function(imageURI) {
-			$scope.imgURI = "data:image/jpeg;base64," + imageData;
+			$scope.imgURI = "data:image/jpeg;base64," + imageURI;
 					},
 		function(err){
 			console.log("error cargando la imagen");
