@@ -474,7 +474,7 @@ $scope.categoriaSeleccionada=cat;
   };
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
-    $scope.modal.remove();
+ console.log("destruyendo modal");
   });
   // Execute action on hide modal
   $scope.$on('modal.hidden', function() {
@@ -717,7 +717,9 @@ $scope.subastas=[
  }];
 */
 });
+
     nameApp.controller('GeolocationCtrl', function($scope, $ionicLoading, $cordovaGeolocation) {
+    	
 
         $ionicLoading.show({
       template: 'Cargando...'
