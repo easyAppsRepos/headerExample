@@ -640,7 +640,7 @@ console.log("enKeyEntered");
            var subasta=  data.val();
            subasta.descripcionCorta=data.val().descripcion.substring(0,37)+'...';
            subasta.tiempoRestante='Finaliza en: '+Math.round(((parseInt(data.val().fechaCreacion)+parseInt(data.val().diasEnSubasta))-Date.now())/3600000)+'h';
-            subasta.imgPropuesta="data:image/jpeg;base64,"+ data.val().imgPropuesta;
+           // subasta.imgPropuesta="data:image/jpeg;base64,"+ data.val().imgPropuesta;
             //$scope.imgURI = "data:image/jpeg;base64," + imageURI;
            console.log(subasta);
           $scope.subastas.push(subasta);
