@@ -588,8 +588,8 @@ if($scope.imgURI == undefined){
         tipo: $scope.propuesta.tipo,
         estado: true,
         pujaActual:$scope.propuesta.precio,
-        idPropone: 'pedro@pedro.com',
-        nickPropone:'Pedro',
+        idPropone: 'maria@golddate.com',
+        nickPropone:'Maria',
         vip:true,
         imgPropuesta:$scope.imgURI
         },function(){
@@ -716,8 +716,11 @@ $scope.subastas=[
  }];
 */
 });
-    nameApp.controller('GeolocationCtrl', function($scope, $cordovaGeolocation) {
+    nameApp.controller('GeolocationCtrl', function($scope, $ionicLoading, $cordovaGeolocation) {
 
+        $ionicLoading.show({
+      template: 'Cargando...'
+    });
 
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $cordovaGeolocation
@@ -725,7 +728,7 @@ $scope.subastas=[
       .then(function (position) {
           var lat  = position.coords.latitude
           var long = position.coords.longitude
-          alert(lat + " --- " + long);
+      
                 map = new GMaps({
         div: '#map',
         lat: lat, 
@@ -740,11 +743,11 @@ $scope.subastas=[
         streetViewControl : true,
         mapTypeControl : false
       });
+          $ionicLoading.hide();      
 
       }, function(err) {
         // error
-        console.log("23rerrr");
-        console.log(err);
+        $ionicLoading.hide();      
     });
     
    
