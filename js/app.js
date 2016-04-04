@@ -485,7 +485,7 @@ $scope.categoriaSeleccionada=cat;
   });
 });
 
-    nameApp.controller('crearPropuestaCtrl', function($scope, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal) {
+    nameApp.controller('crearPropuestaCtrl', function($scope, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal) {
 //color #6239AB
 $scope.propuesta = {};
 $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
@@ -527,7 +527,16 @@ $scope.propuesta.categoria=cat;
   });
 
 
+
       $scope.agregarPropuesta = function(){
+
+if($scope.propuesta.categoria == undefined || $scope.propuesta.diasEnSubasta == undefined 
+   || $scope.propuesta.descripcion == undefined  || $scope.propuesta.tipo == undefined
+   || $scope.propuesta.precio == undefined ){
+	alert("Todos los campos debe ser rellenados");
+	return true;
+}
+
 
       	//obtener fecha actual
       	          $ionicLoading.show({
