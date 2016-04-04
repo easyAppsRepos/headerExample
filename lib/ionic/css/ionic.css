@@ -5460,13 +5460,14 @@ a.item-content {
       opacity: 1; }
 
 .scroll-refresher {
-  position: absolute;
-  top: -60px;
-  right: 0;
-  left: 0;
-  overflow: hidden;
-  margin: auto;
-  height: 60px; }
+ position: absolute;
+top: 0;
+right: 0;
+left: 0;
+overflow: hidden;
+margin: auto;
+height: 60px;
+margin-top: 25px;}
   .scroll-refresher .ionic-refresher-content {
     position: absolute;
     bottom: 15px;

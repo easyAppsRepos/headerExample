@@ -637,9 +637,9 @@ if($scope.imgURI == undefined){
 
     nameApp.controller('dashboardCtrl', function($scope,$cordovaGeolocation,$firebaseArray, $timeout){
 
-$scope.cargandoPropuestas = true;
+
 var lat;
-$scope.subastas=[];
+
 
   var ref = new Firebase('https://golddate.firebaseio.com/app');
         var geoRef = ref.child('geo');
@@ -647,6 +647,11 @@ $scope.subastas=[];
         var geoQuery;
 console.log("afuera");
 console.log(lat);
+
+$scope.cargarDatos = function(){
+	if($scope.cargandoPropuestas){console.log("pull en carga");return true;}
+	$scope.subastas=[];
+	$scope.cargandoPropuestas = true;
        var posOptions = {timeout: 10000, enableHighAccuracy: false};
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
@@ -684,6 +689,7 @@ console.log("enKeyEntered");
       geoQuery.cancel();
         $timeout(function () {
      $scope.cargandoPropuestas = false;
+      $scope.$broadcast('scroll.refreshComplete');
   }, 4000);
     });
 
@@ -691,8 +697,8 @@ console.log("enKeyEntered");
       console.log("err22");
         console.log(err); 
     });
-
-   	
+}
+ $scope.cargarDatos();  	
 
 /*
        //Tiene q ir al factory esta parte
