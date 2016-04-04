@@ -21,6 +21,14 @@
  <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAzB2FNhXiXDe1TnKFMQyoZRASVehAKLvs&sensor=true"></script>
 <script type="text/javascript" src="js/gmaps.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
+
+    <script type="text/javascript" src="js/firebase.js"></script>
+<script type="text/javascript" src="js/rsvp.min.js"></script>
+<script type="text/javascript" src="js/angularfire.min.js"></script>
+<script type="text/javascript" src="js/geofire.min.js"></script>
+<script type="text/javascript" src="js/angularGeoFire.min.js"></script>
+
+
     <script src="js/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
    <script src="js/push.js"></script>
@@ -170,7 +178,7 @@
        <div style="height: 75px"></div>
 
           <div id="container" >
-          <div class="{{subasta.col}}" ng-repeat="subasta in subastas"  >
+          <div class="left-column" ng-repeat="subasta in subastas"  >
           <div class="infoBox">
           <a class="feed-category" href="#/detail" transitiontype="fade"  go-native>
           <pre-img ratio="_1_1" helper-class="square-image">
@@ -178,17 +186,17 @@
 
           </pre-img>
           <div class="category-bg"></div>
-          <span class="category-title"><div style="height: 9px; width: 9px; border-radius: 25px; position: absolute; margin-top: 13px;" class="estadoSubastador {{subasta.estado}}"></div><p style='margin-left: 16px;margin-top: 8px'>{{subasta.nombrePonente}}</p></span>
+          <span class="category-title"><div style="height: 9px; width: 9px; border-radius: 25px; position: absolute; margin-top: 13px;" class="estadoSubastador {{subasta.estado}}"></div><p style='margin-left: 16px;margin-top: 8px'>{{subasta.nickPropone}}</p></span>
           <img class="icon euroI icons8-Euro-Filled" src="img/euroF.png" width="18" height="18">
           <img ng-if='subasta.vip==true'class="icon crownDashboard icons8-Euro-Filled" src="img/crown.png" width="27" height="27">
-          <text class='precioA'>{{subasta.valorInicial}}</text>
+          <text class='precioA'>{{subasta.pujaActual}}</text>
           </a>
 
           </div>
           <div class='dashboardSubasta'>
-          <div style="margin-top: 7px;"> <i class="icon ion-clock"></i> {{subasta.tiempoLimite}}</div>
+          <div style="margin-top: 7px;"> <i class="icon ion-clock"></i> {{subasta.tiempoRestante}}</div>
           <p>
-          {{subasta.descripcion}}
+          {{subasta.descripcionCorta}}
           </p>
           </div>
 
@@ -466,7 +474,9 @@
 			</ion-nav-buttons>
 
 			<ion-nav-buttons side="right"  >
-			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-ios-location disable-user-behavior" href="#/mapaUsuario" transitiontype="fade"  go-native></a>
+			<a style="font-size: 27px;margin-right: 8px; color: white; background-color: #4db6ac; border:none"  class="button ion-ios-location disable-user-behavior" href="#/mapaUsuario" transitiontype="fade"  go-native></a>
+
+        <a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-ios-camera disable-user-behavior" href="#/mapaUsuario" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
 			
 
@@ -743,63 +753,92 @@
 
 
     <script id="modalNewP.html" type="text/ng-template">
+
           <ion-view title='Crear Propuesta'>		
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
 						         <ion-nav-buttons side="right">
-<a style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+<a ng-click='agregarPropuesta()' style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
         
       </a>
    </ion-nav-buttons> 
 
 			
-          <ion-content style='background-color: #4db6ac !important' >
+          <ion-content style='background-color: rgb(234, 234, 234) !important;' >
          <div style="height: 45px"></div>
          <div class='formA'>
-            <div><div><img src='img/camera.png'></div></div>
+            <div>
+            <div>
+            <img src='img/camera.png' ng-click='selectPicture()'>
+            </div>
+            <div>
+        <center>
+            <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center">
+        </center>
+            </div>
+            </div>
 	            <div class="list">
 
-					<label class=" item item-input"  ng-controller='MyController' ng-click="openModal('fade-in-scale','my-modal2.html')">
-					<div style="color: rgb(102, 102, 102);">{{categoriaSeleccionada}}</div>
+					<label  class="borderBot item itemForms"  ng-click="openModal('fade-in-scale','my-modal2.html')">
+					<div  style="color: rgb(102, 102, 102); ">{{categoriaSeleccionada}}</div>
 					</label>
 
-		             <label class="item" style="margin-top: 15px">
-		             <p>Compartir cita con</p>
-		             </label>
-		           <label class="item">
-		           <ion-checkbox ng-model="filter.blue" style='color: #666;font-size: 14px;'>Chico</ion-checkbox>
-  					<ion-checkbox ng-model="filter.yellow" style='color: #666;font-size: 14px;'>Chica</ion-checkbox>
+        <label  class="borderBot item itemForms ">
+          <div style="color: rgb(102, 102, 102); ">Compartir con...</div>
+          </label>
+		       
+		          
+               <label class="item itemForms ">
+               
+		           <ion-checkbox class='itemForms' ng-model="propuesta.chico" style='color: #666;font-size: 14px;'>Chico</ion-checkbox>
+  					<ion-checkbox class='itemForms' ng-model="propuesta.chica" style='color: #666;font-size: 14px;'>Chica</ion-checkbox>
 		           </label>
-		            <label class="item " style="margin-top: 15px;">
-							<div class="list">
-							<label class="item item-input item-stacked-label">
-							<span class="input-label">Duracion de la cita</span>
-							<input type="number" placeholder="horas">
-							</label>
-							<label class="item item-input item-stacked-label">
-							<span class="input-label">Tiempo en subasta</span>
-							<input type="number" placeholder="dias">
-							</label>
 
-							</div>
-		           </label>
-		            <label class="item" style="margin-top: 15px;">
-		             <textarea style="width: 100%; height: 100px;" placeholder="Describe tu propuesta" maxlength="150"></textarea>
+
+            <label style='margin-top: 15px' class="borderBot item itemForms item-input item-select">
+            <div class="input-label">
+            Dias en subasta
+            </div>
+            <select ng-model='propuesta.diasEnSubasta' class='itemForms'>
+            <option value='86400000' selected>1 dia</option>
+            <option value='259200000' >Menos de 3 dias</option>
+            <option value='432000000' >Hasta 5 dias</option>
+            </select>
+            </label>
+
+
+
+           <label  class="borderBot item itemForms ">
+          <div style="color: rgb(102, 102, 102); ">Descripcion</div>
+          </label>
+              <label
+		            <label class="item " style="margin-top: 6px;">
+		             <textarea ng-model='propuesta.descripcion' style="width: 100%; height: 100px;" placeholder="Describe tu propuesta" maxlength="150"></textarea>
 		             </label>
-						<label style='margin-top: 15px' class="item item-input item-select">
+
+
+
+
+
+						<label style='margin-top: 15px' class="borderBot item itemForms item-input item-select">
 						<div class="input-label">
 						Tipo de propuesta
 						</div>
-						<select>
-						<option selected>Subasta</option>
-						<option>Precio Fijo</option>
+						<select ng-model='propuesta.tipo' class='itemForms'>
+						<option value='1' selected>Subasta</option>
+						<option value='2' >Precio Fijo</option>
 						</select>
 						</label>
-							<label style='background-color: white !important;' class="item item-input item-stacked-label">
-							<span class="input-label">Precio de propuesta</span>
-							<input type="number" placeholder="Euros">
-							</label>
+
+
+           <label  class="borderBot item itemForms "  ng-controller='MyController'>
+          <div style="color: rgb(102, 102, 102); ">Precio propuesta</div>
+          </label>
+              <label class="item item-input " style="margin-top: 5px;">
+                <input ng-model='propuesta.precio' type="number" placeholder="Euros">
+              </label>
+
 
 	          </div>
       			<div style="height: 24px"></div>

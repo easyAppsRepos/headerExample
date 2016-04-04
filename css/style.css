@@ -5,6 +5,15 @@
 margin-left: 4%;
 }
 
+.borderBot{
+
+  border-bottom:  solid 2px#A182D6 !important;
+}
+.itemForms{
+margin-top: 2px;
+  background-color:rgb(234, 234, 234) !important;
+  border:none;
+}
 .inputCol50
 {
   width: 90px;
@@ -45,7 +54,7 @@ box-shadow: 0 0 8px rgba(44, 243, 251, 0.8);
 }
 .bar-positive{
 
-  background-color: #23262a !important;
+  background-color: #6239AB !important;
   border:none !important;
 }
 .user-image{

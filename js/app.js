@@ -1,5 +1,5 @@
 var map;
-var nameApp = angular.module('starter', ['ionic','ngCordova']);
+var nameApp = angular.module('starter', ['ionic','ngCordova','angularGeoFire','firebase']);
  
 nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
  
@@ -11,7 +11,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     .state('list', {
       url: '/',
       templateUrl: 'list.html',
-      controller: 'ListCtrl'
+      controller: 'dashboardCtrl'
     })
     .state('view', {
       url: '/movie/:movieid',
@@ -82,7 +82,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       .state('modalNewP', {
       url: '/modalNewP',
       templateUrl: 'modalNewP.html',
-      controller: 'ListCtrl'
+      controller: 'crearPropuestaCtrl'
     })   
             .state('misAlertas', {
       url: '/misAlertas',
@@ -274,152 +274,7 @@ $scope.selected5='';
     prop: "world"
   };
  
- //Tiene q ir al factory esta parte
-$scope.subastas=[
 
-   {
-  idSubasta:1,
-  nombrePonente:"Maria",
-  idPonente:1,
-  tipo:"Cena",
-  tipoSubasta:"subasta",
-  valorInicial:30,
-  vip:true,
-  estado:"estadoActivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"3h 23min",
-  image:'img/user1.jpg',
-  descripcion:"Cena en restaurante vegetariano/hindu",
-  col:'left-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- },
-
-    {
-  idSubasta:2,
-  nombrePonente:"Pedro J.",
-  idPonente:2,
-  tipo:"Entretenimiento",
-  tipoSubasta:"subasta",
-  valorInicial:15,
-  vip:false,
-    estado:"estadoActivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"5h 10min",
-  image:'img/user2.jpg',
-  descripcion:"Salida por la tarde al cine",
-  col:'right-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- },
-
-     {
-  idSubasta:3,
-  nombrePonente:"Luis Mora",
-  idPonente:3,
-  tipo:"Entretenimiento",
-  tipoSubasta:"subasta",
-  valorInicial:25,
-  vip:false,
-    estado:"estadoInactivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"10h 47min",
-  image:'img/user4.png',
-  descripcion:"Acompanante para spa - masaje",
-  col:'left-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- },
-
-      {
-  idSubasta:4,
-  nombrePonente:"Paul G.",
-  idPonente:4,
-  tipo:"Cena",
-  tipoSubasta:"subasta",
-  valorInicial:15,
-  vip:true,
-    estado:"estadoActivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"11h 47min",
-  image:'img/user5.jpg',
-  descripcion:"Cena norcturna, lugar a escoger",
-  col:'right-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- },
-   {
-  idSubasta:1,
-  nombrePonente:"Maria",
-  idPonente:1,
-  tipo:"Cena",
-  tipoSubasta:"subasta",
-  valorInicial:30,
-  vip:true,
-  estado:"estadoActivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"3h 23min",
-  image:'img/user1.jpg',
-  descripcion:"Cena en restaurante vegetariano/hindu",
-  col:'left-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- },
-
-    {
-  idSubasta:2,
-  nombrePonente:"Pedro J.",
-  idPonente:2,
-  tipo:"Entretenimiento",
-  tipoSubasta:"subasta",
-  valorInicial:15,
-  vip:false,
-    estado:"estadoActivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"5h 10min",
-  image:'img/user2.jpg',
-  descripcion:"Salida por la tarde al cine",
-  col:'right-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- },
-
-     {
-  idSubasta:3,
-  nombrePonente:"Luis Mora",
-  idPonente:3,
-  tipo:"Entretenimiento",
-  tipoSubasta:"subasta",
-  valorInicial:25,
-  vip:false,
-    estado:"estadoInactivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"10h 47min",
-  image:'img/user4.png',
-  descripcion:"Acompanante para spa - masaje",
-  col:'left-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- },
-
-      {
-  idSubasta:4,
-  nombrePonente:"Paul G.",
-  idPonente:4,
-  tipo:"Cena",
-  tipoSubasta:"subasta",
-  valorInicial:15,
-  vip:true,
-    estado:"estadoActivo",
-  fechaPublicacion:"25/03/2015 02:02",
-  tiempoLimite:"11h 47min",
-  image:'img/user5.jpg',
-  descripcion:"Cena norcturna, lugar a escoger",
-  col:'right-column',
-  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
-
- }
-   ];
 
  //
   $scope.searchMovieDB = function() {
@@ -630,7 +485,202 @@ $scope.categoriaSeleccionada=cat;
   });
 });
 
+    nameApp.controller('crearPropuestaCtrl', function($scope, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal) {
+//color #6239AB
+$scope.propuesta = {};
+$scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
+$scope.categoriaSeleccionada='Seleccionar categoria';
+$scope.setCategoria=function(cat){
+$scope.categoriaSeleccionada=cat;
+$scope.propuesta.categoria=cat;
+   $scope.modal.hide();
+     $scope.modal.remove();
+}
 
+  $scope.openModal = function(animation, modalHtml) {
+    $ionicModal.fromTemplateUrl(modalHtml, {
+      scope: $scope,
+      animation: animation
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    });
+  };
+
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+     $scope.modal.remove();
+
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+
+      $scope.agregarPropuesta = function(){
+
+      	//obtener fecha actual
+
+
+
+        console.log($scope.propuesta);
+
+        var ref = new Firebase('https://golddate.firebaseio.com/app');
+ var lat;
+ var long;
+    var propuestaRef = ref.child('propuestas');
+        var geoRef = ref.child('geo');
+        var geoFire = new GeoFire(geoRef);
+        var geoQuery;
+
+
+        var posOptions = {timeout: 10000, enableHighAccuracy: false};
+      $cordovaGeolocation
+      .getCurrentPosition(posOptions)
+      .then(function (position) {
+           lat  = position.coords.latitude
+           long = position.coords.longitude
+
+
+        var pKey=propuestaRef.push({
+        categoria: $scope.propuesta.categoria,
+        chica: $scope.propuesta.chico == undefined ? null :$scope.propuesta.chico,
+        chica: $scope.propuesta.chica == undefined ? null :$scope.propuesta.chica,
+        fechaCreacion: Date.now(),
+        diasEnSubasta:$scope.propuesta.diasEnSubasta,
+        descripcion: $scope.propuesta.descripcion,
+        tipo: $scope.propuesta.tipo,
+        estado: true,
+        pujaActual:$scope.propuesta.precio,
+        idPropone: 'pedro@pedro.com',
+        nickPropone:'Pedro',
+        vip:true
+        },function(){
+
+
+            geoFire.set(pKey.key(), [lat, long]).then(function() {
+            console.log("ID:"+ pKey.key() + ": setiado en pos: [" + lat + "," + long + "]");
+              alert("agregado");
+            });
+
+        
+
+        });
+        // la key de la propuesta creada es : pKey.key() 
+
+        },function(err){
+        			console.log("err4r44");
+        			console.log(err);
+
+    				} 
+    				);
+      }
+
+        $scope.selectPicture = function() { 
+		var options = {
+			quality: 50,
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+		};
+
+	  $cordovaCamera.getPicture(options).then(
+		function(imageURI) {
+			$scope.imgURI = "data:image/jpeg;base64," + imageData;
+					},
+		function(err){
+			console.log("error cargando la imagen");
+		})
+	};
+
+
+
+    });
+
+    nameApp.controller('dashboardCtrl', function($scope,$cordovaGeolocation,$firebaseArray){
+
+var lat;
+$scope.subastas=[];
+
+  var ref = new Firebase('https://golddate.firebaseio.com/app');
+        var geoRef = ref.child('geo');
+        var geoFire = new GeoFire(geoRef);
+        var geoQuery;
+console.log("afuera");
+console.log(lat);
+       var posOptions = {timeout: 10000, enableHighAccuracy: false};
+    $cordovaGeolocation
+      .getCurrentPosition(posOptions)
+      .then(function (position) {
+          var lat  = position.coords.latitude
+          var long = position.coords.longitude
+
+
+console.log("marcandoCentro");
+    var geoQuery = geoFire.query({
+      center: [lat,long],
+      radius: 3000
+    });
+
+
+    var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location) {
+console.log("enKeyEntered");
+      console.log(key + " entered the query. Hi " + key + "!");
+        ref.child('propuestas/'+key).once("value", function(data) {
+           var subasta=  data.val();
+           subasta.descripcionCorta=data.val().descripcion.substring(0,37)+'...';
+           subasta.tiempoRestante='Finaliza en: '+Math.round(((parseInt(data.val().fechaCreacion)+parseInt(data.val().diasEnSubasta))-Date.now())/3600000)+'h';
+            
+           console.log(subasta);
+          $scope.subastas.push(subasta);
+        });
+
+    });
+
+    var onReadyRegistration = geoQuery.on("ready", function() {
+      console.log("*** 'ready' event fired - cancelling query ***");
+      geoQuery.cancel();
+    });
+
+  }, function(err) {
+      console.log("err22");
+        console.log(err); 
+    });
+
+   	
+
+/*
+       //Tiene q ir al factory esta parte
+$scope.subastas=[
+
+
+     {
+  idSubasta:3,
+  nickPropone:"Luis Mora",
+  idPonente:3,
+  tipo:"Entretenimiento",
+  tipoSubasta:"subasta",
+  pujaActual:25,
+  vip:true,
+    estado:"estadoInactivo",
+  fechaPublicacion:"25/03/2015 02:02",
+  tiempoEnSubasta:"10h 47min",
+  image:'img/user4.png',
+  descripcion:"Acompanante para spa - masaje",
+  pujas: [{idPujante:2,valorPuja:30},{idPujante:2,valorPuja:50}]
+
+ }];
+*/
+});
     nameApp.controller('GeolocationCtrl', function($scope, $cordovaGeolocation) {
 
 
@@ -658,6 +708,8 @@ $scope.categoriaSeleccionada=cat;
 
       }, function(err) {
         // error
+        console.log("23rerrr");
+        console.log(err);
     });
     
    
