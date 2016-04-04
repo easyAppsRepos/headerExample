@@ -174,14 +174,14 @@
 
 
       <ion-content style='background-color: rgb(234, 234, 234);'>
-  <ion-refresher
-    pulling-text="Pull to refresh..."
-    on-refresh="">
-  </ion-refresher>
+
 
        <div style="height: 75px"></div>
-
-          <div id="container" >
+          <div style="text-align: center; margin-top: 80px; font-size: 18px; color: rgb(102, 102, 102);" ng-show="cargandoPropuestas">
+          <ion-spinner icon="dots"></ion-spinner>
+          <p>Cargando propuestas</p>
+          </div>
+          <div id="container" ng-show='!cargandoPropuestas'>
           <div class="left-column" ng-repeat="subasta in subastas"  >
           <div class="infoBox">
           <a class="feed-category" href="#/detail" transitiontype="fade"  go-native>

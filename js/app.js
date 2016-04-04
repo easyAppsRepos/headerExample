@@ -530,6 +530,9 @@ $scope.propuesta.categoria=cat;
       $scope.agregarPropuesta = function(){
 
       	//obtener fecha actual
+      	          $ionicLoading.show({
+      template: 'Cargando...'
+    });
 
 
 
@@ -574,6 +577,7 @@ $scope.propuesta.categoria=cat;
               alert("agregado");
             });
 
+			          $ionicLoading.hide();
         
 
         });
@@ -582,7 +586,7 @@ $scope.propuesta.categoria=cat;
         },function(err){
         			console.log("err4r44");
         			console.log(err);
-
+        				        $ionicLoading.hide();
     				} 
     				);
       }
@@ -607,8 +611,9 @@ $scope.propuesta.categoria=cat;
 
     });
 
-    nameApp.controller('dashboardCtrl', function($scope,$cordovaGeolocation,$firebaseArray){
+    nameApp.controller('dashboardCtrl', function($scope,$cordovaGeolocation,$firebaseArray, $timeout){
 
+$scope.cargandoPropuestas = true;
 var lat;
 $scope.subastas=[];
 
@@ -637,6 +642,7 @@ console.log("marcandoCentro");
 console.log("enKeyEntered");
       console.log(key + " entered the query. Hi " + key + "!");
         ref.child('propuestas/'+key).once("value", function(data) {
+
            var subasta=  data.val();
            subasta.descripcionCorta=data.val().descripcion.substring(0,37)+'...';
            subasta.tiempoRestante='Finaliza en: '+Math.round(((parseInt(data.val().fechaCreacion)+parseInt(data.val().diasEnSubasta))-Date.now())/3600000)+'h';
@@ -648,9 +654,13 @@ console.log("enKeyEntered");
 
     });
 
+
     var onReadyRegistration = geoQuery.on("ready", function() {
       console.log("*** 'ready' event fired - cancelling query ***");
       geoQuery.cancel();
+        $timeout(function () {
+     $scope.cargandoPropuestas = false;
+  }, 4000);
     });
 
   }, function(err) {
