@@ -444,8 +444,9 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
   nameApp.controller('MyController', function($scope, $ionicModal) {
   $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
 
-
-
+$scope.inputSubasta=34;
+$scope.subirPuja=function(){$scope.inputSubasta=$scope.inputSubasta+1};
+$scope.bajarPuja=function(){$scope.inputSubasta=$scope.inputSubasta-1};
 
 $scope.categoriaSeleccionada='Seleccionar categoria';
 

@@ -111,9 +111,28 @@ width: 30px;
 vertical-align: middle;
 
 }
+
+.minusPlusBtn{
+height: 34px;
+width: 40px;
+vertical-align: middle;
+display: inline-block;
+margin: 0px;
+line-height: 1.5;
+font-size: 22px;
+}
+
+.botonSubasta{
+ 
+    border-top: solid 2px #623DA2;
+    background-color: lightgray;
+    color: #623DA2;
+
+}
  .descSubasta{
 }
-}
+
+
 
 
 background-color: #fafafa;
@@ -146,7 +165,10 @@ margin-top: 13px;
   .feed-category .category-image {
       width: 100%;
       height: 100%;
-     border-radius: 10px 10px 0px 0px; }
+     border-radius: 10px 10px 0px 0px; 
+    overflow: hidden;
+    object-fit: contain;
+   }
 
     .feed-category .category-bg {
       position: absolute;
