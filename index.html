@@ -645,12 +645,35 @@
 					<input type="text" placeholder="Nombre o palabra">
 						</label>
 
-					<label style="text-align: center; display: inline-flex;" class="item item-input item-stacked-label labelForm">
-				<span class="input-label" style="color: rgb(102, 102, 102);">Edad de</span>
-				<input style="margin-left: 7px;" placeholder="" type="number">
-				<span class="input-label" style="color: rgb(102, 102, 102);">a</span>
-				<input placeholder="" type="number">
-				</label>
+           <label  class="borderBot item itemForms " >
+          <div style="color: rgb(102, 102, 102); ">Edad</div>
+          </label>
+               <label  class="item itemForms " >
+          <div style="color: rgb(102, 102, 102); ">De</div>
+          </label>
+              <label class="item item-input " style="margin-top: 5px;">
+                <input ng-model='' type="number" placeholder="Años">
+              </label>
+                             <label  class="item itemForms ">
+          <div style="color: rgb(102, 102, 102); ">a</div>
+          </label>
+              <label class="item item-input " style="margin-top: 5px;">
+                <input ng-model='' type="number" placeholder="Años">
+              </label>
+
+
+           <label style="margin-top: 25px;" class="borderBot item itemForms ">
+          <div style="color: rgb(102, 102, 102); ">Categoria</div>
+          </label>
+
+          <label class="labelForm item item-input"  ng-controller='MyController' ng-click="openModal('fade-in-scale','my-modal2.html')">
+          <div style="color: rgb(102, 102, 102);">{{categoriaSeleccionada}}</div>
+            </label>
+
+
+    <label style="margin-top: 25px;" class="borderBot item itemForms ">
+          <div style="color: rgb(102, 102, 102); ">Filtros avanzados</div>
+          </label>
 
 				<div class=sexSelector >
 					<div class="sexSelectorItem" ng-class="{'filtroItemActive': chico}" ng-click="activeButton('chico')">
@@ -665,9 +688,6 @@
 			
 				</div>
 
-					<label class="labelForm item item-input"  ng-controller='MyController' ng-click="openModal('fade-in-scale','my-modal2.html')">
-					<div style="color: rgb(102, 102, 102);">{{categoriaSeleccionada}}</div>
-						</label>
 
 
 								<div class=sexSelector>
@@ -676,11 +696,13 @@
 						<spam>Subasta</spam>
 					</div>
 				
+
 					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': fijo}" ng-click="activeButton('fijo')">
 						<img src='img/fijo{{selected4}}.png'><br>
 						<spam>Precio Fijo</spam>
 					</div>
 			
+
 
 					<div class=sexSelector>
 					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': mas}" ng-click="activeButton('mas')">

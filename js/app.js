@@ -485,7 +485,7 @@ $scope.categoriaSeleccionada=cat;
   });
 });
 
-    nameApp.controller('crearPropuestaCtrl', function($scope, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal) {
+    nameApp.controller('crearPropuestaCtrl', function($scope, $timeout, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal) {
 //color #6239AB
 $scope.propuesta = {};
 $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
@@ -533,11 +533,25 @@ $scope.propuesta.categoria=cat;
 if($scope.propuesta.categoria == undefined || $scope.propuesta.diasEnSubasta == undefined 
    || $scope.propuesta.descripcion == undefined  || $scope.propuesta.tipo == undefined
    || $scope.propuesta.precio == undefined ){
-	alert("Todos los campos debe ser rellenados");
-	return true;
+	
+
+   var alertPopup = $ionicPopup.alert({
+     title: 'Espacios sin rellenar',
+     template: 'Todos los espacios deben ser rellenados'
+   });
+
+   alertPopup.then(function(res) {
+     return true;
+   });
+
+return true;
+
+	
 }
 
-
+if($scope.imgURI == undefined){
+       $scope.imgURI='';
+}
       	//obtener fecha actual
       	          $ionicLoading.show({
       template: 'Cargando...'
