@@ -1,5 +1,5 @@
 var map;
-var nameApp = angular.module('starter', ['ionic','ngCordova','angularGeoFire','firebase']);
+var nameApp = angular.module('starter', ['ionic','ngCordova','ngStorage','angularGeoFire','firebase','ngMessages']);
  
 nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
  
@@ -19,9 +19,9 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ViewCtrl'
     })
      .state('detail', {
-      url: '/detail',
+      url: '/detail/:idPropuesta/:nickPropone/:pujaActual/:tiempoRestante/:descripcion',
       templateUrl: 'detail.html',
-      controller: 'ListCtrl'
+      controller: 'detailCtrl'
     })
 
      .state('pujas', {
@@ -33,6 +33,19 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       url: '/filtros',
       templateUrl: 'filtros.html',
       controller: 'ListCtrl'
+    })
+
+      .state('register', {
+      url: '/register',
+      templateUrl: 'register.html',
+      controller:'registerController'
+    })
+
+
+                    .state('login', {
+      url: '/login',
+      templateUrl: 'login.html',
+      controller: 'loginCtrl'
     })
 
       .state('miPerfil', {
@@ -92,10 +105,10 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       ;
  
  
-  $urlRouterProvider.otherwise("/");
+  $urlRouterProvider.otherwise("/login");
  
 });
- 
+ nameApp.constant('FURL', 'https://golddate.firebaseio.com/');
 nameApp.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
 
@@ -207,35 +220,128 @@ nameApp.service('Navigation', function($state) {
     );
   };
 });
- 
- 
-
-nameApp.controller('ListCtrl', function($scope, $ionicModal, $http, Movies, $state,$ionicSlideBoxDelegate, $ionicSideMenuDelegate, Navigation) {
 
 
+nameApp.controller('registerController', function ($scope, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+console.log("asdad22");
+  $scope.register = function(user) {
+    if(angular.isDefined(user)){
+    Utils.show();
+    Auth.register(user)
+      .then(function() {
+         Utils.hide();
+         console.log("Antes de loguear:" + JSON.stringify(user));
 
-$scope.chico = false;
-$scope.chica = false;
-$scope.subasta = false;
-$scope.fijo = false;
-$scope.mas = false;
-$scope.menos = false;
-$scope.selected='';
-$scope.selected2='';
-$scope.selected3='';
-$scope.selected4='';
-$scope.selected6='';
-$scope.selected5='';
+         Utils.alertshow("Registro Exitoso","Usuario creado correctamente");
 
-  $scope.activeButton = function(item) {
-    if(item=='chico'){$scope.chico = !$scope.chico; if($scope.chico==true){$scope.selected='Select'}else{$scope.selected=''}}
-    if(item=='chica'){$scope.chica = !$scope.chica; if($scope.chica==true){$scope.selected2='Select'}else{$scope.selected2=''}}
-     if(item=='subasta'){$scope.subasta = !$scope.subasta; if($scope.subasta==true){$scope.selected3='Select'}else{$scope.selected3=''}}
-    if(item=='fijo'){$scope.fijo = !$scope.fijo; if($scope.fijo==true){$scope.selected4='Select'}else{$scope.selected4=''}}
-      if(item=='mas'){$scope.mas = !$scope.mas; if($scope.mas==true){$scope.selected5='Select'}else{$scope.selected5=''}}
-    if(item=='menos'){$scope.menos = !$scope.menos; if($scope.menos==true){$scope.selected6='Select'}else{$scope.selected6=''}}
+         $location.path('/');
+
+      }, function(err) {
+         Utils.hide();
+         Utils.errMessage(err);
+      });
     }
-  
+  };
+
+}
+);
+
+ 
+nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+     $ionicSideMenuDelegate.canDragContent(false);//no side menu
+$scope.forgot=function(){console.log($localStorage);}
+
+
+  var ref = new Firebase(FURL);
+
+
+
+  $scope.logout = function () {
+
+      Auth.logout();
+      $localStorage.$reset();
+      $location.path("/login");
+       $state.go('login');
+
+  }
+
+
+
+  var ref = new Firebase(FURL);
+  var userkey = "";
+  $scope.signIn = function (user) {
+    console.log("Enviado");
+    if(angular.isDefined(user)){
+    Utils.show();
+    Auth.login(user)
+      .then(function(authData) {
+      //console.log("id del usuario:" + JSON.stringify(authData));
+
+      ref.child('profile').orderByChild("id").equalTo(authData.uid).on("child_added", function(snapshot) {
+        console.log(snapshot.key());
+        userkey = snapshot.key();
+        var obj = $firebaseObject(ref.child('profile').child(userkey));
+
+        obj.$loaded()
+          .then(function(data) {
+            console.log(data === obj); // true
+            console.log(obj.email);
+            $localStorage.email = obj.email;
+            $localStorage.userkey = userkey;
+
+              Utils.hide();
+          //    $state.go('list');
+       // $state.go('list', {}, { reload: true });
+  $location.path('/');
+          })
+          .catch(function(error) {
+            console.error("Error:", error);
+          });
+      });
+
+      }, function(err) {
+        Utils.hide();
+         Utils.errMessage(err);
+      });
+    }
+  };
+
+});
+
+nameApp.controller('detailCtrl',function($scope,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
+
+///detail/:idPropuesta/:nombre/:pujaActual'
+
+
+var fotoIndex;
+fotoIndex=$localStorage.pruebaStorage.findIndex(function traerFoto(lStorace) {
+    
+            return lStorace.idPropuesta == $stateParams.idPropuesta;
+        });
+if(fotoIndex>0){
+
+$scope.imgPropuesta=$localStorage.pruebaStorage[fotoIndex].img;
+}
+
+//console.log($stateParams.idPropuesta);
+//console.log($stateParams.nickPropone);
+//console.log($stateParams.pujaActual);
+
+$scope.propuestaKey=$stateParams.idPropuesta;
+$scope.nickPropone=$stateParams.nickPropone;
+$scope.pujaActual=$stateParams.pujaActual;
+$scope.tiempoRestante=$stateParams.tiempoRestante;
+$scope.descripcion=$stateParams.descripcion;
+
+//
+/*
+$localStorage = $localStorage.$default({
+  pruebaStorage: [0]
+});
+
+  $localStorage.pruebaStorage.push($localStorage.pruebaStorage+1);
+  console.log( $localStorage.pruebaStorage);
+*/
 
 
 
@@ -265,31 +371,45 @@ $scope.selected5='';
     $scope.trickOn = $scope.trickOn;
     
   }
+
+
+});
  
-  $scope.movie = {
-    name: 'Batman'
+
+nameApp.controller('ListCtrl', function($scope, $localStorage, $ionicModal, $http, Movies, $state,$ionicSlideBoxDelegate, $ionicSideMenuDelegate, Navigation) {
+
+
+$scope.chico = false;
+$scope.chica = false;
+$scope.subasta = false;
+$scope.fijo = false;
+$scope.mas = false;
+$scope.menos = false;
+$scope.selected='';
+$scope.selected2='';
+$scope.selected3='';
+$scope.selected4='';
+$scope.selected6='';
+$scope.selected5='';
+
+  $scope.activeButton = function(item) {
+
+    if(item=='chico'){$scope.chico = !$scope.chico; if($scope.chico==true){$scope.selected='Select'}else{$scope.selected=''}}
+    if(item=='chica'){$scope.chica = !$scope.chica; if($scope.chica==true){$scope.selected2='Select'}else{$scope.selected2=''}}
+     if(item=='subasta'){$scope.subasta = !$scope.subasta; if($scope.subasta==true){$scope.selected3='Select'}else{$scope.selected3=''}}
+    if(item=='fijo'){$scope.fijo = !$scope.fijo; if($scope.fijo==true){$scope.selected4='Select'}else{$scope.selected4=''}}
+      if(item=='mas'){$scope.mas = !$scope.mas; if($scope.mas==true){$scope.selected5='Select'}else{$scope.selected5=''}}
+    if(item=='menos'){$scope.menos = !$scope.menos; if($scope.menos==true){$scope.selected6='Select'}else{$scope.selected6=''}}
+    }
+  
+
+
+
+  $scope.openMenu = function () {
+    $ionicSideMenuDelegate.toggleLeft();
   }
- 
-  $scope.obj = {
-    prop: "world"
-  };
- 
+  
 
-
- //
-  $scope.searchMovieDB = function() {
- 
-    Movies.list($scope.movie.name, function(movies) {
-      $scope.movies = movies;
-    });
- 
-  };
- 
-  $scope.changePage = function(id) {
-    //Navigation.goNative('view', {movieid:id}, 'up');  
-  };
- 
-  $scope.searchMovieDB();
  
 });
  
@@ -441,7 +561,31 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
         }]);
 
 
-  nameApp.controller('MyController', function($scope, $ionicModal) {
+  nameApp.controller('MyController', function($scope, $ionicModal,$controller) {
+
+  	angular.extend(this, $controller('detailCtrl', {$scope: $scope}));
+
+  	$scope.agregarPuja=function(we){
+
+  		console.log($scope.propuestaKey)
+  		var UpdatePuja = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+$scope.propuestaKey+'/pujaActual');
+		UpdatePuja.transaction(function(currentData) {
+			return $scope.inputSubasta;
+		}, function(error, committed, snapshot) {
+		if (error) {
+		console.log('Transaction failed abnormally!', error);
+		} else if (!committed) {
+		console.log('We aborted the transaction (because nothing).');
+		} else {
+		console.log('puja actuzlizada');
+		}
+		console.log("puja", snapshot.val());
+		});
+
+
+  	}
+
+
   $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
 
 $scope.inputSubasta=34;
@@ -635,19 +779,29 @@ if($scope.imgURI == undefined){
 
     });
 
-    nameApp.controller('dashboardCtrl', function($scope,$cordovaGeolocation,$firebaseArray, $timeout){
+    nameApp.controller('dashboardCtrl', function($scope,$location,$cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
+console.log("en dash");
+
+$localStorage = $localStorage.$default({
+  pruebaStorage: []
+});
 
 
-var lat;
+  var ref = new Firebase(FURL);
 
 
+
+
+
+
+
+  var lat;
   var ref = new Firebase('https://golddate.firebaseio.com/app');
         var geoRef = ref.child('geo');
         var geoFire = new GeoFire(geoRef);
         var geoQuery;
 console.log("afuera");
 console.log(lat);
-
 $scope.cargarDatos = function(){
 	if($scope.cargandoPropuestas){console.log("pull en carga");return true;}
 	$scope.subastas=[];
@@ -666,31 +820,75 @@ console.log("marcandoCentro");
       radius: 3000
     });
 
-
-    var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location) {
+var actualizacion;
+var storageFoto;
+    var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location) {	
 console.log("enKeyEntered");
       console.log(key + " entered the query. Hi " + key + "!");
-        ref.child('propuestas/'+key).once("value", function(data) {
-
+        ref.child('propuestas/'+key).on("value", function(data) {
+console.log(data.val());
            var subasta=  data.val();
            subasta.descripcionCorta=data.val().descripcion.substring(0,37)+'...';
            subasta.tiempoRestante='Finaliza en: '+Math.round(((parseInt(data.val().fechaCreacion)+parseInt(data.val().diasEnSubasta))-Date.now())/3600000)+'h';
+           subasta.propuestaKey=data.key();
            // subasta.imgPropuesta="data:image/jpeg;base64,"+ data.val().imgPropuesta;
             //$scope.imgURI = "data:image/jpeg;base64," + imageURI;
-           console.log(subasta);
-          $scope.subastas.push(subasta);
+         //  console.log(subasta);
+
+//guarar imagen
+
+
+//
+        //  $scope.subastas.push({key:data.key(), subasta:subasta});
+       // console.log(subasta);
+
+          actualizacion=$scope.subastas.findIndex(function checkAdult(propuesta) {
+     									
+													    return propuesta.propuestaKey == data.key();
+													});
+          if(actualizacion<0){
+
+
+
+                 storageFoto=$localStorage.pruebaStorage.findIndex(function checkFoto(storage) {
+                      
+                              return storage.idPropuesta == data.key();
+                          });
+
+
+                  if(storageFoto<0){
+
+                    $localStorage.pruebaStorage.push({idPropuesta:subasta.propuestaKey,img:subasta.imgPropuesta});
+                  }
+               else{ console.log(storageFoto);console.log($localStorage)}
+
+          //    $localStorage.pruebaStorage.push({idPropuesta:subasta.propuestaKey,
+        //      img:subasta.imgPropuesta});
+      //         console.log( $localStorage.pruebaStorage);
+
+          	$scope.subastas.push(subasta);
+ 			$scope.$applyAsync(); //poner un timeout here
+
+     
+          }
+          else{
+          	console.log(actualizacion);
+          	$scope.subastas[actualizacion].pujaActual = data.val().pujaActual;
+          	$scope.$apply();
+          }
         });
+
 
     });
 
 
     var onReadyRegistration = geoQuery.on("ready", function() {
       console.log("*** 'ready' event fired - cancelling query ***");
-      geoQuery.cancel();
-        $timeout(function () {
+    //  geoQuery.cancel();
+  
      $scope.cargandoPropuestas = false;
       $scope.$broadcast('scroll.refreshComplete');
-  }, 4000);
+
     });
 
   }, function(err) {
@@ -781,4 +979,159 @@ $scope.subastas=[
   */
 
 
-}) 
+}) ;
+
+    nameApp.factory('Auth', function(FURL, $firebaseAuth, $firebaseArray, $firebaseObject, Utils) {
+
+  var ref = new Firebase(FURL);
+  var auth = $firebaseAuth(ref);
+
+  var Auth = {
+    user: {},
+
+    createProfile: function(uid, user) {
+      var profile = {
+        id: uid,
+        email: user.email,
+        registered_in: Date()
+      };
+
+      var profileRef = $firebaseArray(ref.child('profile'));
+      return profileRef.$add(profile).then(function(ref) {
+        var id = ref.key();
+ 
+        console.log(id);
+        //console.log("added record with id " + id);
+
+        var refUserNew = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+id);
+        refUserNew.set({email:profile.email});
+    
+        //
+        profileRef.$indexFor(id); // returns location in the array
+      });
+    },
+
+    login: function(user) {
+      return auth.$authWithPassword(
+        {email: user.email, password: user.password}
+      );
+    },
+
+    register: function(user) {
+      return auth.$createUser({email: user.email, password: user.password})
+        .then(function() {
+          // authenticate so we have permission to write to Firebase
+          return Auth.login(user);
+        })
+        .then(function(data) {
+          // store user data in Firebase after creating account
+          //console.log("datos del usuario:" + JSON.stringify(data));
+          console.log('3333333333   +'+data);
+              console.log(data);
+          return Auth.createProfile(data.uid, user);
+        });
+    },
+
+    logout: function() {
+      auth.$unauth();
+      console.log("Usuario Sale.");
+    },
+
+    resetpassword: function(user) {
+      return auth.$resetPassword({
+          email: user.email
+        }).then(function() {
+          Utils.alertshow("Exito.","La clave fue enviada a su correo.");
+          //console.log("Password reset email sent successfully!");
+        }).catch(function(error) {
+          Utils.errMessage(error);
+          //console.error("Error: ", error.message);
+        });
+    },
+
+    changePassword: function(user) {
+      return auth.$changePassword({email: user.email, oldPassword: user.oldPass, newPassword: user.newPass});
+    },
+
+    signedIn: function() {
+      return !!Auth.user.provider; //using !! means (0, undefined, null, etc) = false | otherwise = true
+    }
+  };
+
+  auth.$onAuth(function(authData) {
+    if(authData) {
+      angular.copy(authData, Auth.user);
+      Auth.user.profile = $firebaseObject(ref.child('profile').child(authData.uid));
+
+    } else {
+      if(Auth.user && Auth.user.profile) {
+        Auth.user.profile.$destroy();
+
+      }
+
+      angular.copy({}, Auth.user);
+    }
+  });
+
+  
+
+  return Auth;
+
+});
+
+
+nameApp.factory('Utils', function($ionicLoading,$ionicPopup) {
+
+  var Utils = {
+
+    show: function() {
+      $ionicLoading.show({
+        animation: 'fade-in',
+        showBackdrop: false,
+        maxWidth: 200,
+        showDelay: 500,
+        template: '<p class="item-icon-left">Loading...<ion-spinner icon="lines"/></p>'
+      });
+    },
+
+    hide: function(){
+      $ionicLoading.hide();
+    },
+
+    alertshow: function(tit,msg){
+      var alertPopup = $ionicPopup.alert({
+        title: tit,
+        template: msg
+      });
+      alertPopup.then(function(res) {
+        //console.log('Registrado correctamente.');
+      });
+    },
+
+    errMessage: function(err) {
+
+      var msg = "Unknown Error...";
+
+      if(err && err.code) {
+        switch (err.code) {
+          case "EMAIL_TAKEN":
+            msg = "This Email has been taken."; break;
+          case "INVALID_EMAIL":
+            msg = "Invalid Email."; break;
+          case "NETWORK_ERROR":
+            msg = "Network Error."; break;
+          case "INVALID_PASSWORD":
+            msg = "Invalid Password."; break;
+          case "INVALID_USER":
+            msg = "Invalid User."; break;
+        }
+      }
+      Utils.alertshow("Error",msg);
+  },
+
+
+  };
+
+  return Utils;
+
+});

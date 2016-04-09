@@ -22,14 +22,15 @@
 <script type="text/javascript" src="js/gmaps.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
 
+
     <script type="text/javascript" src="js/firebase.js"></script>
 <script type="text/javascript" src="js/rsvp.min.js"></script>
 <script type="text/javascript" src="js/angularfire.min.js"></script>
 <script type="text/javascript" src="js/geofire.min.js"></script>
 <script type="text/javascript" src="js/angularGeoFire.min.js"></script>
-
-
-    <script src="js/ng-cordova.min.js"></script>
+    <script src="lib/angular-messages/angular-messages.min.js"></script>
+  <script type="text/javascript" src="lib/ngstorage/ngStorage.js"></script>
+    <script type="text/javascript" src="js/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
    <script src="js/push.js"></script>
     <!-- your app's js -->
@@ -86,6 +87,11 @@
           <i class="icon ion-gear-a"></i>
           <h2 class="menu-text">Configuracion</h2>
         </ion-item>
+          <ion-item ng-controller='loginCtrl' ng-click='logout()' class="item-icon-left" nav-clear menu-close transitiontype="fade" go-native>
+          <i class="icon ion-gear-a"></i>
+          <h2 class="menu-text">Cerra sesion</h2>
+        </ion-item>
+
 
     </ion-list>
     </ion-content>
@@ -102,7 +108,7 @@
         <div style="text-align: center;"><p style="font-size: 30px; margin-top: 10px; color: black;">34€</p><p style="color: rgb(102, 102, 102);">Pujas mas alta</p></div>
         <div style="text-align: center;"><div ng-click='bajarPuja()' class="minusPlusBtn" style="background-color: darkcyan;">-</div><input ng-model='inputSubasta' style="text-align: center;display: inline-block;" type="number"><div style="background-color: darkcyan;" ng-click='subirPuja()' class="minusPlusBtn">+</div></div>
         
-        <button class="button button-full" style="border: 1px solid rgb(255, 255, 255); color: white; background-color: darkcyan; margin-top: 25px" ng-click="closeModal()">Pujar</button>
+        <button class="button button-full" style="border: 1px solid rgb(255, 255, 255); color: white; background-color: darkcyan; margin-top: 25px" ng-click="agregarPuja()">Pujar</button>
 
         </ion-content>
         </div>
@@ -177,7 +183,7 @@
   <script id="list.html" type="text/ng-template" >
     <ion-view  view-title="GoldDate" hide-back-button="true"> 
     <ion-nav-buttons side="right">
-<a ng-controller='MyController' style="color: #fafafa; font-size: 17px;" class="button bar-positive ion-ios-search disable-user-behavior" ng-click="openModal('slide-in-up','my-modal.html')">
+<a  style="color: #fafafa; font-size: 17px;" class="button bar-positive ion-ios-search disable-user-behavior" ng-click="openModal('slide-in-up','my-modal.html')">
         Buscar
       </a>
    </ion-nav-buttons> 
@@ -203,7 +209,7 @@
           <div id="container" ng-show='!cargandoPropuestas'>
           <div class="left-column" ng-repeat="subasta in subastas"  >
           <div class="infoBox">
-          <a class="feed-category" href="#/detail" transitiontype="fade"  go-native>
+          <a class="feed-category" href="#/detail/{{subasta.propuestaKey}}/{{subasta.nickPropone}}/{{subasta.pujaActual}}/{{subasta.tiempoRestante}}/{{subasta.descripcion}}" transitiontype="fade"  go-native>
           <pre-img ratio="_1_1" helper-class="square-image">
           <img class="category-image" ng-src="{{subasta.imgPropuesta}}" spinner-on-load>
 
@@ -262,65 +268,47 @@
         Ver pujas
       </a>
    </ion-nav-buttons> 
-
         <a ng-controller='MyController'ng-click="openModal('slide-in-up','my-modal-puja.html')" style="position: fixed; z-index: 3; bottom: 0px; width: 100%;" class="button botonSubasta disable-user-behavior" >
         Realizar puja
         </a>
-
       <ion-content style='background-color: rgb(234, 234, 234);'>
         <div style="height: 45px;"></div>
-
         <div style="position: absolute; width: 94%;" class="list card">
         <div class="item item-avatar">
-        <img src='img/user1.jpg'>
+        <img  ng-src="{{imgPropuesta}}">
         <img src='img/crown.png' class='crownI'> 
-        <h2>Maria</h2>
+        <h2>{{nickPropone}}</h2>
         <p>Conectado</p>
-
         </div>
-
-
-
         <div class="item item-body">
-
-
         <ion-slide-box>
-
         <ion-slide ng-repeat="page in pages"> 
-
-
         <div ng-if="slideVisible($index)" style="background-color:{{page.background}}">
         <h1 class="test-content">{{page.text}}</h1> 
         </div>
-
-
-
         </ion-slide>
-
         </ion-slide-box>
-
         </div>
         <div class="item item-body">
         <div>
         <div class="row"style="text-align: center;">
         <div class='col col-50'>
-        <a>34</a><img style="vertical-align: middle; height: 38px; width: 38px;" src="img/euro.png">
-        <br><span class='subti'>Puja mas alta</span>
+        <a>{{pujaActual}}</a><img style="vertical-align: middle; height: 38px; width: 38px;" src="img/euro.png">
+        <br><span class='subti'></span>
         </div>
         <div class='col col-50'>
-        <img style="vertical-align: middle; height: 38px; width: 38px;" src="img/time.png"><a>2h 34min</a>
-        <br><span class='subti'>Tiempo restante</span>
+        <img style="vertical-align: middle; height: 38px; width: 38px;" src="img/time.png"><a>{{tiempoRestante}}</a>
+        <br><span class='subti'></span>
         </div>
         </div>
         </div>
-
         <p>
         </p>
         </div>
         <div class="item item-body">
         <div>
-        <h2 style="margin-top: 0px;">Cena / Bebida</h2>
-        <p> Me ofrezco para cena en restaurante vegetariano o hindu, tu eliges</p>
+        <h2 style="margin-top: 0px;">{{categoria}}</h2>
+        <p>{{descripcion}}</p>
         </div>
         </div>
         <div class="item item-body">
@@ -330,14 +318,7 @@
         </div>
         <div style="height: 55px;"></div>
         </div>
-
-
-
-
-
         </div>
-
-      
       </ion-content>
     </ion-view>     
   </script>   
@@ -745,6 +726,51 @@
       </ion-view>
   </script> 
 
+<script id='register.html' type="text/ng-template">
+  <ion-view view-title="Register">
+  <ion-content class="padding-top">
+    <div class="text-center padding-top">
+      <i class="icon ion-android-person-add larger positive"></i>
+    </div>
+    <form name="registerForm" novalidate ng-submit="registerForm.$valid && register(user)"
+    ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
+    <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Email</span>
+        <input name="txtemail" type="email" ng-model="user.email" placeholder="Email"
+        ng-minlength="5"
+        ng-maxlength="30"
+        required>
+      </label>
+      <div class="form-errors" ng-messages="registerForm.txtemail.$error" ng-if="registerForm.$submitted">
+        <div class="form-error" ng-message="required">Debes ingresar algo como nombre@email.com.</div>
+        <div class="form-error" ng-message="email">Este espacio debe ser un email.</div>
+        <div class="form-error" ng-message="maxlength">Parece ser muy grande el correo.</div>
+      </div>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error-lr' : registerForm.txtpassword.$invalid  && registerForm.$submitted}">
+        <span class="input-label">Contrasena</span>
+        <input name="txtpassword" type="password" ng-model="user.password" placeholder="Password"
+        ng-minlength="5"
+        ng-maxlength="25"
+        required>
+      </label>
+      <div class="form-errors" ng-messages="registerForm.txtpassword.$error" ng-if="registerForm.$submitted">
+        <div class="form-error" ng-message="required">Debes ingresar una Contraseña.</div>
+        <div class="form-error" ng-message="minlength">Parece ser muy corta las Contraseña.</div>
+        <div class="form-error" ng-message="maxlength">Parece ser muy grande las Contraseña.</div>
+        <div class="form-error" ng-message="pattern">Debe ingresar solo caracteres letras y numeros.</div>
+      </div>
+    </div>
+    <div class="padding-top">
+      <input type="submit" value="Register" class="button button-block button-positive"/>
+    </div>
+  </form>
+  </ion-content>
+</ion-view>
+
+
+
+</script>
   <script id="mapaUsuario.html" type="text/ng-template">
       <ion-view title='Ubicacion'>		
 			<ion-content>
@@ -752,6 +778,72 @@
 			</ion-content>
       </ion-view>
   </script> 
+
+
+        <script id="login.html" type="text/ng-template">
+      <ion-view title=''  hide-nav-bar="true">    
+
+      <ion-content>
+ <!--             
+<button style='  margin-top: 200px; border-color: #2d5073;
+    background-color: #3b5998;
+    background-image: url(http://icons.iconarchive.com/icons/danleech/simple/512/facebook-icon.png);' ng-click='loginFacebook()'>LOGIN CON FACEBOOK</button>
+
+           <div class="list text-center padding">
+          
+                 <div style="text-align:center;">
+                  <img src="img/logo.jpg" width="100%" height="auto">
+                </div>
+          </div>-->
+          <form novalidate class='loginForm' name="loginForm" ng-submit="loginForm.$valid && signIn(user)">
+          <div class="list">
+            <label class="itemLogin item item-input item-floating-label" ng-class="{ 'has-error' : loginForm.txtemail.$invalid && loginForm.$submitted }" style="border: 1px solid gray;">
+             <i class="iconLogin icon ion-person placeholder-icon"></i>
+              <span class="input-label">Email</span>
+              <input name="txtemail" type="email" ng-model="user.email" placeholder="Email"
+              ng-minlength="5"
+              ng-maxlength="30"
+              required>
+            </label>
+            <!-- Edit this messages if you want -->
+            <div class="form-errors" ng-messages="loginForm.txtemail.$error" ng-if="loginForm.$submitted">
+              <div class="form-error" ng-message="required">Este campo es requerido</div>
+              <div class="form-error" ng-message="email">Este espacio debe ser un email</div>
+              <div class="form-error" ng-message="minlength">Al menos debe ser de 5 caracteres</div>
+              <div class="form-error" ng-message="maxlength">Debe ser menor a 30 carateres</div>
+            </div>
+            <label class="itemLogin item item-input item-floating-label" ng-class="{ 'has-error-lr' : loginForm.txtPassword.$invalid && loginForm.$submitted }" style="border: 1px solid gray;">
+               <i class="iconLogin icon ion-locked placeholder-icon"></i>
+              <span class="input-label">Contrasena</span>
+
+              <input name="txtPassword" type="password" ng-model="user.password" placeholder="Password"
+              ng-minlength="5"
+              ng-maxlength="30"
+              required>
+            </label>
+            <!-- Edit this messages if you want -->
+            <div class="form-err  ors" ng-messages="loginForm.txtPassword.$error" ng-if="loginForm.$submitted">
+            <div class="form-error" ng-message="required">Este campo es requerido</div>
+            <div class="form-error" ng-message="minlength">Al menos debe ser de 5 caracteres.</div>
+            <div class="form-error" ng-message="maxlength">Debe ser menor a 30 caracteres</div>
+            </div>
+          </div>
+           <div class="padding-top">
+    
+            <input style='border-color: darkmagenta;background-color: #ab47bc;color: #fff;'type="submit" class="button button-block button-positive" value="Acceso">
+              <input type="submit" class=" faceBtn button button-block button-positive" value="Login con Facebook">
+           <p class="text-center padding-top">
+                <a style='color:#666 !important' ng-click='forgot()' class="button button-clear button-positive">Olvido?</a><a style='color:#666 !important' href='#/register' transitiontype="fade" go-native class="button button-clear button-positive">Registrarse</a>
+
+          </div>
+
+   
+        </form>    
+      </ion-content>
+      </ion-view>
+  </script>
+
+
 
         <script id="paypal.html" type="text/ng-template">
       <ion-view title='Cuenta PayPal'>		
