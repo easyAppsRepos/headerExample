@@ -103,12 +103,8 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ListCtrl'
     })   
       ;
- if(localStorage.getItem('ngStorage-user')=='[]'){
+
    $urlRouterProvider.otherwise("/login");
- }
-else{
-  $urlRouterProvider.otherwise("/");
-}
  
 });
  nameApp.constant('FURL', 'https://golddate.firebaseio.com/');
