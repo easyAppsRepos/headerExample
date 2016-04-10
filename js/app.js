@@ -103,9 +103,12 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ListCtrl'
     })   
       ;
- 
- 
-  $urlRouterProvider.otherwise("/login");
+ if(localStorage.getItem('ngStorage-user')=='[]'){
+   $urlRouterProvider.otherwise("/login");
+ }
+else{
+  $urlRouterProvider.otherwise("/");
+}
  
 });
  nameApp.constant('FURL', 'https://golddate.firebaseio.com/');
@@ -246,11 +249,36 @@ console.log("asdad22");
 }
 );
 
- 
+ nameApp.controller('userInfoCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+    $scope.userInfo={};
+
+    $scope.$on('userInfoBroad', function(event, args) {
+
+     $scope.userInfo.nombreUser  = args.userName;
+     $scope.userInfo.userPic  = args.userPic;
+    // do what you want to do
+});
+
+
+ if($localStorage.user[0]==undefined){
+ console.log("Cargando la puta info del user");
+ $scope.userInfo.userPic='img/user2.jpg'
+}else{console.log("CASI TE TENGO");}
+
+ });
+
+
 nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+     
+ 
+
+
      $ionicSideMenuDelegate.canDragContent(false);//no side menu
 $scope.forgot=function(){console.log($localStorage);}
-
+$localStorage = $localStorage.$default({
+  user: [],pruebaStorage: []
+});
+                 
 
   var ref = new Firebase(FURL);
 
@@ -260,6 +288,7 @@ $scope.forgot=function(){console.log($localStorage);}
 
       Auth.logout();
       $localStorage.$reset();
+
       $location.path("/login");
        $state.go('login');
 
@@ -282,22 +311,45 @@ $scope.forgot=function(){console.log($localStorage);}
         userkey = snapshot.key();
         var obj = $firebaseObject(ref.child('profile').child(userkey));
 
+ 
+
+
+
+
+
         obj.$loaded()
           .then(function(data) {
-            console.log(data === obj); // true
-            console.log(obj.email);
-            $localStorage.email = obj.email;
-            $localStorage.userkey = userkey;
 
+console.log("enpat");
+
+          //    $localStorage.pruebaStorage.push({idPropuesta:subasta.propuestaKey,
+        //      img:subasta.imgPropuesta});
+      //         console.log( $localStorage.pruebaStorage);
               Utils.hide();
+
+
+                  ref.child('app/userInfo/'+userkey).once("value", function(snap) {
+              console.log("userinfo");
+              console.log(snap.val());
+            $localStorage.user.push({email:snap.val().email,
+                                     name:snap.val().nombre,
+                                      photo:snap.val().userPic,
+                                      vip:snap.val().vip}); 
+
+                  $location.path('/');
+                  $state.go('list');
+            });
+
           //    $state.go('list');
        // $state.go('list', {}, { reload: true });
-  $location.path('/');
+
+       
           })
           .catch(function(error) {
             console.error("Error:", error);
           });
       });
+
 
       }, function(err) {
         Utils.hide();
@@ -377,6 +429,8 @@ $localStorage = $localStorage.$default({
  
 
 nameApp.controller('ListCtrl', function($scope, $localStorage, $ionicModal, $http, Movies, $state,$ionicSlideBoxDelegate, $ionicSideMenuDelegate, Navigation) {
+console.log("adasdas en MENU SIDE");
+
 
 
 $scope.chico = false;
@@ -779,14 +833,14 @@ if($scope.imgURI == undefined){
 
     });
 
-    nameApp.controller('dashboardCtrl', function($scope,$location,$cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
+    nameApp.controller('dashboardCtrl', function($scope, $rootScope,$location,$cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
 console.log("en dash");
 
-$localStorage = $localStorage.$default({
-  pruebaStorage: []
-});
+$rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
+                                        userPic:$localStorage.user[0].photo});
 
 
+console.log($localStorage);
   var ref = new Firebase(FURL);
 
 
@@ -1002,9 +1056,12 @@ $scope.subastas=[
  
         console.log(id);
         //console.log("added record with id " + id);
-
+        var name = profile.email.match(/^([^@]*)@/)[1];
         var refUserNew = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+id);
-        refUserNew.set({email:profile.email});
+        refUserNew.set({email:profile.email, 
+                        nombre:name, 
+                        userPic:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADaElEQVRoge2Wy2sTURSHbyOC3bhTqGhaWo0iFHci1cTMuWma2NxYaqKCgqLoP6BiQcUB0YhtKYhoNiIFcTRatZuZ7txIFyLuxNfCByq1vhDxUZvk58JGk5CmSebOjIsc+EE2597vmzk3dxirV73+jwoGg4uJaDfnfJiI7hPReyL6RUQoDuc85jTv3yKitUQ0MhvsLHkXDAYXOwre2dm5hIhSVUAX57pj8JzzEBF9MAGfy1NFUQb9fv86O+H3ElFaAnxBFEUxAoFAu9XwO4goKxs+Lz+IKG4JPBF1ENGUhfC5ZDnnu6TCh8PhhUT03Ab4XL4pirJGmgARDdgIn8u4FHiv19tk0+iUSti0ABGddggeRHTLFLyqqi4ieuOgwM9wOLzQzNP3yYbaszWA4WMhvLjcjVsnQwhwC8eIiI7KhoYhCjJ+bhO6Q7xc//GaBTjnt62ALs6z4W5s2zyrRO3fTET00Cro4kymIti/PVBq3XtmBD5bCV2c76MRHNnXWbA+5/ytGYGS3/gyoYuT0QXOHuzK3++HGQFboEslf28pAnZA1wXyC1rbsh09G9NOC+zs8WVwefnS6gWurrzxOrkaIuR3TECE/HidXA1oK6q/C6B5vkLz4MFgOwK8tMCj816c6nXjVK8bjy/4KoarpC/ACQ8G2wHNA2ieLzULQPNgNBEquUliixt9XU3o62pCItZcsUAlfaOJUA6+ZoGbfxcwAWKq75/AteoFrnhWQfN8Kifw+IIPiS1uJGLNeJLcWLFAxX1/4D/WdIj/vIW2ZdBWXIcRsf0QQ48AmidVM3yBiCEmbRcwxDvT4HkC4w4I3JUnoIsBBwT65QmMdXvtPwPR9fIEUvF50MWEffBiAqrqkibAGGPQxWEbBQ5KhWeMMaTijTDEq3IbZy62YHqAlU3mYstcAi9wx79AugBjjEGPxGCIbFmJS62YHmgoAd+AzKXWueCzMKK9lsD/kxAn5xqB7EgH0slFmB6aj+mh+UgnFyE70lHB+ERPWArPGGMAa4AhUtLnfkxcBViD5QKMMQZVdc28ibLjVGGyMKInbIMvENEjMejipYl/m5fQRY/t4AUSqXgjjMihqu4JXUxgLHoAqXijo/D5BVV1wRAbYIh+GGJ8RmgKhpia+X0XRvQM9Oh66ZdUvepVe/0G8Z+FcEFDCTMAAAAASUVORK5CYII=',
+                        vip:false});
     
         //
         profileRef.$indexFor(id); // returns location in the array

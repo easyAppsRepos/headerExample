@@ -52,14 +52,14 @@
      <ion-side-menu side="left" class="main-menu" expose-aside-when="large" >
 
     <ion-content>
-      <ion-list ng-controller='ListCtrl'>
-        <ion-item class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
+      <ion-list >
+        <ion-item ng-controller='userInfoCtrl' class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
           <div class="user-image-container">
             <pre-img ratio="_1_1" helper-class="rounded-image">
-              <img class="user-image" ng-src="img/user1.jpg" spinner-on-load>
+              <img class="user-image" ng-src="{{userInfo.userPic}}" spinner-on-load>
             </pre-img>
           </div>
-          <h2 class="greeting">Hola Maria</h2>
+          <h2 class="greeting">Hola {{userInfo.nombreUser}}</h2>
           <p class="message">Bienvenida</p>
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close href='#/misMensajes' transitiontype="fade" go-native>
