@@ -924,7 +924,7 @@ console.log(data.val());
           else{
           	console.log(actualizacion);
           	$scope.subastas[actualizacion].pujaActual = data.val().pujaActual;
-          	$scope.$apply();
+          	//$scope.$apply();
           }
         });
 
