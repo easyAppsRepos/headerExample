@@ -276,12 +276,8 @@ nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state,
      
  $scope.loginFace = function(){
 
-
-
-/*
      var ref = new Firebase("https://golddate.firebaseio.com");
-     ref.authWithOAuthRedirect("facebook", function(error, authData) {
-  //  ref.authWithOAuthPopup("facebook", function(error, authData) {
+    ref.authWithOAuthPopup("facebook", function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
         alert("Ups, ha ocurrido un error inesperado :c");
@@ -298,7 +294,6 @@ nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state,
 
       }
     });
-     */
 
  }
 
