@@ -25,9 +25,10 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
      .state('pujas', {
-      url: '/pujas',
+      cache:false,
+      url: '/pujas/:idPropuesta/:tiempoRestante/:pujaAlta',
       templateUrl: 'pujas.html',
-      controller: 'ListCtrl'
+      controller: 'pujasCtrl'
     })
           .state('filtros', {
       url: '/filtros',
@@ -356,9 +357,51 @@ console.log("enpat");
 
 });
 
-nameApp.controller('detailCtrl',function($scope,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
+nameApp.controller('pujasCtrl',function($scope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation)
+{
 
-///detail/:idPropuesta/:nombre/:pujaActual'
+var pujaKey=$stateParams.idPropuesta;
+$scope.tiempoR=$stateParams.tiempoRestante;
+$scope.pujaAlta=$stateParams.pujaAlta;
+console.log(pujaKey);
+$scope.pujas=[];
+  //$scope.pujas.push({nombreP:"sadasdasd3333",valorPuja:"as"});
+
+
+var refPujas = new Firebase("https://golddate.firebaseio.com/app/pujas/"+pujaKey);
+/*
+refPujas.orderByChild("valorPuja").on("child_added", function(snapshot) {
+
+ $scope.pujas.push({nombreP:snapshot.val().pujante,valorPuja:snapshot.val().valorPuja}); 
+ console.log($scope.pujas);
+ console.log(snapshot.val().pujante + " : " + snapshot.val().valorPuja);
+ //$scope.$apply();
+});
+*/
+
+refPujas.once("value", function(snap) {
+
+  console.log("terminadk");
+  var tamanoArrego=Object.keys(snap.val()).length;
+
+snap.forEach(function(item,index){
+
+
+   $scope.pujas.splice((tamanoArrego-index),0,{nombreP:item.val().pujante,
+                                               valorPuja:item.val().valorPuja});
+$scope.$applyAsync();
+  console.log(item.val());
+
+});
+
+});
+
+console.log("trayendo historial");
+
+
+
+});
+nameApp.controller('detailCtrl',function($scope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
 
 
 var fotoIndex;
@@ -611,23 +654,35 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
         }]);
 
 
-  nameApp.controller('MyController', function($scope, $ionicModal,$controller) {
+  nameApp.controller('MyController', function($scope,$ionicLoading, $localStorage,$ionicModal,$controller) {
 
   	angular.extend(this, $controller('detailCtrl', {$scope: $scope}));
 
   	$scope.agregarPuja=function(we){
 
+       $ionicLoading.show({
+      template: 'Cargando...'
+    });
+
   		console.log($scope.propuestaKey)
+      var refPuja=new Firebase('https://golddate.firebaseio.com/app');
   		var UpdatePuja = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+$scope.propuestaKey+'/pujaActual');
 		UpdatePuja.transaction(function(currentData) {
 			return $scope.inputSubasta;
 		}, function(error, committed, snapshot) {
 		if (error) {
 		console.log('Transaction failed abnormally!', error);
+     $ionicLoading.hide();
 		} else if (!committed) {
 		console.log('We aborted the transaction (because nothing).');
+     $ionicLoading.hide();
 		} else {
+                 refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
+                                          pujante:$localStorage.user[0].email,
+                                          fechaPuja:Date.now()});
+
 		console.log('puja actuzlizada');
+     $ionicLoading.hide();
 		}
 		console.log("puja", snapshot.val());
 		});
@@ -759,6 +814,7 @@ if($scope.imgURI == undefined){
         var ref = new Firebase('https://golddate.firebaseio.com/app');
  var lat;
  var long;
+
     var propuestaRef = ref.child('propuestas');
         var geoRef = ref.child('geo');
         var geoFire = new GeoFire(geoRef);
@@ -789,6 +845,9 @@ if($scope.imgURI == undefined){
         imgPropuesta:$scope.imgURI
         },function(){
 
+           ref.child('pujas/'+pKey.key()).push({valorPuja:$scope.propuesta.precio,
+                                          pujante:'primerPuja',
+                                          fechaPuja:Date.now()});
 
             geoFire.set(pKey.key(), [lat, long]).then(function() {
             console.log("ID:"+ pKey.key() + ": setiado en pos: [" + lat + "," + long + "]");
@@ -924,6 +983,7 @@ console.log(data.val());
           else{
           	console.log(actualizacion);
           	$scope.subastas[actualizacion].pujaActual = data.val().pujaActual;
+              $scope.$applyAsync();
           	//$scope.$apply();
           }
         });

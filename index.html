@@ -264,7 +264,7 @@
     <script id="detail.html" type="text/ng-template">
     <ion-view view-title=""> 
      <ion-nav-buttons side="right">
-<a style="color: white; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior" href="#/pujas" transitiontype="fade"  go-native="">
+<a style="color: white; border: 1px solid ! important; font-size: 15px;" class="button bar-positive ion-eye disable-user-behavior"  href="#/pujas/{{propuestaKey}}/{{tiempoRestante}}/{{pujaActual}}" transitiontype="fade"  go-native="">
         Ver pujas
       </a>
    </ion-nav-buttons> 
@@ -334,11 +334,11 @@
             <div class='item item-body'>
                       <div class="row"style="text-align: center;">
         <div class='col col-50'>
-        <a>34</a><img style="vertical-align: middle; height: 38px; width: 38px;" src="img/euro.png">
+        <a>{{pujaAlta}}</a><img style="vertical-align: middle; height: 38px; width: 38px;" src="img/euro.png">
         <br><span class='subti'>Puja mas alta</span>
         </div>
-        <div class='col col-50'>
-        <img style="vertical-align: middle; height: 38px; width: 38px;" src="img/time.png"><a>2h 34min</a>
+        <div  class='col col-50'>
+        <img style="vertical-align: middle; height: 38px; width: 38px;" src="img/time.png"><a>{{tiempoR}}</a>
         <br><span class='subti'>Tiempo restante</span>
         </div>
         </div>
@@ -349,33 +349,13 @@
           <div style="text-align: center;">
             <img style="height: 26px; width: 26px;" class="" src="img/flag.png"><h2 style="color: rgb(68, 68, 68); text-align: center; display: inline-block; margin-left: 8px; margin-top: 0px ! important;">Historial de pujas</h2></div>
           <div class="list"  style="padding-top: 14px;" >
-          <div class="item">
+          <div ng-controller='detailCtrl' class="item" ng-repeat="puja in pujas">
 
           <img class='numbers' src='img/1.png'>
-          <a>Alvaro Ochoa</a>
-          <a class='pujasE'>34€</a>
+          <a>{{puja.nombreP}}</a>
+          <a class='pujasE'>{{puja.valorPuja}}€</a>
           </div>
-          <div class="item">
-          <img class='numbers' src='img/2.png'>
-          <a>David Garcia</a>
-          <a class='pujasE'>23€</a>
-          </div>
-          <div class="item">
-          <img class='numbers' src='img/3.png'>
-          <a>Santiago G.</a>
-          <a class='pujasE'>15€</a>
-          </div>  
-          <div class="item">
-          <img class='numbers' src='img/4.png'>
-          <a>Alvaro Ochoa</a>
-          <a class='pujasE'>10€</a>
-          </div>  
-
-                    <div class="item">
-          <img class='numbers' src='img/3.png'>
-          <a>Santiago G.</a>
-          <a class='pujasE'>5€</a>
-          </div>    
+        
 
           </div>
 
