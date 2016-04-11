@@ -263,18 +263,39 @@ console.log("asdad22");
     // do what you want to do
 });
 
-
+/*
  if($localStorage.user[0]==undefined){
  console.log("Cargando la puta info del user");
  $scope.userInfo.userPic='img/user2.jpg'
 }else{console.log("CASI TE TENGO");}
 
  });
-
-
+*/
+});
 nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
      
- 
+ $scope.loginFace = function(){
+
+     var ref = new Firebase("https://golddate.firebaseio.com");
+    ref.authWithOAuthPopup("facebook", function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+        alert("Ups, ha ocurrido un error inesperado :c");
+      } else {
+        console.log("Authenticated successfully with payload:", authData);
+                   $localStorage.user.push({email:authData.facebook.email,
+                                     name:authData.facebook.displayName,
+                                      photo:authData.facebook.profileImageURL,
+                                      vip:false}); 
+
+                  $location.path('/');
+                  $state.go('list');
+
+
+      }
+    });
+
+ }
 
 
      $ionicSideMenuDelegate.canDragContent(false);//no side menu
@@ -335,6 +356,9 @@ console.log("enpat");
                   ref.child('app/userInfo/'+userkey).once("value", function(snap) {
               console.log("userinfo");
               console.log(snap.val());
+              $localStorage = $localStorage.$default({
+  user: [],pruebaStorage: []
+});
             $localStorage.user.push({email:snap.val().email,
                                      name:snap.val().nombre,
                                       photo:snap.val().userPic,

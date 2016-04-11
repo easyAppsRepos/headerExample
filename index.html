@@ -83,12 +83,17 @@
           <i class="icon ion-ios-toggle"></i>
           <h2 class="menu-text">Filtros VIP</h2>
         </ion-item>
+                <ion-item class="item-icon-left" nav-clear menu-close href='#/filtrosVIP' transitiontype="fade" go-native>
+          <i class="icon ion-android-share-alt"></i>
+
+          <h2 class="menu-text">Invita a tus amigos</h2>
+        </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close href='#/configuracion' transitiontype="fade" go-native>
           <i class="icon ion-gear-a"></i>
           <h2 class="menu-text">Configuracion</h2>
         </ion-item>
-          <ion-item ng-controller='loginCtrl' ng-click='logout()' class="item-icon-left" nav-clear menu-close transitiontype="fade" go-native>
-          <i class="icon ion-gear-a"></i>
+          <ion-item ng-controller='loginCtrl' ng-click='logout()' href='' class="item-icon-left" nav-clear menu-close transitiontype="fade" go-native>
+          <i class="icon ion-log-out"></i>
           <h2 class="menu-text">Cerra sesion</h2>
         </ion-item>
 
@@ -193,13 +198,14 @@
 
 
         <div style="position: fixed; background-color: white; height: 32px; width: 75%; z-index: 5; border: 1px solid lightgray; color: rgb(102, 102, 102); border-radius: 10px; margin-top: 49px; opacity: 0.95; text-align: center; line-height: 2; margin-left: 12.5%;" class="geoBar"><i style="color: lightcoral ! important;" class="ion-ios-location"></i><a style="margin-left: 9px;" class="">Subastas a 1km de distancia</a></div>
-
+  <a href='#/modalNewP' class='fabButton'>+</a>
 
       <ion-content style='background-color: rgb(234, 234, 234);'>
 <ion-refresher
     pulling-text="Arrastra para actualizar..."
     on-refresh="cargarDatos()">
   </ion-refresher>
+
 
        <div style="height: 75px"></div>
           <div style="text-align: center; margin-top: 80px; font-size: 18px; color: rgb(102, 102, 102);" ng-show="cargandoPropuestas">
@@ -811,7 +817,7 @@
            <div class="padding-top">
     
             <input style='border-color: darkmagenta;background-color: #ab47bc;color: #fff;'type="submit" class="button button-block button-positive" value="Acceso">
-              <input type="submit" class=" faceBtn button button-block button-positive" value="Login con Facebook">
+              <div  ng-click='loginFace()'class=" faceBtn button button-block button-positive"><p style="font-size: 16px;margin-top: 8px;">Login con Facebook</p></div>
            <p class="text-center padding-top">
                 <a style='color:#666 !important' ng-click='forgot()' class="button button-clear button-positive">Olvido?</a><a style='color:#666 !important' href='#/register' transitiontype="fade" go-native class="button button-clear button-positive">Registrarse</a>
 
@@ -873,7 +879,7 @@
 
     <script id="modalNewP.html" type="text/ng-template">
 
-          <ion-view title='Crear Propuesta'>		
+          <ion-view title='Crear Propuesta' hide-back-button='true'>		
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
@@ -888,7 +894,8 @@
          <div style="height: 45px"></div>
          <div class='formA'>
             <div>
-            <div>
+            <div style="text-align: center;">
+            <p style="color: rgb(161, 130, 214); margin-top: 17px; font-size: 17px; font-weight: bold;">Envianos tu mejor Selfie y tu mejor pose</p>
             <img src='img/camera.png' ng-click='selectPicture()'>
             </div>
             <div>
@@ -912,14 +919,18 @@
                
 		           <ion-checkbox class='itemForms' ng-model="propuesta.chico" style='color: #666;font-size: 14px;'>Chico</ion-checkbox>
   					<ion-checkbox class='itemForms' ng-model="propuesta.chica" style='color: #666;font-size: 14px;'>Chica</ion-checkbox>
+                <ion-checkbox class='itemForms' ng-model="propuesta.indiferente" style='color: #666;font-size: 14px;'>Indiferente</ion-checkbox>
 		           </label>
 
 
             <label style='margin-top: 15px' class="borderBot item itemForms item-input item-select">
             <div class="input-label">
-            Dias en subasta
+            Tiempo en Subasta
             </div>
             <select ng-model='propuesta.diasEnSubasta' class='itemForms' >
+            <option value='10800000' selected>3 horas</option>
+            <option value='21600000' selected>6 horas</option>
+            <option value='43200000' selected>12 horas</option>
             <option value='86400000' selected>1 dia</option>
             <option value='259200000' >Menos de 3 dias</option>
             <option value='432000000' >Hasta 5 dias</option>
