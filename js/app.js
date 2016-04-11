@@ -278,9 +278,9 @@ nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state,
 
 
 
-
+/*
      var ref = new Firebase("https://golddate.firebaseio.com");
-     ref.authWithOAuthPopup("facebook", function(error, authData) {
+     ref.authWithOAuthRedirect("facebook", function(error, authData) {
   //  ref.authWithOAuthPopup("facebook", function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
@@ -298,7 +298,7 @@ nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state,
 
       }
     });
-     
+     */
 
  }
 
