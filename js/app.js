@@ -276,8 +276,27 @@ nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state,
      
  $scope.loginFace = function(){
 
+      var ref = new Firebase("https://golddate.firebaseio.com");
+    ref.authWithOAuthRedirect("facebook", function(error) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        // We'll never get here, as the page will redirect on success.
+          $localStorage.user.push({email:authData.facebook.email,
+                                     name:authData.facebook.displayName,
+                                      photo:authData.facebook.profileImageURL,
+                                      vip:false}); 
+
+                  $location.path('/');
+                  $state.go('list');
+
+      }
+    });
+
+/*
      var ref = new Firebase("https://golddate.firebaseio.com");
-    ref.authWithOAuthPopup("facebook", function(error, authData) {
+     ref.authWithOAuthRedirect("facebook", function(error, authData) {
+  //  ref.authWithOAuthPopup("facebook", function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
         alert("Ups, ha ocurrido un error inesperado :c");
@@ -294,6 +313,7 @@ nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state,
 
       }
     });
+     */
 
  }
 
