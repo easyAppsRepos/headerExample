@@ -106,8 +106,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       ;
 
 
-console.log(localStorage.getItem('ngStorage-user').length);
-if(localStorage.getItem('ngStorage-user').length>5){
+if(localStorage.getItem('ngStorage-user') !== null && localStorage.getItem('ngStorage-user').length>5){
 
     $urlRouterProvider.otherwise("/");
 }
