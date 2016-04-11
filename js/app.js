@@ -105,8 +105,16 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })   
       ;
 
-   $urlRouterProvider.otherwise("/login");
- 
+
+console.log(localStorage.getItem('ngStorage-user').length);
+if(localStorage.getItem('ngStorage-user').length>5){
+
+    $urlRouterProvider.otherwise("/");
+}
+else{
+  // $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/login");
+}
 });
  nameApp.constant('FURL', 'https://golddate.firebaseio.com/');
 nameApp.run(function($ionicPlatform) {
