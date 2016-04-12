@@ -319,9 +319,6 @@ $localStorage = $localStorage.$default({
       //$localStorage.$reset();
 $localStorage.user=[];
 $localStorage.pruebaStorage=[];
-      $location.path("/login");
-       $state.go('login');
-
   }
 
 
