@@ -50,6 +50,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
       .state('miPerfil', {
+        cache:false,
       url: '/miPerfil',
       templateUrl: 'miPerfil.html',
       controller: 'miPerfilCtrl'
