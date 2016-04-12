@@ -117,6 +117,7 @@ else{
 });
  nameApp.constant('FURL', 'https://golddate.firebaseio.com/');
 nameApp.run(function($ionicPlatform) {
+  
   $ionicPlatform.ready(function() {
 
 
@@ -393,7 +394,7 @@ $rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
 
 });
 
-nameApp.controller('pujasCtrl',function($scope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation)
+nameApp.controller('pujasCtrl',function($scope,$rootScope,$ionicHistory,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation)
 {
 
 var pujaKey=$stateParams.idPropuesta;
@@ -414,7 +415,7 @@ refPujas.orderByChild("valorPuja").on("child_added", function(snapshot) {
  //$scope.$apply();
 });
 */
-
+var ij=0;
 refPujas.once("value", function(snap) {
 
   console.log("terminadk");
@@ -424,7 +425,9 @@ snap.forEach(function(item,index){
 
 
    $scope.pujas.splice((tamanoArrego-index),0,{nombreP:item.val().pujante,
-                                               valorPuja:item.val().valorPuja});
+                                               valorPuja:item.val().valorPuja,
+                                                posicion:tamanoArrego-ij});
+   ij++;
 $scope.$applyAsync();
   console.log(item.val());
 
@@ -439,9 +442,13 @@ console.log("trayendo historial");
 });
 nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
 
+
+
+
     $scope.$on('actualizarPuja', function(event, args) {
 
      $scope.pujaActual  = args.puja;
+
       console.log(args.puja);
 });
 
@@ -701,42 +708,48 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
 
   	angular.extend(this, $controller('detailCtrl', {$scope: $scope}));
 
+
+
   	$scope.agregarPuja=function(we){
 
+//if($scope.pujaActual==undefined){console.log("aqui estoy 33")}
+ if(($scope.inputSubasta)<=parseInt($scope.pujaActual) || $scope.inputSubasta == undefined){alert("Tu puja debe ser mayor")}
+  else{
+         $ionicLoading.show({
+        template: 'Cargando...'
+      });
+  
+        console.log($scope.propuestaKey)
+        var refPuja=new Firebase('https://golddate.firebaseio.com/app');
+        var UpdatePuja = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+$scope.propuestaKey+'/pujaActual');
+      UpdatePuja.transaction(function(currentData) {
+        return $scope.inputSubasta;
+      }, function(error, committed, snapshot) {
+      if (error) {
+      console.log('Transaction failed abnormally!', error);
+       $ionicLoading.hide();
+      } else if (!committed) {
+      console.log('We aborted the transaction (because nothing).');
+       $ionicLoading.hide();
+      } else {
+                   refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
+                                            pujante:$localStorage.user[0].email,
+                                            fechaPuja:Date.now()});
+                   $rootScope.$broadcast('actualizarPuja', {puja:$scope.inputSubasta});
+                   $scope.pujaActual=$scope.inputSubasta;
 
-       $ionicLoading.show({
-      template: 'Cargando...'
-    });
-
-  		console.log($scope.propuestaKey)
-      var refPuja=new Firebase('https://golddate.firebaseio.com/app');
-  		var UpdatePuja = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+$scope.propuestaKey+'/pujaActual');
-		UpdatePuja.transaction(function(currentData) {
-			return $scope.inputSubasta;
-		}, function(error, committed, snapshot) {
-		if (error) {
-		console.log('Transaction failed abnormally!', error);
-     $ionicLoading.hide();
-		} else if (!committed) {
-		console.log('We aborted the transaction (because nothing).');
-     $ionicLoading.hide();
-		} else {
-                 refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
-                                          pujante:$localStorage.user[0].email,
-                                          fechaPuja:Date.now()});
-                 $rootScope.$broadcast('actualizarPuja', {puja:$scope.inputSubasta});
-
-
-		console.log('puja actuzlizada');
-
-
-     $ionicLoading.hide();
-		}
-		console.log("puja", snapshot.val());
-		});
-
-
-  	}
+  
+  
+      console.log('puja actuzlizada');
+  
+  
+       $ionicLoading.hide();
+      }
+      console.log("puja", snapshot.val());
+      });
+  
+  
+      }}
 
 
   $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
@@ -744,7 +757,9 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
 $scope.inputSubasta= parseInt($scope.pujaActual);
 $scope.subirPuja=function(){$scope.inputSubasta=$scope.inputSubasta+1};
 $scope.bajarPuja=function(){
-  $scope.inputSubasta=$scope.inputSubasta-1;
+  if(($scope.inputSubasta-1)<parseInt($scope.pujaActual)){$scope.inputSubasta=parseInt($scope.pujaActual)}
+   else{ 
+     $scope.inputSubasta=$scope.inputSubasta-1;}
   //$scope.pujaActual=200;
 }
 
@@ -757,6 +772,7 @@ $scope.categoriaSeleccionada=cat;
 }
 
   $scope.openModal = function(animation, modalHtml) {
+   
     $ionicModal.fromTemplateUrl(modalHtml, {
       scope: $scope,
       animation: animation
