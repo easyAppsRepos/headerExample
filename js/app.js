@@ -312,8 +312,9 @@ $localStorage = $localStorage.$default({
   $scope.logout = function () {
 
       Auth.logout();
-      $localStorage.$reset();
-
+      //$localStorage.$reset();
+$localStorage.user=[];
+$localStorage.pruebaStorage=[];
       $location.path("/login");
        $state.go('login');
 
