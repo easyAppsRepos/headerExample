@@ -52,7 +52,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       .state('miPerfil', {
       url: '/miPerfil',
       templateUrl: 'miPerfil.html',
-      controller: 'ListCtrl'
+      controller: 'miPerfilCtrl'
     })
 
             .state('filtrosVIP', {
@@ -264,7 +264,9 @@ console.log("asdad22");
     // do what you want to do
 });
 
-/*
+
+
+/*miPerfilCtrl
  if($localStorage.user[0]==undefined){
  console.log("Cargando la puta info del user");
  $scope.userInfo.userPic='img/user2.jpg'
@@ -273,6 +275,15 @@ console.log("asdad22");
  });
 */
 });
+
+ nameApp.controller('miPerfilCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+ 
+
+     $scope.nombreUsuario=$localStorage.user[0].name;
+    $scope.fotoUsuario=$localStorage.user[0].photo;
+
+});
+
 nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
      
  $scope.loginFace = function(){
@@ -443,7 +454,99 @@ console.log("trayendo historial");
 nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
 
 
+//des
 
+    $scope.agregarPuja=function(we){
+
+//if($scope.pujaActual==undefined){console.log("aqui estoy 33")}
+ if(($scope.inputSubasta)<=parseInt($scope.pujaActual) || $scope.inputSubasta == undefined){alert("Tu puja debe ser mayor")}
+  else{
+         $ionicLoading.show({
+        template: 'Cargando...'
+      });
+  
+        console.log($scope.propuestaKey)
+        var refPuja=new Firebase('https://golddate.firebaseio.com/app');
+        var UpdatePuja = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+$scope.propuestaKey+'/pujaActual');
+      UpdatePuja.transaction(function(currentData) {
+        return $scope.inputSubasta;
+      }, function(error, committed, snapshot) {
+      if (error) {
+      console.log('Transaction failed abnormally!', error);
+       $ionicLoading.hide();
+      } else if (!committed) {
+      console.log('We aborted the transaction (because nothing).');
+       $ionicLoading.hide();
+      } else {
+                   refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
+                                            pujante:$localStorage.user[0].email,
+                                            fechaPuja:Date.now()});
+                   $rootScope.$broadcast('actualizarPuja', {puja:$scope.inputSubasta});
+                   $scope.pujaActual=$scope.inputSubasta;
+
+  
+  
+      console.log('puja actuzlizada');
+  
+  
+       $ionicLoading.hide();
+      }
+      console.log("puja", snapshot.val());
+      });
+  
+  
+      }}
+
+
+
+
+
+  $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
+
+$scope.inputSubasta= parseInt($scope.pujaActual);
+$scope.subirPuja=function(){$scope.inputSubasta=$scope.inputSubasta+1};
+$scope.bajarPuja=function(){
+  if(($scope.inputSubasta-1)<parseInt($scope.pujaActual)){$scope.inputSubasta=parseInt($scope.pujaActual)}
+   else{ 
+     $scope.inputSubasta=$scope.inputSubasta-1;}
+  //$scope.pujaActual=200;
+}
+
+
+
+
+  $scope.openModal = function(animation, modalHtml) {
+   
+    $ionicModal.fromTemplateUrl(modalHtml, {
+      scope: $scope,
+      animation: animation
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    });
+  };
+
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+     $scope.modal.remove();
+
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+ console.log("destruyendo modal");
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+  
+
+//des
 
     $scope.$on('actualizarPuja', function(event, args) {
 
@@ -772,7 +875,7 @@ $scope.categoriaSeleccionada=cat;
 }
 
   $scope.openModal = function(animation, modalHtml) {
-   
+
     $ionicModal.fromTemplateUrl(modalHtml, {
       scope: $scope,
       animation: animation
