@@ -288,7 +288,7 @@ nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDeleg
                                       photo:authData.facebook.profileImageURL,
                                       vip:false}); 
 
-                   
+
 $rootScope.$broadcast('userInfoBroad', {userName:authData.facebook.displayName,
                                         userPic:authData.facebook.profileImageURL});
 
@@ -297,7 +297,7 @@ $rootScope.$broadcast('userInfoBroad', {userName:authData.facebook.displayName,
 
 
       }
-    });
+    },{scope:"email"});
 
  }
 
@@ -440,7 +440,14 @@ console.log("trayendo historial");
 
 
 });
-nameApp.controller('detailCtrl',function($scope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
+nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
+
+    $scope.$on('actualizarPuja', function(event, args) {
+
+     $scope.pujaActual  = args.puja;
+      console.log(args.puja);
+});
+
 
 
 var fotoIndex;
@@ -693,11 +700,12 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
         }]);
 
 
-  nameApp.controller('MyController', function($scope,$ionicLoading, $localStorage,$ionicModal,$controller) {
+  nameApp.controller('MyController', function($scope,$rootScope,$ionicLoading, $localStorage,$ionicModal,$controller) {
 
   	angular.extend(this, $controller('detailCtrl', {$scope: $scope}));
 
   	$scope.agregarPuja=function(we){
+
 
        $ionicLoading.show({
       template: 'Cargando...'
@@ -719,8 +727,12 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
                  refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
                                           pujante:$localStorage.user[0].email,
                                           fechaPuja:Date.now()});
+                 $rootScope.$broadcast('actualizarPuja', {puja:$scope.inputSubasta});
+
 
 		console.log('puja actuzlizada');
+
+
      $ionicLoading.hide();
 		}
 		console.log("puja", snapshot.val());
@@ -732,9 +744,12 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
 
   $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
 
-$scope.inputSubasta=34;
+$scope.inputSubasta= parseInt($scope.pujaActual);
 $scope.subirPuja=function(){$scope.inputSubasta=$scope.inputSubasta+1};
-$scope.bajarPuja=function(){$scope.inputSubasta=$scope.inputSubasta-1};
+$scope.bajarPuja=function(){
+  $scope.inputSubasta=$scope.inputSubasta-1;
+  //$scope.pujaActual=200;
+}
 
 $scope.categoriaSeleccionada='Seleccionar categoria';
 
@@ -774,7 +789,7 @@ $scope.categoriaSeleccionada=cat;
   });
 });
 
-    nameApp.controller('crearPropuestaCtrl', function($scope, $timeout, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal) {
+    nameApp.controller('crearPropuestaCtrl', function($scope, $localStorage, $timeout, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal) {
 //color #6239AB
 $scope.propuesta = {};
 $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
@@ -878,8 +893,8 @@ if($scope.imgURI == undefined){
         tipo: $scope.propuesta.tipo,
         estado: true,
         pujaActual:$scope.propuesta.precio,
-        idPropone: 'maria@golddate.com',
-        nickPropone:'Maria',
+        idPropone: $localStorage.user[0].email,
+        nickPropone:$localStorage.user[0].name,
         vip:true,
         imgPropuesta:$scope.imgURI
         },function(){
@@ -929,6 +944,13 @@ if($scope.imgURI == undefined){
 
     nameApp.controller('dashboardCtrl', function($scope, $rootScope,$location,$cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
 console.log("en dash");
+
+
+
+
+$rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
+                                        userPic:$localStorage.user[0].photo});
+
 
 
 
