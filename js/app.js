@@ -272,7 +272,7 @@ console.log("asdad22");
  });
 */
 });
-nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
      
  $scope.loginFace = function(){
 
@@ -287,6 +287,10 @@ nameApp.controller('loginCtrl', function ($scope,$ionicSideMenuDelegate, $state,
                                      name:authData.facebook.displayName,
                                       photo:authData.facebook.profileImageURL,
                                       vip:false}); 
+
+                   
+$rootScope.$broadcast('userInfoBroad', {userName:authData.facebook.displayName,
+                                        userPic:authData.facebook.profileImageURL});
 
                   $location.path('/');
                   $state.go('list');
@@ -364,6 +368,9 @@ console.log("enpat");
                                      name:snap.val().nombre,
                                       photo:snap.val().userPic,
                                       vip:snap.val().vip}); 
+
+$rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
+                                        userPic:snap.val().userPic});
 
                   $location.path('/');
                   $state.go('list');
@@ -923,8 +930,6 @@ if($scope.imgURI == undefined){
     nameApp.controller('dashboardCtrl', function($scope, $rootScope,$location,$cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
 console.log("en dash");
 
-$rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
-                                        userPic:$localStorage.user[0].photo});
 
 
 console.log($localStorage);
