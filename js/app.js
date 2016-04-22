@@ -1,5 +1,5 @@
 var map;
-var nameApp = angular.module('starter', ['ionic','ngCordova','ngStorage','angularGeoFire','firebase','ngMessages']);
+var nameApp = angular.module('starter', ['ionic','ngCordova','ngStorage','angularGeoFire','firebase','ngMessages','ion-gallery']);
  
 nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
  
@@ -80,6 +80,13 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       url: '/mapaUsuario',
       templateUrl: 'mapaUsuario.html',
       controller: 'GeolocationCtrl'
+    })
+
+
+ .state('fotosUsuario;', {
+      url: '/fotosUsuario',
+      templateUrl: 'fotosUsuario.html',
+      controller: 'fotosUsuarioCtrl'
     })
 
 
@@ -374,7 +381,8 @@ console.log("enpat");
               $localStorage = $localStorage.$default({
   user: [],pruebaStorage: []
 });
-            $localStorage.user.push({email:snap.val().email,
+            $localStorage.user.push({ uid:userkey,
+                                      email:snap.val().email,
                                      name:snap.val().nombre,
                                       photo:snap.val().userPic,
                                       vip:snap.val().vip}); 
@@ -1208,6 +1216,89 @@ $scope.subastas=[
 */
 });
 
+ nameApp.controller('fotosUsuarioCtrl', function($scope, $cordovaCamera, $ionicPopup, $ionicLoading,$localStorage, FotosUsuario) {
+
+
+
+    $scope.takePhoto = function () {
+   var isOnline = true;
+   if(isOnline){
+
+    var options = {
+      quality: 100,
+      //destinationType: Camera.DestinationType.DATA_URL,
+      destinationType: Camera.DestinationType.FILE_URI,
+      correctOrientation: true,
+ sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth:  500,
+      targetHeight: 500,
+      popoverOptions: CameraPopoverOptions
+  };
+
+      $cordovaCamera.getPicture(options).then(function (imageData) {
+      //    $scope.imgURI = "data:image/jpeg;base64," + imageData;
+     // $scope.imgURI=imageData;
+      var idUser = $localStorage.user[0].uid;
+
+      FotosUsuario.addFoto(idUser,imageData).then(function(data){
+    console.log(data);
+      });
+
+      console.log("idasidasdo");
+
+      }, function (err) {
+              console.log("En error");
+                console.log(err);
+       });
+      } else{
+                    $ionicPopup.alert({
+              title: 'Error',
+              content: 'Es necesaria conexión a internet'
+            }).then(function(res) {
+              console.log('necesaria conexion ainternet');
+            });
+      }
+
+    
+  }
+
+console.log($localStorage);
+
+
+var idUser = $localStorage.user[0].uid;
+  FotosUsuario.getFotos(idUser).then(function(data){
+  console.log(data);
+});
+
+  $scope.addPhoto = function(){
+
+      FotosUsuario.addFoto(idUser,imagen).then(function(data){
+    console.log(data);
+      });
+  }
+
+
+$scope.items = [
+  {
+    src:'http://www.wired.com/images_blogs/rawfile/2013/11/offset_WaterHouseMarineImages_62652-2-660x440.jpg',
+    sub: 'This is a <b>subtitle</b>'
+  },
+  {
+    src:'http://www.gettyimages.co.uk/CMS/StaticContent/1391099215267_hero2.jpg',
+    sub: '' /* Not showed */
+  },
+  {
+    src:'http://www.gettyimages.co.uk/CMS/StaticContent/1391099215267_hero2.jpg',
+    thumb:'http://www.gettyimages.co.uk/CMS/StaticContent/1391099215267_hero2.jpg'
+  }
+]
+
+
+
+ });
+
     nameApp.controller('GeolocationCtrl', function($scope, $ionicLoading, $cordovaGeolocation) {
     	
 
@@ -1423,4 +1514,38 @@ nameApp.factory('Utils', function($ionicLoading,$ionicPopup) {
 
   return Utils;
 
+});
+
+nameApp.factory('FotosUsuario', function($http, $q) {
+return {
+
+  getFotos:function(idUser){
+
+var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
+     var defer = $q.defer();
+     itemsRef.once("value", function(snapshot) {
+      //var nameSnapshot = snapshot.child("companyName");
+      //var name = nameSnapshot.val();
+      console.log(snapshot.val());
+      defer.resolve(snapshot.val()); //this does not return the data
+    });
+    return defer.promise;
+  
+
+  
+  },
+
+
+  addFoto:function(idUser,imagen){
+
+var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
+
+return  itemsRef.push({
+    src: imagen,
+    state: 1
+  });
+
+  
+  }
+}
 });

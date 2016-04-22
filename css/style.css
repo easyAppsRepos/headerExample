@@ -3,6 +3,10 @@
 height: 140px;
 
 }
+.bar-balance{
+  background-color: #4db6ac !important;
+  color:white !important;
+}
 .faceBtn{
 -moz-user-select: none !important;
 background: #2A49A5 !important;

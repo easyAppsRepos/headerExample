@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Security-Policy" content=" script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
     <title></title>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+     <link href="js/gallery/ion-gallery.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -18,8 +19,8 @@
 
 
 ]<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
- <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAzB2FNhXiXDe1TnKFMQyoZRASVehAKLvs&sensor=true"></script>
-<script type="text/javascript" src="js/gmaps.js"></script>
+ <script type="text/javascript"  src='http://maps.googleapis.com/maps/api/js?key=AIzaSyAzB2FNhXiXDe1TnKFMQyoZRASVehAKLvs&sensor=true"></script>
+<script type="text/javascript" src="js/gmaps.js'></script>
     <!-- cordova script (this will be a 404 during development) -->
 
 
@@ -28,7 +29,10 @@
 <script type="text/javascript" src="js/angularfire.min.js"></script>
 <script type="text/javascript" src="js/geofire.min.js"></script>
 <script type="text/javascript" src="js/angularGeoFire.min.js"></script>
-    <script src="lib/angular-messages/angular-messages.min.js"></script>
+
+<script type="text/javascript" src="js/gallery/ion-gallery.min.js"></script>
+   
+   <script src="lib/angular-messages/angular-messages.min.js"></script>
   <script type="text/javascript" src="lib/ngstorage/ngStorage.js"></script>
     <script type="text/javascript" src="js/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
@@ -468,7 +472,7 @@
 			<ion-nav-buttons side="right"  >
 			<a style="font-size: 27px;margin-right: 8px; color: white; background-color: #4db6ac; border:none"  class="button ion-ios-location disable-user-behavior" href="#/mapaUsuario" transitiontype="fade"  go-native></a>
 
-        <a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-ios-camera disable-user-behavior"></a>
+        <a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  href="#/fotosUsuario" class="button ion-ios-camera disable-user-behavior"></a>
 			</ion-nav-buttons>
 			
 
@@ -770,6 +774,28 @@
       </ion-view>
   </script> 
 
+    <script id="fotosUsuario.html" type="text/ng-template">
+
+      <ion-view title='Mis Fotos'> 
+  <ion-nav-buttons side="right">
+<a ng-click='takePhoto()' style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+        
+      </a>
+   </ion-nav-buttons> 
+
+          <ion-nav-bar  class='bar-balance'>
+  <ion-nav-back-button>
+  </ion-nav-back-button>
+    </ion-nav-bar>   
+
+      <ion-content>
+      <div style="height: 45px"></div>
+      <ion-gallery ion-gallery-items="items"></ion-gallery>
+      </ion-content>
+      </ion-view>
+  </script> 
+
+
 
         <script id="login.html" type="text/ng-template">
       <ion-view title=''  hide-nav-bar="true">    
@@ -824,7 +850,7 @@
             <input style='border-color: darkmagenta;background-color: #ab47bc;color: #fff;'type="submit" class="button button-block button-positive" value="Acceso">
               <div  ng-click='loginFace()'class=" faceBtn button button-block button-positive"><p style="font-size: 16px;margin-top: 8px;">Login con Facebook</p></div>
            <p class="text-center padding-top">
-                <a style='color:#666 !important' ng-click='forgot()' class="button button-clear button-positive">Olvido?</a><a style='color:#666 !important'  transitiontype="fade" go-native class="button button-clear button-positive">Registrarse</a>
+                <a style='color:#666 !important' ng-click='forgot()' class="button button-clear button-positive">Olvido?</a><a href='#/register' style='color:#666 !important'  transitiontype="fade" go-native class="button button-clear button-positive">Registrarse</a>
 
           </div>
 
