@@ -1217,7 +1217,7 @@ $scope.subastas=[
 });
 
  nameApp.controller('fotosUsuarioCtrl', function($scope, $cordovaCamera, $ionicPopup, $ionicLoading,$localStorage, FotosUsuario) {
-
+$scope.items = [];
 
 
     $scope.takePhoto = function () {
@@ -1227,7 +1227,7 @@ $scope.subastas=[
     var options = {
       quality: 100,
       //destinationType: Camera.DestinationType.DATA_URL,
-      destinationType: Camera.DestinationType.FILE_URI,
+      destinationType: Camera.DestinationType.DATA_URL,
       correctOrientation: true,
  sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
       allowEdit: false,
@@ -1269,6 +1269,12 @@ console.log($localStorage);
 
 var idUser = $localStorage.user[0].uid;
   FotosUsuario.getFotos(idUser).then(function(data){
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            // console.log(key + " -> " + data[key].src);
+            $scope.items.push({src:data[key].src, sub:'sub'});
+        }
+      }
   console.log(data);
 });
 
@@ -1279,7 +1285,7 @@ var idUser = $localStorage.user[0].uid;
       });
   }
 
-
+/*
 $scope.items = [
   {
     src:'http://www.wired.com/images_blogs/rawfile/2013/11/offset_WaterHouseMarineImages_62652-2-660x440.jpg',
@@ -1287,7 +1293,7 @@ $scope.items = [
   },
   {
     src:'http://www.gettyimages.co.uk/CMS/StaticContent/1391099215267_hero2.jpg',
-    sub: '' /* Not showed */
+    sub: '' 
   },
   {
     src:'http://www.gettyimages.co.uk/CMS/StaticContent/1391099215267_hero2.jpg',
@@ -1295,7 +1301,7 @@ $scope.items = [
   }
 ]
 
-
+/* Not showed */
 
  });
 
