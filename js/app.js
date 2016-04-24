@@ -1152,11 +1152,11 @@ if($scope.imgURI == undefined){
 
     });
 
-    nameApp.controller('dashboardCtrl', function($scope, $rootScope,$location,$cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
+    nameApp.controller('dashboardCtrl', function($scope, $rootScope,$location,$ionicSideMenuDelegate, $cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
 console.log("en dash");
 
 
-
+ $ionicSideMenuDelegate.canDragContent(true);
 
 $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
                                         userPic:$localStorage.user[0].photo});
