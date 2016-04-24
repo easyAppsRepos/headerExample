@@ -392,9 +392,7 @@ console.log("enpat");
         }
 
         console.log(pushState);
-     PushNoti.addPush(userkey,pushState).then(function(data){
-    console.log(data);
-      });
+     PushNoti.addPush(userkey,pushState);
   
 
         }else{console.log("nopushK");}
