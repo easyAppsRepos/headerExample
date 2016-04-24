@@ -337,10 +337,17 @@ $localStorage = $localStorage.$default({
 
   $scope.logout = function () {
 
+    var hopperRef= ref.child("app/push/"+$localStorage.user[0].uid+'/'+$localStorage.user[0].sessionPID);
+    hopperRef.update({
+      'logout': Date.now()
+    });
+
       Auth.logout();
       //$localStorage.$reset();
 $localStorage.user=[];
 $localStorage.pruebaStorage=[];
+
+
   }
 
 
@@ -392,7 +399,7 @@ console.log("enpat");
         }
 
         console.log(pushState);
-     PushNoti.addPush(userkey,pushState);
+     var sessionPID= PushNoti.addPush(userkey,pushState);
   
 
         }else{console.log("nopushK");}
@@ -404,6 +411,7 @@ console.log("enpat");
   user: [],pruebaStorage: []
 });
             $localStorage.user.push({ uid:userkey,
+                                      sessionPID:sessionPID,
                                       email:snap.val().email,
                                      name:snap.val().nombre,
                                       photo:snap.val().userPic,
@@ -1557,7 +1565,7 @@ return{
 
         addPush:function(idUser,pushArray){  
 
-            var onComplete = function(error) {
+    /*        var onComplete = function(error) {
   if (error) {
     console.log('Synchronization failed');
     return -1;
@@ -1566,10 +1574,11 @@ return{
     return 1;
   }
 };
-
+*/
 var pushRef = new Firebase('https://golddate.firebaseio.com/app/push/'+idUser);
 var newpushRef = pushRef.push();
-    newpushRef.set(pushArray,onComplete);
+    newpushRef.set(pushArray);
+    return newpushRef.key();
 
 //return  itemsRef.push(pushArray);
 
