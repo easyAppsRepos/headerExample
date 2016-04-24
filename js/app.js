@@ -375,7 +375,7 @@ $rootScope.$broadcast('userInfoBroad', {userName:authData.facebook.displayName,
  }
 
 
-     $ionicSideMenuDelegate.canDragContent(false);//no side menu
+    // $ionicSideMenuDelegate.canDragContent(false);//no side menu
 $scope.forgot=function(){console.log($localStorage);}
 $localStorage = $localStorage.$default({
   user: [],pruebaStorage: []
@@ -1156,7 +1156,6 @@ if($scope.imgURI == undefined){
 console.log("en dash");
 
 
- $ionicSideMenuDelegate.canDragContent(true);
 
 $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
                                         userPic:$localStorage.user[0].photo});
