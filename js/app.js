@@ -332,7 +332,8 @@ $scope.getNotificaciones = function(){
       }
    });
  }
-
+if($localStorage.user.length>0){
+$scope.getNotificaciones();}
 console.log("En mis Alergas");
 
 
