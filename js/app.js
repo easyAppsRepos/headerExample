@@ -333,7 +333,7 @@ $scope.getNotificaciones = function(){
    });
  }
 
-if($localStorage.user[0].uid){
+if(typeof $localStorage.user[0].uid !== 'undefined'){
 $scope.getNotificaciones();
 }
 console.log("En mis Alergas");
