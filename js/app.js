@@ -303,7 +303,7 @@ console.log("asdad22");
 
 
  nameApp.controller('misAlertasCtrl', function ($scope,$ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
- $scope.notificaciones={};
+ //$scope.notificaciones={};
 $scope.$on('pushNuevo', function(event, args) {
 $scope.getNotificaciones();
     // do what you want to do
