@@ -381,10 +381,10 @@ console.log("enpat");
         var pushKeyGD=  localStorage.getItem('pushKeyGD');
         var device= ionic.Platform.platform();
         var uuid=ionic.Platform.device().uuid;
-        var emailuser= credenciales.email;
+  
 
 
-        pushState = { 
+        var pushState = { 
         pushK:pushKeyGD, 
         device:device,
         deviceId:uuid,
