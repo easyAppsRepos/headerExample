@@ -107,6 +107,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'crearPropuestaCtrl'
     })   
             .state('misAlertas', {
+cache:false,
       url: '/misAlertas',
       templateUrl: 'misAlertas.html',
       controller: 'misAlertasCtrl'
@@ -302,7 +303,7 @@ console.log("asdad22");
 
 
  nameApp.controller('misAlertasCtrl', function ($scope,$ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
- 
+ $scope.notificaciones={};
 $scope.$on('pushNuevo', function(event, args) {
 $scope.getNotificaciones();
     // do what you want to do
@@ -315,17 +316,26 @@ $scope.getNotificaciones = function(){
 
    PushNoti.getNotificaciones($localStorage.user[0].uid).then(function(data){
       console.log(data);
-      $scope.notificaciones=data;
+      
+
       if(data!==null && typeof data !== 'undefined'){
+        $scope.noAlertas=false;
+        $scope.notificaciones=data;
         console.log('asda');
+
             $scope.iconNoti=Object.keys(data).length;
+      }
+      else{
+
+        $scope.iconNoti=0;
+        $scope.noAlertas=true;
       }
    });
  }
 
-
-console.log("En mis Alergas");
 $scope.getNotificaciones();
+console.log("En mis Alergas");
+
 
 });
 
@@ -461,6 +471,7 @@ console.log("enpat");
 
 $rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
                                         userPic:snap.val().userPic});
+    $rootScope.$broadcast('pushNuevo');
 
                   $location.path('/');
                   $state.go('list');

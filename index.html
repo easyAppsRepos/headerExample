@@ -71,9 +71,9 @@
           <i class="icon ion-android-chat"></i>
           <h2 class="menu-text">Mensajes</h2>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close href='#/misAlertas' transitiontype="fade" go-native>
+        <ion-item ng-controller='misAlertasCtrl' class="item-icon-left" ng-click='getNotificaciones()' nav-clear menu-close href='#/misAlertas' transitiontype="fade" go-native>
           <i class="icon ion-android-notifications"></i>
-          <span ng-controller='misAlertasCtrl' class="badge badge-assertive">{{iconNoti}}</span>
+          <span  ng-show='iconNoti>0'class="badge badge-assertive">{{iconNoti}}</span>
           <h2 class="menu-text">Notificaciones</h2>
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close href='#/modalNewP' transitiontype="fade" go-native>
