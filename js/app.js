@@ -130,7 +130,7 @@ nameApp.run(function($ionicPlatform) {
 
 
 //PUSH FUNCIONANDO
-/*
+
  var push = PushNotification.init({
     "android": {
         "senderID": "332867885048"
@@ -163,7 +163,7 @@ push.on('error', function(e) {
     console.log(e.message);
 
 });
-*/ 
+//push final 
 
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
@@ -1019,13 +1019,14 @@ if($scope.imgURI == undefined){
         estado: true,
         pujaActual:$scope.propuesta.precio,
         idPropone: $localStorage.user[0].email,
+        kPropone:$localStorage.user[0].uid,
         nickPropone:$localStorage.user[0].name,
         vip:true,
         imgPropuesta:$scope.imgURI
         },function(){
 
            ref.child('pujas/'+pKey.key()).push({valorPuja:$scope.propuesta.precio,
-                                          pujante:'primerPuja',
+                                          pujante:'Valor inicial',
                                           fechaPuja:Date.now()});
 
             geoFire.set(pKey.key(), [lat, long]).then(function() {
@@ -1272,7 +1273,9 @@ var idUser = $localStorage.user[0].uid;
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
             // console.log(key + " -> " + data[key].src);
-            $scope.items.push({src:data[key].src, sub:'sub'});
+            $scope.items.push({src:"data:image/jpeg;base64,"+data[key].src, 
+                               sub:'sub',
+                               key: key});
         }
       }
   console.log(data);
