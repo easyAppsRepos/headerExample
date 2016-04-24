@@ -333,15 +333,6 @@ $scope.getNotificaciones = function(){
    });
  }
 
-if(localStorage.getItem('ngStorage-user') !== null && localStorage.getItem('ngStorage-user').length>5){
-console.log('nodefined');
-
-}
-else{
-
-  
-$scope.getNotificaciones();
-}
 console.log("En mis Alergas");
 
 
