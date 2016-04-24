@@ -431,6 +431,7 @@ $rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
 
       }, function(err) {
         Utils.hide();
+        alert(err);
          Utils.errMessage(err);
       });
     }
