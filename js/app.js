@@ -109,7 +109,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
             .state('misAlertas', {
       url: '/misAlertas',
       templateUrl: 'misAlertas.html',
-      controller: 'ListCtrl'
+      controller: 'misAlertasCtrl'
     })   
       ;
 
@@ -124,7 +124,7 @@ else{
 }
 });
  nameApp.constant('FURL', 'https://golddate.firebaseio.com/');
-nameApp.run(function($ionicPlatform) {
+nameApp.run(function($ionicPlatform,$rootScope) {
   
   $ionicPlatform.ready(function() {
 
@@ -157,8 +157,9 @@ push.on('registration', function(data) {
 
 push.on('notification', function(data) {
 
-  alert('Tienes una notificacion: '+data.title);
-
+  //alert('Tienes una notificacion: '+data.title);
+    $rootScope.$broadcast('pushNuevo');
+console.log(data);
 });
 
 push.on('error', function(e) {
@@ -264,6 +265,10 @@ console.log("asdad22");
 }
 );
 
+
+
+
+
  nameApp.controller('userInfoCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
     $scope.userInfo={};
 
@@ -293,6 +298,42 @@ console.log("asdad22");
     $scope.fotoUsuario=$localStorage.user[0].photo;
 
 });
+
+
+
+ nameApp.controller('misAlertasCtrl', function ($scope,$ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+ 
+$scope.$on('pushNuevo', function(event, args) {
+$scope.getNotificaciones();
+    // do what you want to do
+});
+
+
+ $scope.iconNoti=0;
+ $scope.noAlertas=false;
+$scope.getNotificaciones = function(){
+
+   PushNoti.getNotificaciones($localStorage.user[0].uid).then(function(data){
+      console.log(data);
+      $scope.notificaciones=data;
+      if(data!==null && typeof data !== 'undefined'){
+        console.log('asda');
+            $scope.iconNoti=Object.keys(data).length;
+      }
+   });
+ }
+
+
+console.log("En mis Alergas");
+$scope.getNotificaciones();
+
+});
+
+
+
+
+
+
 
 nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject,PushNoti, Auth, FURL, Utils) {
      
@@ -337,11 +378,12 @@ $localStorage = $localStorage.$default({
 
   $scope.logout = function () {
 
+       if(localStorage.getItem('pushKeyGD')){
     var hopperRef= ref.child("app/push/"+$localStorage.user[0].uid+'/'+$localStorage.user[0].sessionPID);
     hopperRef.update({
       'logout': Date.now()
     });
-
+}
       Auth.logout();
       //$localStorage.$reset();
 $localStorage.user=[];
@@ -1583,6 +1625,20 @@ var newpushRef = pushRef.push();
 //return  itemsRef.push(pushArray);
 
   
+  },
+
+  getNotificaciones:function(idUser){
+
+    var itemsRef = new Firebase('https://golddate.firebaseio.com/app/notificaciones/'+idUser);
+     var defer = $q.defer();
+     itemsRef.once("value", function(snapshot) {
+      //var nameSnapshot = snapshot.child("companyName");
+      //var name = nameSnapshot.val();
+      console.log(snapshot.val());
+      defer.resolve(snapshot.val()); //this does not return the data
+    });
+    return defer.promise;
+
   }
 
 

@@ -73,6 +73,7 @@
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close href='#/misAlertas' transitiontype="fade" go-native>
           <i class="icon ion-android-notifications"></i>
+          <span ng-controller='misAlertasCtrl' class="badge badge-assertive">{{iconNoti}}</span>
           <h2 class="menu-text">Notificaciones</h2>
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close href='#/modalNewP' transitiontype="fade" go-native>
@@ -612,11 +613,27 @@
 			<div style="margin-top: 45px"></div>
 	
 			
-					<div style="text-align: center; padding-top: 30px">
-						<img src='img/noti.png'></br>
+					<div style="text-align: center; padding-top: 30px" ng-show='noAlertas'>
+						<img src='img/noti.png'><br>
 						<a>No hay notificaciones</a>	
 			
 					</div>
+
+          <div class='notificaciones'>
+           <ion-list show-delete="false" can-swipe="true">
+                    <ion-item ng-repeat='noti in notificaciones'>
+                        
+                           <img style="position: absolute; height: 50px; top: 0px; left: 0px; margin-top: 13px; margin-left: 5px;" src="img/user1.jpg">
+                            <h2 style='display: inline-block;margin-left: 45px;'>{{noti.titulo}}</h2>
+                            <p style="margin-left: 45px;">{{noti.subTitulo}}</p>
+                         
+                        <ion-option-button class="button-light icon ion-heart"></ion-option-button>
+                        <ion-option-button class="button-light icon ion-email"></ion-option-button>
+                        <ion-option-button class="button-assertive icon ion-trash-a"></ion-option-button>
+                    </ion-item>
+
+                </ion-list>
+          </div>
 			</ion-content>
       </ion-view>
   </script> 
