@@ -375,7 +375,7 @@ $rootScope.$broadcast('userInfoBroad', {userName:authData.facebook.displayName,
  }
 
 
-    // $ionicSideMenuDelegate.canDragContent(false);//no side menu
+     $ionicSideMenuDelegate.canDragContent(false);//no side menu
 $scope.forgot=function(){console.log($localStorage);}
 $localStorage = $localStorage.$default({
   user: [],pruebaStorage: []
@@ -474,7 +474,7 @@ $rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
     $rootScope.$broadcast('pushNuevo');
 
                   $location.path('/');
-                  $state.go('list');
+                  $state.go('list',{reload:true});
             });
 
           //    $state.go('list');
