@@ -146,8 +146,10 @@ nameApp.run(function($ionicPlatform) {
 push.on('registration', function(data) {
     
    //alert("alert1");
-   alert(data.registrationId);
-   //localStorage.setItem('pushKey', data.registrationId);
+   //alert(data.registrationId);
+   console.log('regsustr');
+      localStorage.setItem('pushKeyGD', data.registrationId);
+   //localStorage.setItem('pushKeyGD', data.registrationId);
 
 
 
@@ -292,7 +294,7 @@ console.log("asdad22");
 
 });
 
-nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject,PushNoti, Auth, FURL, Utils) {
      
  $scope.loginFace = function(){
 
@@ -374,7 +376,29 @@ console.log("enpat");
       //         console.log( $localStorage.pruebaStorage);
               Utils.hide();
 
+//pusjj
+        if(localStorage.getItem('pushKeyGD')){
+        var pushKeyGD=  localStorage.getItem('pushKeyGD');
+        var device= ionic.Platform.platform();
+        var uuid=ionic.Platform.device().uuid;
+        var emailuser= credenciales.email;
 
+
+        pushState = { 
+        pushK:pushKeyGD, 
+        device:device,
+        deviceId:uuid,
+        login:Date.now()
+        }
+
+        console.log(pushState);
+     PushNoti.addPush(userkey,pushState).then(function(data){
+    console.log(data);
+      });
+  
+
+        }else{console.log("nopushK");}
+//endPush
                   ref.child('app/userInfo/'+userkey).once("value", function(snap) {
               console.log("userinfo");
               console.log(snap.val());
@@ -1523,6 +1547,38 @@ nameApp.factory('Utils', function($ionicLoading,$ionicPopup) {
 
   return Utils;
 
+});
+
+nameApp.factory('PushNoti', function($http, $q) {
+
+
+
+
+return{
+
+        addPush:function(idUser,pushArray){  
+
+            var onComplete = function(error) {
+  if (error) {
+    console.log('Synchronization failed');
+    return -1;
+  } else {
+    console.log('Synchronization succeeded');
+    return 1;
+  }
+};
+
+var pushRef = new Firebase('https://golddate.firebaseio.com/app/push/'+idUser);
+var newpushRef = pushRef.push();
+    newpushRef.set(pushArray,onComplete);
+
+//return  itemsRef.push(pushArray);
+
+  
+  }
+
+
+}
 });
 
 nameApp.factory('FotosUsuario', function($http, $q) {
