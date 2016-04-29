@@ -1404,7 +1404,7 @@ var idUser = $localStorage.user[0].uid;
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
             // console.log(key + " -> " + data[key].src);
-            $scope.items.push({src:"data:image/jpeg;base64,"+data[key].src, 
+            $scope.items.push({src:"https://s3.eu-central-1.amazonaws.com/goldate/"+data[key].src+'.jpeg', 
                                sub:'sub',
                                key: key});
         }
@@ -1739,7 +1739,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
 var name=idUser.toString()+Date.now().toString();
 var image=imagen;
   var bucket = new AWS.S3({params: {Bucket: 'goldate'}});
-  var params = {Key: name, ContentType: 'image/jpeg', Body: image};
+  var params = {Key: name+'.jpeg', ContentType: 'image/jpeg', Body: image,   ContentEncoding: 'base64', ACL: 'public-read'};
   bucket.upload(params, function(err, data){
     if(err){ alert(err); return 'error' }
     console.log('asd subida');
