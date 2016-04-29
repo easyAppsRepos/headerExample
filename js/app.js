@@ -1778,8 +1778,7 @@ var Dsignature = btoa(CryptoJS.HmacSHA1(policyBase64, 'oA/G3Zst2PFJtjKg7ANS0NUrW
  
  
 
-  }
-
+  },
 
   asddFoto:function(idUser,imagen){
 
