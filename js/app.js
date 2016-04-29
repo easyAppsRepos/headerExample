@@ -1735,8 +1735,8 @@ var policy = {
     ]
 };
 
-var DpolicyBase64 = btoa(JSON.stringify(policy));
-var Dsignature = btoa(CryptoJS.HmacSHA1(policyBase64, 'oA/G3Zst2PFJtjKg7ANS0NUrWbZUpe/7Sry7EJwy'));
+var DpolicyBase64 = 'eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ29sZGF0ZSJ9LFsic3RhcnRzLXdpdGgiLCIka2V5IiwiIl0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LFsic3RhcnRzLXdpdGgiLCIkQ29udGVudC1UeXBlIiwiIl0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMCw1MjQyODgwMDBdXX0=';
+var Dsignature = 'YzFmZTlhZTU4Nzk2YmJiNmNiYTE0YTlhN2ZiNTJiZmZlY2EwZjRiOA==';
 
 
 

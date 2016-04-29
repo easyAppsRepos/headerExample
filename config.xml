@@ -42,6 +42,7 @@
 
 <gap:plugin name="cordova-plugin-inappbrowser" version="" source="npm" />
 
+<gap:plugin name="cordova-plugin-file-transfer" version="" source="npm" />
 <gap:plugin name="cordova-plugin-camera" version="" source="npm" />
 <gap:plugin name="cordova-plugin-geolocation" version="" source="npm" />
 <gap:plugin name="cordova-plugin-splashscreen" version="" source="npm" />
