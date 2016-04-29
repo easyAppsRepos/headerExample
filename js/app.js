@@ -1358,7 +1358,7 @@ $scope.items = [];
     var options = {
       quality: 100,
       //destinationType: Camera.DestinationType.DATA_URL,
-      destinationType: Camera.DestinationType.DATA_URL,
+      destinationType: Camera.DestinationType.FILE_URI,
       correctOrientation: true,
  sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
       allowEdit: false,
