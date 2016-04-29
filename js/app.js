@@ -1733,12 +1733,12 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
     "region": "eu-central-1"   
 });
 
- $scope.uploadS3 = function (image,name) {
- 
+var name='ejemplo.jpeg;';
+var image=imagen;
   var bucket = new AWS.S3({params: {Bucket: 'goldate'}});
   var params = {Key: name, ContentType: 'image/jpeg', Body: image};
   bucket.upload(params, function(err, data){
-    if(err){ alert(err); }
+    if(err){ alert(err); return 'error' }
     console.log('asd subida');
       console.log(data);
 
@@ -1748,7 +1748,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   });
 
   });
-}
+
 
 
 
