@@ -1733,7 +1733,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
     "region": "eu-central-1"   
 });
 
-var name='ejemplo.jpeg;';
+var name=idUser.toString()+Date.now().toString();
 var image=imagen;
   var bucket = new AWS.S3({params: {Bucket: 'goldate'}});
   var params = {Key: name, ContentType: 'image/jpeg', Body: image};
