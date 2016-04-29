@@ -1768,9 +1768,11 @@ var Dsignature = 'YzFmZTlhZTU4Nzk2YmJiNmNiYTE0YTlhN2ZiNTJiZmZlY2EwZjRiOA==';
  
         ft.upload(imageURI, s3URI,
             function (e) {
+              console.log('asd'+e);
                 deferred.resolve(e);
             },
             function (e) {
+                   console.log('asd'+e);
                 deferred.reject(e);
             }, options);
  
