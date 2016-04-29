@@ -1774,7 +1774,7 @@ var Dsignature = 'YzFmZTlhZTU4Nzk2YmJiNmNiYTE0YTlhN2ZiNTJiZmZlY2EwZjRiOA==';
                 deferred.reject(e);
             }, options);
  
-        return deferred.promise();
+        return deferred.promise;
  
  
 
