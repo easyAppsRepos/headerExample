@@ -1373,7 +1373,7 @@ $scope.items = [];
      // $scope.imgURI=imageData;
       var idUser = $localStorage.user[0].uid;
 
-      FotosUsuario.addFoto(imageData,idUser).then(function(data){
+      FotosUsuario.addFoto(idUser,imageData).then(function(data){
     console.log(data);
     alert('listo');
       });
@@ -1733,6 +1733,9 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
     "region": "eu-central-1"   
 });
 
+ 
+     var defer = $q.defer();
+
 var name=idUser.toString()+Date.now().toString();
 var image=imagen;
   var bucket = new AWS.S3({params: {Bucket: 'goldate'}});
@@ -1742,15 +1745,13 @@ var image=imagen;
     console.log('asd subida');
       console.log(data);
 
-      return  itemsRef.push({
-    src: name,
-    state: 1
-  });
+     
+    defer.resolve(itemsRef.push({src: name,state: 1 }));
 
   });
 
 
-
+return defer.promise;
 
   
   }
