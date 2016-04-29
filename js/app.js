@@ -302,8 +302,17 @@ console.log("asdad22");
 
 
 
- nameApp.controller('misAlertasCtrl', function ($scope,$ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+ nameApp.controller('misAlertasCtrl', function ($scope, $ionicModal, $ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
  //$scope.notificaciones={};
+
+
+
+ $scope.escogerGanador = function(){
+console.log('escoer ganarod');
+
+ }
+
+
 $scope.$on('pushNuevo', function(event, args) {
 $scope.getNotificaciones();
     // do what you want to do
@@ -336,6 +345,44 @@ if($localStorage.user.length>0){
 $scope.getNotificaciones();}
 console.log("En mis Alergas");
 
+
+//modal
+
+
+
+
+  $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
+
+  $scope.openModal = function(animation, modalHtml) {
+   
+    $ionicModal.fromTemplateUrl(modalHtml, {
+      scope: $scope,
+      animation: animation
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    });
+  };
+
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+     $scope.modal.remove();
+
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+ console.log("destruyendo modal");
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+//endModal
 
 });
 
@@ -1326,8 +1373,9 @@ $scope.items = [];
      // $scope.imgURI=imageData;
       var idUser = $localStorage.user[0].uid;
 
-      FotosUsuario.addFoto(idUser,imageData).then(function(data){
+      FotosUsuario.addFoto(imageData,idUser).then(function(data){
     console.log(data);
+    alert('listo');
       });
 
       console.log("idasidasdo");
@@ -1679,10 +1727,30 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
 
 var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
 
-return  itemsRef.push({
-    src: imagen,
+ AWS.config.update({
+    accessKeyId: "AKIAIKCUQ3YRYPUQ7FWQ",
+    secretAccessKey: "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",
+    "region": "eu-central-1"   
+});
+
+ $scope.uploadS3 = function (image,name) {
+ 
+  var bucket = new AWS.S3({params: {Bucket: 'goldate'}});
+  var params = {Key: name, ContentType: 'image/jpeg', Body: image};
+  bucket.upload(params, function(err, data){
+    if(err){ alert(err); }
+    console.log('asd subida');
+      console.log(data);
+
+      return  itemsRef.push({
+    src: name,
     state: 1
   });
+
+  });
+}
+
+
 
   
   }

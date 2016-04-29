@@ -29,6 +29,8 @@
 <script type="text/javascript" src="js/rsvp.min.js"></script>
 <script type="text/javascript" src="js/angularfire.min.js"></script>
 <script type="text/javascript" src="js/geofire.min.js"></script>
+
+<script type="text/javascript" src="js/aws-sdk-2.3.7.min.js"></script>
 <script type="text/javascript" src="js/angularGeoFire.min.js"></script>
 
 <script type="text/javascript" src="js/gallery/ion-gallery.js"></script>
@@ -149,6 +151,22 @@
 				</div>
 				</ion-modal-view>
 				</script>
+
+
+
+				<script id="seleccionarGanador.html" type="text/ng-template">
+				<ion-modal-view class="modalSelect">
+				<div class="ion-modal-content-custom">
+				<ion-content class="padding">
+						<ion-list>
+					<ion-radio ng-model="choice" ng-click='setCategoria("Pasear");' ng-value="'Pasear'">Pasear</ion-radio>
+					<ion-radio ng-model="choice" ng-click='setCategoria("Comida");' ng-value="'Comida'">Comida</ion-radio>
+					</ion-list>
+				</ion-content>
+				</div>
+				</ion-modal-view>
+				</script>
+
 
 
 				<script id="my-modal2.html" type="text/ng-template">
@@ -627,9 +645,8 @@
                             <h2 style='display: inline-block;margin-left: 45px;'>{{noti.titulo}}</h2>
                             <p style="margin-left: 45px;">{{noti.subTitulo}}</p>
                          
-                        <ion-option-button class="button-light icon ion-heart"></ion-option-button>
-                        <ion-option-button class="button-light icon ion-email"></ion-option-button>
-                        <ion-option-button class="button-assertive icon ion-trash-a"></ion-option-button>
+                        <ion-option-button ng-click="openModal('fade-in-scale','seleccionarGanador.html')" class="button-balanced icon ion-trophy"></ion-option-button>
+                        <ion-option-button ng-click='uploadS3()' class="button-assertive icon ion-trash-a"></ion-option-button>
                     </ion-item>
 
                 </ion-list>
@@ -796,7 +813,7 @@
 
       <ion-view title='Mis Fotos'> 
   <ion-nav-buttons side="right">
-<a ng-click='takePhoto()' style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+<a ng-click='takePhoto()' style="border:none;font-size: 27px; color:white;background-color: #4db6ac" class="button  ion-plus-circled disable-user-behavior">
         
       </a>
    </ion-nav-buttons> 
@@ -977,6 +994,7 @@
             Tiempo en Subasta
             </div>
             <select ng-model='propuesta.diasEnSubasta' class='itemForms' >
+            <option value='150000' selected>30 min</option>
             <option value='10800000' selected>3 horas</option>
             <option value='21600000' selected>6 horas</option>
             <option value='43200000' selected>12 horas</option>
