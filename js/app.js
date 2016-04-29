@@ -1741,7 +1741,7 @@ var Dsignature = 'YzFmZTlhZTU4Nzk2YmJiNmNiYTE0YTlhN2ZiNTJiZmZlY2EwZjRiOA==';
 
 
  
-    var s3URI = encodeURI("https://goldate.s3.amazonaws.com/"),
+    var s3URI = encodeURI("https://golddate.s3.amazonaws.com/"),
         policyBase64 = DpolicyBase64,
         signature = Dsignature,
         awsKey = 'AKIAIKCUQ3YRYPUQ7FWQ',
