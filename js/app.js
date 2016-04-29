@@ -1737,7 +1737,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
      var defer = $q.defer();
 
 var name=idUser.toString()+Date.now().toString();
-var image=imagen;
+var image='data:image/jpeg;base64,'+imagen;
   var bucket = new AWS.S3({params: {Bucket: 'goldate'}});
   var params = {Key: name+'.jpeg', ContentType: 'image/jpeg', Body: image,   ContentEncoding: 'base64', ACL: 'public-read'};
   bucket.upload(params, function(err, data){
