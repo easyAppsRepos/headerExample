@@ -1722,8 +1722,66 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   
   },
 
+addFoto:function(fileName,imageURI){
 
-  addFoto:function(idUser,imagen){
+var policy = {
+    "expiration": "2020-12-31T12:00:00.000Z",
+    "conditions": [
+        {"bucket": "goldate"},
+        ["starts-with", "$key", ""],
+        {"acl": 'public-read'},
+        ["starts-with", "$Content-Type", ""],
+        ["content-length-range", 0, 524288000]
+    ]
+};
+
+var DpolicyBase64 = btoa(JSON.stringify(policy));
+var Dsignature = btoa(CryptoJS.HmacSHA1(policyBase64, 'oA/G3Zst2PFJtjKg7ANS0NUrWbZUpe/7Sry7EJwy'));
+
+
+
+ 
+    var s3URI = encodeURI("https://goldate.s3.amazonaws.com/"),
+        policyBase64 = DpolicyBase64,
+        signature = Dsignature,
+        awsKey = 'AKIAIKCUQ3YRYPUQ7FWQ',
+        acl = "public-read";
+ 
+  
+     var deferred = $q.defer();
+  
+            ft = new FileTransfer(),
+            options = new FileUploadOptions();
+ 
+        options.fileKey = "file";
+        options.fileName = fileName;
+        options.mimeType = "image/jpeg";
+        options.chunkedMode = false;
+        options.params = {
+            "key": fileName,
+            "AWSAccessKeyId": awsKey,
+            "acl": acl,
+            "policy": policyBase64,
+            "signature": signature,
+            "Content-Type": "image/jpeg"
+        };
+ 
+        ft.upload(imageURI, s3URI,
+            function (e) {
+                deferred.resolve(e);
+            },
+            function (e) {
+                deferred.reject(e);
+            }, options);
+ 
+        return deferred.promise();
+ 
+ 
+
+  }
+
+
+  asddFoto:function(idUser,imagen){
 
 var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
 
