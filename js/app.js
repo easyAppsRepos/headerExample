@@ -1725,7 +1725,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   addFoto:function(id,ima){
 var fileName=id;
 var policy='eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ2dkYXRlIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXSx7ImFjbCI6InB1YmxpYy1yZWFkIn0sWyJzdGFydHMtd2l0aCIsIiRDb250ZW50LVR5cGUiLCIiXSxbImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwwLDUyNDI4ODAwMF1dfQ==';
-var sig='MmNmNDhmODNmYmIyMzE3NmZkM2FlYjE2YjhlY2MwZWZiNjliNDI4NQ==';
+var sig='LPSPg/uyMXb9OusWuOzA77abQoU=';
     
     var s3URI = encodeURI("https://ggdate.s3.amazonaws.com/"),
         policyBase64 = policy,
