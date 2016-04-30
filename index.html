@@ -168,7 +168,15 @@
 				</script>
 
 
-
+<script id="fotosV.html" type="text/ng-template">
+<div class="modal image-modal transparent" ng-click="closeModal()">
+    <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true" active-slide="activeSlide">
+        <ion-slide ng-repeat="image in pages">
+            <img ng-src="{{image.background}}" class="fullscreen-image"/>
+        </ion-slide>
+    </ion-slide-box>
+</div>
+</script>
 				<script id="my-modal2.html" type="text/ng-template">
 				<ion-modal-view class="modalSelect">
 				<div class="ion-modal-content-custom">
@@ -239,7 +247,7 @@
           <div id="container" ng-show='!cargandoPropuestas'>
           <div class="left-column" ng-repeat="subasta in subastas"  >
           <div class="infoBox">
-          <a class="feed-category" href="#/detail/{{subasta.propuestaKey}}/{{subasta.nickPropone}}/{{subasta.pujaActual}}/{{subasta.tiempoRestante}}/{{subasta.descripcion}}" transitiontype="fade"  go-native>
+          <a class="feed-category" href="#/detail/{{subasta.propuestaKey}}/{{subasta.nickPropone}}/{{subasta.pujaActual}}/{{subasta.tiempoRestante}}/{{subasta.descripcion}}/{{subasta.kPropone}}" transitiontype="fade"  go-native>
           <pre-img ratio="_1_1" helper-class="square-image">
           <img class="category-image" ng-src="https://s3.amazonaws.com/ggdate/{{subasta.imgPropuesta}}" spinner-on-load>
 
@@ -311,13 +319,21 @@
         <p>Conectado</p>
         </div>
         <div class="item item-body">
-        <ion-slide-box>
+        		<a class="item item-list-detail">
+			<ion-scroll direction="x">
+				<img ng-repeat="image in pages" ng-src="{{image.background}}" ng-click="showImages($index)" class="image-list-thumb"/>
+			</ion-scroll>
+		</a>
+
+        <!--
+        <ion-slide-box style='height: 280px; width: 100%'>
         <ion-slide ng-repeat="page in pages"> 
-        <div ng-if="slideVisible($index)" style="background-color:{{page.background}}">
-        <h1 class="test-content">{{page.text}}</h1> 
+        <div ng-if="slideVisible($index)" style="background-image: url('{{page.background}}');">
+     
         </div>
         </ion-slide>
         </ion-slide-box>
+        -->
         </div>
         <div class="item item-body">
         <div>

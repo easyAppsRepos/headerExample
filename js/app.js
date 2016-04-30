@@ -19,7 +19,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ViewCtrl'
     })
      .state('detail', {
-      url: '/detail/:idPropuesta/:nickPropone/:pujaActual/:tiempoRestante/:descripcion',
+      url: '/detail/:idPropuesta/:nickPropone/:pujaActual/:tiempoRestante/:descripcion/:idPropone',
       templateUrl: 'detail.html',
       controller: 'detailCtrl'
     })
@@ -591,7 +591,7 @@ console.log("trayendo historial");
 
 
 });
-nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation){
+nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation,FotosUsuario){
 
 
 //des
@@ -652,6 +652,12 @@ $scope.bajarPuja=function(){
   //$scope.pujaActual=200;
 }
 
+
+  $scope.showImages = function(index) {
+    $scope.activeSlide = index;
+    $scope.openModal('slide-in-up','fotosV.html');
+  }
+ 
 
 
 
@@ -716,6 +722,7 @@ $scope.nickPropone=$stateParams.nickPropone;
 $scope.pujaActual=$stateParams.pujaActual;
 $scope.tiempoRestante=$stateParams.tiempoRestante;
 $scope.descripcion=$stateParams.descripcion;
+var idPropone=$stateParams.idPropone;
 
 //
 /*
@@ -732,13 +739,26 @@ $localStorage = $localStorage.$default({
   $scope.openMenu = function () {
     $ionicSideMenuDelegate.toggleLeft();
   }
-  
+$scope.pages=[];
 
-    $scope.pages = [{"text":"1", "background": "#4a87ee"},
+  FotosUsuario.getFotos(idPropone).then(function(data){
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            // console.log(key + " -> " + data[key].src);
+            $scope.pages.push({background:"https://s3.amazonaws.com/ggdate/"+data[key].src, 
+                               text:''});
+        }
+        $scope.$applyAsync();
+      }
+  console.log(data);
+});
+
+/*
+    $scope.pages = [{"text":"1", "background": "https://s-media-cache-ak0.pinimg.com/236x/63/82/77/638277f0392e0ce87a821051734ab127.jpg"},
                   {"text":"2", "background": "#43cee6"},
                  
                  ]
-  
+  */
   $scope.trickOn = true;
   
   
