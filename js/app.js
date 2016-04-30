@@ -1722,38 +1722,22 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   
   },
 
-addFoto:function(fileName,imageURI){
-
-var policy = {
-    "expiration": "2020-12-31T12:00:00.000Z",
-    "conditions": [
-        {"bucket": "ggdate"},
-        ["starts-with", "$key", ""],
-        {"acl": 'public-read'},
-        ["starts-with", "$Content-Type", ""],
-        ["content-length-range", 0, 524288000]
-    ]
-};
-
-var DpolicyBase64 = 'eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ2dkYXRlIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXSx7ImFjbCI6InB1YmxpYy1yZWFkIn0sWyJzdGFydHMtd2l0aCIsIiRDb250ZW50LVR5cGUiLCIiXSxbImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwwLDUyNDI4ODAwMF1dfQ==';
-var Dsignature = 'ZjZkYjNkY2EzMjg2MTAzODI5ZTJmMDc4YTZkN2ZhOWViZThkODZhYQ==';
-
-
-
- 
-    var s3URI = encodeURI("https://ggdate.s3.amazonaws.com/"),
-        policyBase64 = DpolicyBase64,
-        signature = Dsignature,
+  addFoto:function(id,ima){
+var fileName=id;
+var policy='eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ29sZGF0ZSJ9LFsic3RhcnRzLXdpdGgiLCIka2V5IiwiIl0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LFsic3RhcnRzLXdpdGgiLCIkQ29udGVudC1UeXBlIiwiIl0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMCw1MjQyODgwMDBdXX0=';
+var sig='NDZhYjQ0MzliMTNhNDEzYWU5ODhlMDZkOTEzNGIyYjJkMDIxN2RkOTA3MTZlYjUyOWY2MGUyNzNhNmRlMzVhMw==';
+    
+    var s3URI = encodeURI("https://goldate.s3.amazonaws.com/"),
+        policyBase64 = policy,
+        signature = sig,
         awsKey = 'AKIAIKCUQ3YRYPUQ7FWQ',
         acl = "public-read";
- 
-  
-     var deferred = $q.defer();
-  
-            ft = new FileTransfer(),
-            options = new FileUploadOptions();
- 
-        options.fileKey = "file";
+
+  var deferred = $q.defer();
+  ft = new FileTransfer(),
+  options = new FileUploadOptions();
+
+ options.fileKey = "file";
         options.fileName = fileName;
         options.mimeType = "image/jpeg";
         options.chunkedMode = false;
@@ -1766,22 +1750,21 @@ var Dsignature = 'ZjZkYjNkY2EzMjg2MTAzODI5ZTJmMDc4YTZkN2ZhOWViZThkODZhYQ==';
             "Content-Type": "image/jpeg"
         };
  
-        ft.upload(imageURI, s3URI,
+ ft.upload(ima, s3URI,
             function (e) {
               console.log(e);
                 deferred.resolve(e);
             },
             function (e) {
-                   console.log(e);
+              console.log(e);
                 deferred.reject(e);
             }, options);
  
         return deferred.promise;
- 
- 
+
+
 
   },
-
   asddFoto:function(idUser,imagen){
 
 var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
@@ -1797,7 +1780,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
 
 var name=idUser.toString()+Date.now().toString()+'.jpg';
 var image=imagen;
-console.log(imagen);
+console.log(imagen)
   var bucket = new AWS.S3({params: {Bucket: 'goldate'}});
   var params = {Key: name, ContentType: 'image/jpeg', Body: image,   ContentEncoding: 'base64', ACL: 'public-read'};
   bucket.upload(params, function(err, data){
