@@ -1124,7 +1124,7 @@ if($scope.imgURI == undefined){
         var ref = new Firebase('https://golddate.firebaseio.com/app');
  var lat;
  var long;
-
+ var nombreImg;
     var propuestaRef = ref.child('propuestas');
         var geoRef = ref.child('geo');
         var geoFire = new GeoFire(geoRef);
@@ -1135,6 +1135,9 @@ if($scope.imgURI == undefined){
       $cordovaGeolocation
       .getCurrentPosition(posOptions)
       .then(function (position) {
+
+           nombreImg=$localStorage.user[0].uid+Date.now()+'.jpg';
+
            lat  = position.coords.latitude
            long = position.coords.longitude
 
@@ -1153,7 +1156,7 @@ if($scope.imgURI == undefined){
         kPropone:$localStorage.user[0].uid,
         nickPropone:$localStorage.user[0].name,
         vip:true,
-        imgPropuesta:$scope.imgURI
+        imgPropuesta:nombreImg
         },function(){
 
            ref.child('pujas/'+pKey.key()).push({valorPuja:$scope.propuesta.precio,
@@ -1165,7 +1168,15 @@ if($scope.imgURI == undefined){
               alert("agregado");
             });
 
-			          $ionicLoading.hide();
+
+      FotosUsuario.addFoto($localStorage.user[0].uid,$scope.imgURI,nombreImg).then(function(data){
+    
+    console.log(data);
+    $ionicLoading.hide();
+    alert('listo');
+      });
+
+			     //     $ionicLoading.hide();
         
 
         });
@@ -1422,8 +1433,8 @@ $scope.items = [];
     });
 
       var idUser = $localStorage.user[0].uid;
-
-      FotosUsuario.addFoto(idUser,imageData).then(function(data){
+         var nombreImage=idUser+Date.now()+'.jpg';
+      FotosUsuario.addFoto(idUser,imageData,nombreImage).then(function(data){
     
     console.log(data);
     $ionicLoading.hide();
@@ -1777,9 +1788,9 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   
   },
 
-  addFoto:function(id,ima){
+  addFoto:function(id,ima,fileN){
     var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+id);
-var fileName=id+Date.now()+'.jpg';
+var fileName=fileN;
 var policy='eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ2dkYXRlIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXSx7ImFjbCI6InB1YmxpYy1yZWFkIn0sWyJzdGFydHMtd2l0aCIsIiRDb250ZW50LVR5cGUiLCIiXSxbImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwwLDUyNDI4ODAwMF1dfQ==';
 var sig='LPSPg/uyMXb9OusWuOzA77abQoU=';
     
