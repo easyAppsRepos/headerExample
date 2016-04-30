@@ -1371,10 +1371,16 @@ $scope.items = [];
       $cordovaCamera.getPicture(options).then(function (imageData) {
       //    $scope.imgURI = "data:image/jpeg;base64," + imageData;
      // $scope.imgURI=imageData;
+             $ionicLoading.show({
+      template: 'Cargando...'
+    });
+
       var idUser = $localStorage.user[0].uid;
 
       FotosUsuario.addFoto(idUser,imageData).then(function(data){
+    
     console.log(data);
+    $ionicLoading.hide();
     alert('listo');
       });
 
@@ -1383,8 +1389,11 @@ $scope.items = [];
       }, function (err) {
               console.log("En error");
                 console.log(err);
+                alert(err);
+                 $ionicLoading.hide();
        });
       } else{
+                 $ionicLoading.hide();
                     $ionicPopup.alert({
               title: 'Error',
               content: 'Es necesaria conexión a internet'
@@ -1404,7 +1413,7 @@ var idUser = $localStorage.user[0].uid;
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
             // console.log(key + " -> " + data[key].src);
-            $scope.items.push({src:"https://s3.eu-central-1.amazonaws.com/goldate/"+data[key].src+'.jpeg', 
+            $scope.items.push({src:"https://s3.amazonaws.com/ggdate/"+data[key].src, 
                                sub:'sub',
                                key: key});
         }
@@ -1723,7 +1732,8 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   },
 
   addFoto:function(id,ima){
-var fileName=id;
+    var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+id);
+var fileName=id+Date.now()+'.jpg';
 var policy='eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ2dkYXRlIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXSx7ImFjbCI6InB1YmxpYy1yZWFkIn0sWyJzdGFydHMtd2l0aCIsIiRDb250ZW50LVR5cGUiLCIiXSxbImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwwLDUyNDI4ODAwMF1dfQ==';
 var sig='LPSPg/uyMXb9OusWuOzA77abQoU=';
     
@@ -1753,7 +1763,7 @@ var sig='LPSPg/uyMXb9OusWuOzA77abQoU=';
  ft.upload(ima, s3URI,
             function (e) {
               console.log(e);
-                deferred.resolve(e);
+                deferred.resolve(itemsRef.push({src: fileName,state: 1 }));
             },
             function (e) {
               console.log(e);
