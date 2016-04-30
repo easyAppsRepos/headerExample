@@ -1724,10 +1724,10 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
 
   addFoto:function(id,ima){
 var fileName=id;
-var policy='eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ29sZGF0ZSJ9LFsic3RhcnRzLXdpdGgiLCIka2V5IiwiIl0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LFsic3RhcnRzLXdpdGgiLCIkQ29udGVudC1UeXBlIiwiIl0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMCw1MjQyODgwMDBdXX0=';
-var sig='NDZhYjQ0MzliMTNhNDEzYWU5ODhlMDZkOTEzNGIyYjJkMDIxN2RkOTA3MTZlYjUyOWY2MGUyNzNhNmRlMzVhMw==';
+var policy='eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ2dkYXRlIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXSx7ImFjbCI6InB1YmxpYy1yZWFkIn0sWyJzdGFydHMtd2l0aCIsIiRDb250ZW50LVR5cGUiLCIiXSxbImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwwLDUyNDI4ODAwMF1dfQ==';
+var sig='ZjZkYjNkY2EzMjg2MTAzODI5ZTJmMDc4YTZkN2ZhOWViZThkODZhYQ==';
     
-    var s3URI = encodeURI("https://goldate.s3.amazonaws.com/"),
+    var s3URI = encodeURI("https://ggdate.s3.amazonaws.com/"),
         policyBase64 = policy,
         signature = sig,
         awsKey = 'AKIAIKCUQ3YRYPUQ7FWQ',
