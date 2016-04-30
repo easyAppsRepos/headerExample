@@ -1179,6 +1179,7 @@ if($scope.imgURI == undefined){
     				);
       }
 
+/*
         $scope.selectPicture = function() { 
 		var options = {
 			quality: 50,
@@ -1194,6 +1195,51 @@ if($scope.imgURI == undefined){
 			console.log("error cargando la imagen");
 		})
 	};
+*/ 
+  $scope.selectPicture = function () {
+   var isOnline = true;
+   if(isOnline){
+
+    var options = {
+      quality: 100,
+      //destinationType: Camera.DestinationType.DATA_URL,
+      destinationType: Camera.DestinationType.FILE_URI,
+      correctOrientation: true,
+ sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth:  500,
+      targetHeight: 500,
+      popoverOptions: CameraPopoverOptions
+  };
+
+      $cordovaCamera.getPicture(options).then(function (imageData) {
+      //    $scope.imgURI = "data:image/jpeg;base64," + imageData;
+     // $scope.imgURI=imageData;
+   
+$scope.imgURI = imageData;
+    
+
+      console.log("idasidasdo");
+
+      }, function (err) {
+              console.log("En error");
+                console.log(err);
+                alert(err);
+                 $ionicLoading.hide();
+       });
+      } else{
+                 $ionicLoading.hide();
+                    $ionicPopup.alert({
+              title: 'Error',
+              content: 'Es necesaria conexión a internet'
+            }).then(function(res) {
+              console.log('necesaria conexion ainternet');
+            });
+      }
+
+    
+  }
 
 
 
