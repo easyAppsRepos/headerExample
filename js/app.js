@@ -19,7 +19,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ViewCtrl'
     })
      .state('detail', {
-      url: '/detail/:idPropuesta/:nickPropone/:pujaActual/:tiempoRestante/:descripcion/:idPropone',
+      url: '/detail/:idPropuesta/:nickPropone/:pujaActual/:tiempoRestante/:descripcion/:idPropone/:fotoPropuesta',
       templateUrl: 'detail.html',
       controller: 'detailCtrl'
     })
@@ -307,9 +307,42 @@ console.log("asdad22");
 
 
 
- $scope.escogerGanador = function(){
-console.log('escoer ganarod');
 
+$scope.pujantes=[];
+
+
+$scope.crearChat= function(g){
+
+  var ganador=g;
+  var idPropuesta=$scope.idPropuestaSeleccionada;
+  var idUserPropuesta=$localStorage.user[0].uid;
+
+  console.log("Ganador: "+g+" IdPropuesta: "+idPropuesta+" idUserPropuesta: "+idUserPropuesta)
+}
+
+ $scope.escogerGanador = function(k){
+
+ $scope.pujantes=[];
+var refPujas = new Firebase("https://golddate.firebaseio.com/app/pujas/"+k);
+
+var ij=0;
+refPujas.once("value", function(snap) {
+$scope.idPropuestaSeleccionada=snap.key();
+  console.log("terminadk");
+  var tamanoArrego=Object.keys(snap.val()).length;
+
+snap.forEach(function(item,index){
+   $scope.pujantes.splice((tamanoArrego-index),0,{nombreP:item.val().pujante,
+                                               valorPuja:item.val().valorPuja,
+                                                posicion:tamanoArrego-ij});
+   ij++;
+//$scope.$applyAsync();
+  console.log(item.val());
+});
+
+$scope.openModal('fade-in-scale','seleccionarGanador.html');
+
+});
  }
 
 
@@ -591,6 +624,13 @@ console.log("trayendo historial");
 
 
 });
+
+
+nameApp.controller('seleccionarGanadorCtrl', function(){
+
+
+});
+
 nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation,FotosUsuario){
 
 
@@ -722,6 +762,7 @@ $scope.nickPropone=$stateParams.nickPropone;
 $scope.pujaActual=$stateParams.pujaActual;
 $scope.tiempoRestante=$stateParams.tiempoRestante;
 $scope.descripcion=$stateParams.descripcion;
+$scope.fotoPropuesta=$stateParams.fotoPropuesta;
 var idPropone=$stateParams.idPropone;
 
 //

@@ -155,13 +155,33 @@
 
 
 				<script id="seleccionarGanador.html" type="text/ng-template">
-				<ion-modal-view class="modalSelect">
+				<ion-modal-view class="modalSelectGanador">
+				<div>
 				<div class="ion-modal-content-custom">
-				<ion-content class="padding">
-						<ion-list>
-					<ion-radio ng-model="choice" ng-click='setCategoria("Pasear");' ng-value="'Pasear'">Pasear</ion-radio>
-					<ion-radio ng-model="choice" ng-click='setCategoria("Comida");' ng-value="'Comida'">Comida</ion-radio>
-					</ion-list>
+
+				<div style="width: 90%; margin-left: 5%; height: 160px">
+				<div style="text-align: center;">
+					<img style="vertical-align: middle;" src="img/hand.png">
+					Escoje un ganador
+		
+				</div>
+				<div style="text-align: justify;  color: #666">
+	
+				<p >* Al seleccionar el ganador de tu propuesta este sera notificado y se abrira un chat entre ambos</p>
+				<p style="margin-top: 10px">* Esta seleccion no es definitiva</p>
+			
+				</div>
+				</div>
+				<ion-content class="padding" style='top: 160px !important'>
+
+
+		<div ng-click='crearChat("{{puja.nombreP}}")' class="item" ng-repeat="puja in pujantes">
+
+          <div  class='numbers'>{{puja.posicion}}</div>
+          <a>{{puja.nombreP}}</a>
+          <a class='pujasE'>{{puja.valorPuja}}€</a>
+          </div>
+
 				</ion-content>
 				</div>
 				</ion-modal-view>
@@ -247,7 +267,7 @@
           <div id="container" ng-show='!cargandoPropuestas'>
           <div class="left-column" ng-repeat="subasta in subastas"  >
           <div class="infoBox">
-          <a class="feed-category" href="#/detail/{{subasta.propuestaKey}}/{{subasta.nickPropone}}/{{subasta.pujaActual}}/{{subasta.tiempoRestante}}/{{subasta.descripcion}}/{{subasta.kPropone}}" transitiontype="fade"  go-native>
+          <a class="feed-category" href="#/detail/{{subasta.propuestaKey}}/{{subasta.nickPropone}}/{{subasta.pujaActual}}/{{subasta.tiempoRestante}}/{{subasta.descripcion}}/{{subasta.kPropone}}/{{subasta.imgPropuesta}}" transitiontype="fade"  go-native>
           <pre-img ratio="_1_1" helper-class="square-image">
           <img class="category-image" ng-src="https://s3.amazonaws.com/ggdate/{{subasta.imgPropuesta}}" spinner-on-load>
 
@@ -313,7 +333,7 @@
         <div style="height: 45px;"></div>
         <div style="position: absolute; width: 94%;" class="list card">
         <div class="item item-avatar">
-        <img  ng-src="{{imgPropuesta}}">
+        <img  ng-src="https://s3.amazonaws.com/ggdate/{{fotoPropuesta}}">
         <img src='img/crown.png' class='crownI'> 
         <h2>{{nickPropone}}</h2>
         <p>Conectado</p>
@@ -661,7 +681,7 @@
                             <h2 style='display: inline-block;margin-left: 45px;'>{{noti.titulo}}</h2>
                             <p style="margin-left: 45px;">{{noti.subTitulo}}</p>
                          
-                        <ion-option-button ng-click="openModal('fade-in-scale','seleccionarGanador.html')" class="button-balanced icon ion-trophy"></ion-option-button>
+                        <ion-option-button ng-click="escogerGanador('{{noti.idPropuesta}}')" class="button-balanced icon ion-trophy"></ion-option-button>
                         <ion-option-button ng-click='uploadS3()' class="button-assertive icon ion-trash-a"></ion-option-button>
                     </ion-item>
 
