@@ -175,7 +175,7 @@
 				<ion-content class="padding" style='top: 160px !important'>
 
 
-		<div ng-click='crearChat("{{puja.KPujante}}")' class="item" ng-repeat="puja in pujantes">
+		<div ng-click='crearChat("{{puja.KPujante}}","{{puja.nombreP}}")' class="item" ng-repeat="puja in pujantes">
 
           <div  class='numbers'>{{puja.posicion}}</div>
           <a>{{puja.nombreP}}</a>
@@ -622,16 +622,12 @@
 					<a>Tus subastas</a></div>
 					<div style='padding-top: 20px'class="list">
 
-					<a class="item item-avatar" href="#/UserMessages">
+					<a ng-repeat='chat in misChats' class="item item-avatar" href="#/UserMessages">
 					<img src="img/user2.jpg">
-					<h2>Pedro J</h2>
-					<p>Cena en restaurante hindu</p>
+					<h2>{{chat.nombreGanador}}</h2>
+					<p>-</p>
 					</a>
-					<a class="item item-avatar" href="#">
-					<img src="img/user4.png">
-					<h2>Luis Mora</h2>
-					<p>Cine jueves por la tarde</p>
-					</a>
+
 
 					</div>
 				</div>
@@ -642,11 +638,23 @@
 					<div class='tituloGrande'>
 						<a>Subastas Ganadas</a>
 					</div>
-					<div style="text-align: center; margin-top: 20px">
-						<img src='img/buzon.png'></br>
+					<div ng-show='false' style="text-align: center; margin-top: 20px">
+						<img src='img/buzon.png'><br>
 						<a>Buzon vacio</a>	
 			
 					</div>
+
+					<div style='padding-top: 20px'class="list">
+
+					<a ng-click='openChat({{$index}})' ng-repeat='chat in misChatsGanados' class="item item-avatar">
+					<img src="img/user2.jpg">
+					<h2>{{chat.nombreGanador}}</h2>
+					<p>-</p>
+					</a>
+
+
+					</div>
+
 					</div>
 	
 			
@@ -664,15 +672,11 @@
 			
 
 			<ion-content style='background-color: rgb(234, 234, 234); color:#666'>
-			<div style="margin-top: 45px"></div>
-	
-			
+			<div style="margin-top: 45px"></div>			
 					<div style="text-align: center; padding-top: 30px" ng-show='noAlertas'>
 						<img src='img/noti.png'><br>
 						<a>No hay notificaciones</a>	
-			
 					</div>
-
           <div class='notificaciones'>
            <ion-list show-delete="false" can-swipe="true">
                     <ion-item ng-repeat='noti in notificaciones'>
@@ -684,7 +688,6 @@
                         <ion-option-button ng-click="escogerGanador('{{noti.idPropuesta}}')" class="button-balanced icon ion-trophy"></ion-option-button>
                         <ion-option-button ng-click='uploadS3()' class="button-assertive icon ion-trash-a"></ion-option-button>
                     </ion-item>
-
                 </ion-list>
           </div>
 			</ion-content>

@@ -317,13 +317,13 @@ console.log("asdad22");
 $scope.pujantes=[];
 
 
-$scope.crearChat= function(g){
+$scope.crearChat= function(g,nombreP){
 
   var ganador=g;
   var idPropuesta=$scope.idPropuestaSeleccionada;
   var idUserPropuesta=$localStorage.user[0].uid;
 
-ChatsUsuario.addChat(idPropuesta,ganador,idUserPropuesta);
+ChatsUsuario.addChat(idPropuesta,ganador,idUserPropuesta, nombreP);
 
   console.log("Ganador: "+g+" IdPropuesta: "+idPropuesta+" idUserPropuesta: "+idUserPropuesta)
 }
@@ -1582,7 +1582,39 @@ $scope.items = [
 
 
 
-nameApp.controller('misMensajesCtrl', function($scope, $timeout, $ionicScrollDelegate) {
+nameApp.controller('misMensajesCtrl', function($scope, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
+
+
+$scope.misChats={};
+$scope.misChatsGanados={};
+
+  ChatsUsuario.getChats($localStorage.user[0].uid).then(function(data){
+  $scope.misChats=data;
+  console.log(data);
+});
+
+    ChatsUsuario.getChatsGanados($localStorage.user[0].uid).then(function(data){
+    /*
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            // console.log(key + " -> " + data[key].src);
+            $scope.pages.push({background:"https://s3.amazonaws.com/ggdate/"+data[key].src, 
+                               text:''});
+        }
+        $scope.$applyAsync();
+      }
+  console.log(data);
+  */
+  $scope.misChatsGanados=data;
+//console.log(Object.keys($scope.misChatsGanados)[1]);
+});
+
+
+$scope.openChat=function(kChat){
+ var kChats= Object.keys($scope.misChatsGanados)[kChat];
+console.log(kChats);
+
+}
 
   $scope.hideTime = true;
 
@@ -1901,7 +1933,42 @@ var newpushRef = pushRef.push();
 nameApp.factory('ChatsUsuario', function($http, $q) {
 return {
 
-  addChat:function(idPropuesta,idGanador,idUserPropone){
+
+    getChatsGanados:function(idUser){
+
+var chatsRef = new Firebase('https://golddate.firebaseio.com/app/chats');
+     var defer = $q.defer();
+console.log('enChatUser');
+     chatsRef.orderByChild("idGanador").equalTo(idUser.toString()).once("value", function(snapshot) {
+ // console.log(snapshot.val());
+  defer.resolve(snapshot.val());
+});
+
+    return defer.promise;
+  
+
+  
+  },
+
+
+
+    getChats:function(idUser){
+
+var chatsRef = new Firebase('https://golddate.firebaseio.com/app/chats');
+     var defer = $q.defer();
+console.log('enChatUser');
+     chatsRef.orderByChild("idPropietario").equalTo(idUser.toString()).once("value", function(snapshot) {
+ // console.log(snapshot.val());
+  defer.resolve(snapshot.val());
+});
+
+    return defer.promise;
+  
+
+  
+  },
+
+  addChat:function(idPropuesta,idGanador,idUserPropone, name){
 
 
 var itemsRef = new Firebase('https://golddate.firebaseio.com/app/chats');
@@ -1911,7 +1978,8 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/chats');
      
     return itemsRef.push({idPropuesta:idPropuesta,
                           idGanador:idGanador,
-                          idPropietario:idUserPropone});
+                          idPropietario:idUserPropone,
+                          nombreGanador: name});
 
 
   }
