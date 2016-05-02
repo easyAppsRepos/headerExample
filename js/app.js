@@ -1047,7 +1047,8 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
        $ionicLoading.hide();
       } else {
                    refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
-                                            pujante:$localStorage.user[0].email,
+                                            pujante:$localStorage.user[0].name,
+                                            KPujante:$localStorage.user[0].uid,
                                             fechaPuja:Date.now()});
                    $rootScope.$broadcast('actualizarPuja', {puja:$scope.inputSubasta});
                    $scope.pujaActual=$scope.inputSubasta;
