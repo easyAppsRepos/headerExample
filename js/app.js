@@ -102,9 +102,9 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'misMensajesCtrl'
     })
                  .state('UserMessages', {
-      url: '/UserMessages',
+      url: '/UserMessages/:kChat',
       templateUrl: 'UserMessages.html',
-      controller: 'misMensajesCtrl'
+      controller: 'UserMessagesCtrl'
     })
 
       .state('modalNewP', {
@@ -1580,41 +1580,28 @@ $scope.items = [
 
 
 
+nameApp.controller('UserMessagesCtrl', function($scope, $state,$stateParams, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
+
+$scope.chatSeleccionado=$stateParams.kChat;
+console.log($scope.chatSeleccionado);
 
 
-nameApp.controller('misMensajesCtrl', function($scope, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
+
+var chatsRef = new Firebase('https://golddate.firebaseio.com/app/mensajes/'+$scope.chatSeleccionado);
+
+chatsRef.on("child_added", function(snapshot) {
+
+console.log(snapshot.val());
+
+   $scope.messages.push({
+      userId:  snapshot.val().userId,
+      text:  snapshot.val().text,
+      time:  snapshot.val().time
+    });
 
 
-$scope.misChats={};
-$scope.misChatsGanados={};
-
-  ChatsUsuario.getChats($localStorage.user[0].uid).then(function(data){
-  $scope.misChats=data;
-  console.log(data);
 });
 
-    ChatsUsuario.getChatsGanados($localStorage.user[0].uid).then(function(data){
-    /*
-    for (var key in data) {
-        if (data.hasOwnProperty(key)) {
-            // console.log(key + " -> " + data[key].src);
-            $scope.pages.push({background:"https://s3.amazonaws.com/ggdate/"+data[key].src, 
-                               text:''});
-        }
-        $scope.$applyAsync();
-      }
-  console.log(data);
-  */
-  $scope.misChatsGanados=data;
-//console.log(Object.keys($scope.misChatsGanados)[1]);
-});
-
-
-$scope.openChat=function(kChat){
- var kChats= Object.keys($scope.misChatsGanados)[kChat];
-console.log(kChats);
-
-}
 
   $scope.hideTime = true;
 
@@ -1627,12 +1614,26 @@ console.log(kChats);
     var d = new Date();
   d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
 
+var addMensajeRef = new Firebase('https://golddate.firebaseio.com/app/mensajes/'+$scope.chatSeleccionado);
+addMensajeRef.push({
+      userId: $localStorage.user[0].uid,
+      text: $scope.data.message,
+      time: d
+    });
+ /*
+    $scope.messages.push({
+      userId:  $localStorage.user[0].uid,
+      text: $scope.data.message,
+      time: d
+    });
+
+    /*
     $scope.messages.push({
       userId: alternate ? '12345' : '54321',
       text: $scope.data.message,
       time: d
     });
-
+*/
     delete $scope.data.message;
     $ionicScrollDelegate.scrollBottom(true);
 
@@ -1658,8 +1659,49 @@ console.log(kChats);
 
 
   $scope.data = {};
-  $scope.myId = '12345';
+  $scope.myId = $localStorage.user[0].uid;
   $scope.messages = [];
+
+
+});
+
+
+nameApp.controller('misMensajesCtrl', function($scope, $state, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
+
+$scope.kChats='';
+$scope.misChats={};
+$scope.misChatsGanados={};
+
+  ChatsUsuario.getChats($localStorage.user[0].uid).then(function(data){
+  $scope.misChats=data;
+  console.log(data);
+});
+
+    ChatsUsuario.getChatsGanados($localStorage.user[0].uid).then(function(data){
+  $scope.misChatsGanados=data;
+//console.log(Object.keys($scope.misChatsGanados)[1]);
+});
+
+
+$scope.openChat=function(kChat){
+ $scope.kChats= Object.keys($scope.misChatsGanados)[kChat];
+var kc = Object.keys($scope.misChatsGanados)[kChat];
+
+/*
+var chatsRef = new Firebase('https://golddate.firebaseio.com/app/mensajes/'+$scope.kChats);
+
+chatsRef.on("child_added", function(snapshot) {
+
+console.log(snapshot.val());
+
+});
+*/
+$state.go('UserMessages',{kChat:kc});
+
+//console.log(kChats);
+
+}
+
 
 });
 
@@ -1932,7 +1974,7 @@ var newpushRef = pushRef.push();
 
 nameApp.factory('ChatsUsuario', function($http, $q) {
 return {
-
+ 
 
     getChatsGanados:function(idUser){
 
