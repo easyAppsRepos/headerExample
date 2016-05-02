@@ -175,7 +175,7 @@
 				<ion-content class="padding" style='top: 160px !important'>
 
 
-		<div ng-click='crearChat("{{puja.nombreP}}")' class="item" ng-repeat="puja in pujantes">
+		<div ng-click='crearChat("{{puja.KPujante}}")' class="item" ng-repeat="puja in pujantes">
 
           <div  class='numbers'>{{puja.posicion}}</div>
           <a>{{puja.nombreP}}</a>
@@ -622,7 +622,7 @@
 					<a>Tus subastas</a></div>
 					<div style='padding-top: 20px'class="list">
 
-					<a class="item item-avatar" href="#">
+					<a class="item item-avatar" href="#/UserMessages">
 					<img src="img/user2.jpg">
 					<h2>Pedro J</h2>
 					<p>Cena en restaurante hindu</p>
@@ -978,7 +978,39 @@
 
 
 
+    <script id="UserMessages.html" type="text/ng-template">
+<div class='chatStyle'>
 
+    <ion-content style='top: 47px !important;' class="content-stable"
+                 on-swipe-left="hideTime = false"
+                 on-swipe-right="hideTime = true">
+
+      <div ng-repeat="message in messages"
+           ng-class="{other: message.userId != myId}"
+           class="messages">
+
+        <div class="message" ng-class="{'slide-right': hideTime, '': !hideTime}">
+          <span>{{ message.text }}</span>
+        </div>
+
+        <div class="time" ng-class="{'slide-right': hideTime, '': !hideTime}">{{message.time}}</div>
+
+
+      </div>
+
+    </ion-content>
+
+    <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Type your message" on-return="sendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
+      </label>
+      <button class="button button-clear" ng-click="sendMessage()">
+        Send
+      </button>
+    </ion-footer-bar>
+
+</div>
+    </script>
     <script id="modalNewP.html" type="text/ng-template">
 
           <ion-view title='Crear Propuesta' hide-back-button='true'>		

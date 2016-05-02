@@ -99,8 +99,14 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
             .state('misMensajes', {
       url: '/misMensajes',
       templateUrl: 'misMensajes.html',
-      controller: 'ListCtrl'
+      controller: 'misMensajesCtrl'
     })
+                 .state('UserMessages', {
+      url: '/UserMessages',
+      templateUrl: 'UserMessages.html',
+      controller: 'misMensajesCtrl'
+    })
+
       .state('modalNewP', {
       url: '/modalNewP',
       templateUrl: 'modalNewP.html',
@@ -302,7 +308,7 @@ console.log("asdad22");
 
 
 
- nameApp.controller('misAlertasCtrl', function ($scope, $ionicModal, $ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+ nameApp.controller('misAlertasCtrl', function ($scope, $ionicModal, $ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, ChatsUsuario, Auth, FURL, Utils) {
  //$scope.notificaciones={};
 
 
@@ -316,6 +322,8 @@ $scope.crearChat= function(g){
   var ganador=g;
   var idPropuesta=$scope.idPropuestaSeleccionada;
   var idUserPropuesta=$localStorage.user[0].uid;
+
+ChatsUsuario.addChat(idPropuesta,ganador,idUserPropuesta);
 
   console.log("Ganador: "+g+" IdPropuesta: "+idPropuesta+" idUserPropuesta: "+idUserPropuesta)
 }
@@ -333,6 +341,7 @@ $scope.idPropuestaSeleccionada=snap.key();
 
 snap.forEach(function(item,index){
    $scope.pujantes.splice((tamanoArrego-index),0,{nombreP:item.val().pujante,
+                                                  KPujante:item.val().KPujante,
                                                valorPuja:item.val().valorPuja,
                                                 posicion:tamanoArrego-ij});
    ij++;
@@ -659,7 +668,8 @@ nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$st
        $ionicLoading.hide();
       } else {
                    refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
-                                            pujante:$localStorage.user[0].email,
+                                            pujante:$localStorage.user[0].name,
+                                            KPujante:$localStorage.user[0].uid,
                                             fechaPuja:Date.now()});
                    $rootScope.$broadcast('actualizarPuja', {puja:$scope.inputSubasta});
                    $scope.pujaActual=$scope.inputSubasta;
@@ -1566,6 +1576,60 @@ $scope.items = [
 
  });
 
+
+
+
+
+
+nameApp.controller('misMensajesCtrl', function($scope, $timeout, $ionicScrollDelegate) {
+
+  $scope.hideTime = true;
+
+  var alternate,
+    isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
+
+  $scope.sendMessage = function() {
+    alternate = !alternate;
+
+    var d = new Date();
+  d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
+
+    $scope.messages.push({
+      userId: alternate ? '12345' : '54321',
+      text: $scope.data.message,
+      time: d
+    });
+
+    delete $scope.data.message;
+    $ionicScrollDelegate.scrollBottom(true);
+
+  };
+
+
+  $scope.inputUp = function() {
+    if (isIOS) $scope.data.keyboardHeight = 216;
+    $timeout(function() {
+      $ionicScrollDelegate.scrollBottom(true);
+    }, 300);
+
+  };
+
+  $scope.inputDown = function() {
+    if (isIOS) $scope.data.keyboardHeight = 0;
+    $ionicScrollDelegate.resize();
+  };
+
+  $scope.closeKeyboard = function() {
+    // cordova.plugins.Keyboard.close();
+  };
+
+
+  $scope.data = {};
+  $scope.myId = '12345';
+  $scope.messages = [];
+
+});
+
     nameApp.controller('GeolocationCtrl', function($scope, $ionicLoading, $cordovaGeolocation) {
     	
 
@@ -1830,6 +1894,29 @@ var newpushRef = pushRef.push();
 }
 });
 
+
+
+
+nameApp.factory('ChatsUsuario', function($http, $q) {
+return {
+
+  addChat:function(idPropuesta,idGanador,idUserPropone){
+
+
+var itemsRef = new Firebase('https://golddate.firebaseio.com/app/chats');
+
+    
+
+     
+    return itemsRef.push({idPropuesta:idPropuesta,
+                          idGanador:idGanador,
+                          idPropietario:idUserPropone});
+
+
+  }
+}
+});
+
 nameApp.factory('FotosUsuario', function($http, $q) {
 return {
 
@@ -1928,3 +2015,43 @@ return defer.promise;
   }
 }
 });
+
+
+nameApp.directive('input', function($timeout) {
+  return {
+    restrict: 'E',
+    scope: {
+      'returnClose': '=',
+      'onReturn': '&',
+      'onFocus': '&',
+      'onBlur': '&'
+    },
+    link: function(scope, element, attr) {
+      element.bind('focus', function(e) {
+        if (scope.onFocus) {
+          $timeout(function() {
+            scope.onFocus();
+          });
+        }
+      });
+      element.bind('blur', function(e) {
+        if (scope.onBlur) {
+          $timeout(function() {
+            scope.onBlur();
+          });
+        }
+      });
+      element.bind('keydown', function(e) {
+        if (e.which == 13) {
+          if (scope.returnClose) element[0].blur();
+          if (scope.onReturn) {
+            $timeout(function() {
+              scope.onReturn();
+            });
+          }
+        }
+      });
+    }
+  }
+})
+
