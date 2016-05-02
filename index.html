@@ -622,7 +622,7 @@
 					<a>Tus subastas</a></div>
 					<div style='padding-top: 20px'class="list">
 
-					<a ng-repeat='chat in misChats' class="item item-avatar" href="#/UserMessages">
+					<a ng-click='openChat({{$index}},false)' ng-repeat='chat in misChats' class="item item-avatar">
 					<img src="img/user2.jpg">
 					<h2>{{chat.nombreGanador}}</h2>
 					<p>-</p>
@@ -646,7 +646,7 @@
 
 					<div style='padding-top: 20px'class="list">
 
-					<a ng-click='openChat({{$index}})' ng-repeat='chat in misChatsGanados' class="item item-avatar">
+					<a ng-click='openChat({{$index}},true)' ng-repeat='chat in misChatsGanados' class="item item-avatar">
 					<img src="img/user2.jpg">
 					<h2>{{chat.nombreGanador}}</h2>
 					<p>-</p>

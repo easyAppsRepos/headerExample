@@ -97,11 +97,13 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
             .state('misMensajes', {
+              cache:false,
       url: '/misMensajes',
       templateUrl: 'misMensajes.html',
       controller: 'misMensajesCtrl'
     })
                  .state('UserMessages', {
+                  cache:false,
       url: '/UserMessages/:kChat',
       templateUrl: 'UserMessages.html',
       controller: 'UserMessagesCtrl'
@@ -1581,7 +1583,7 @@ $scope.items = [
 
 
 nameApp.controller('UserMessagesCtrl', function($scope, $state,$stateParams, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
-
+  $scope.messages=[];
 $scope.chatSeleccionado=$stateParams.kChat;
 console.log($scope.chatSeleccionado);
 
@@ -1592,12 +1594,16 @@ var chatsRef = new Firebase('https://golddate.firebaseio.com/app/mensajes/'+$sco
 chatsRef.on("child_added", function(snapshot) {
 
 console.log(snapshot.val());
+$scope.$applyAsync(function(){
 
    $scope.messages.push({
       userId:  snapshot.val().userId,
       text:  snapshot.val().text,
       time:  snapshot.val().time
     });
+
+
+});
 
 
 });
@@ -1683,10 +1689,18 @@ $scope.misChatsGanados={};
 });
 
 
-$scope.openChat=function(kChat){
- $scope.kChats= Object.keys($scope.misChatsGanados)[kChat];
-var kc = Object.keys($scope.misChatsGanados)[kChat];
+$scope.openChat=function(kChat,ganados){
 
+  if(ganados==true){
+   $scope.kChats= Object.keys($scope.misChatsGanados)[kChat];
+  var kc = Object.keys($scope.misChatsGanados)[kChat];
+  }
+
+    if(ganados==false){
+   $scope.kChats= Object.keys($scope.misChats)[kChat];
+  var kc = Object.keys($scope.misChats)[kChat];
+  }
+  
 /*
 var chatsRef = new Firebase('https://golddate.firebaseio.com/app/mensajes/'+$scope.kChats);
 
