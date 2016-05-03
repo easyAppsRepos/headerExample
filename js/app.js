@@ -110,6 +110,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
       .state('modalNewP', {
+        cache:false,
       url: '/modalNewP',
       templateUrl: 'modalNewP.html',
       controller: 'crearPropuestaCtrl'
@@ -1278,7 +1279,7 @@ if($scope.imgURI == undefined){
               title: 'Exito',
               content: 'Tu propuesta fue creada con exito'
             }).then(function(res) {
-               delete $scope.propuesta;
+               //delete $scope.propuesta;
                $state.go('list');
 
             });
