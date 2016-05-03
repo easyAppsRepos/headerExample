@@ -325,10 +325,20 @@ $scope.crearChat= function(g,nombreP){
   var idPropuesta=$scope.idPropuestaSeleccionada;
   var idUserPropuesta=$localStorage.user[0].uid;
 
-ChatsUsuario.addChat(idPropuesta,ganador,idUserPropuesta, nombreP);
+ChatsUsuario.addChat(idPropuesta,ganador,idUserPropuesta, nombreP,$localStorage.user[0].name);
 
   console.log("Ganador: "+g+" IdPropuesta: "+idPropuesta+" idUserPropuesta: "+idUserPropuesta)
 }
+
+
+ $scope.borrarNoti = function(k){
+var notif = new Firebase('https://golddate.firebaseio.com/app/notificaciones/'+$localStorage.user[0].uid+'/'+k);
+notif.remove();
+$scope.getNotificaciones();
+
+
+ };
+
 
  $scope.escogerGanador = function(k){
 
@@ -642,7 +652,7 @@ nameApp.controller('seleccionarGanadorCtrl', function(){
 
 });
 
-nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation,FotosUsuario){
+nameApp.controller('detailCtrl',function($scope, $ionicPopup, $rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation,FotosUsuario){
 
 
 //des
@@ -682,6 +692,11 @@ nameApp.controller('detailCtrl',function($scope,$rootScope,$location, $state,$st
   
   
        $ionicLoading.hide();
+
+
+
+
+
       }
       console.log("puja", snapshot.val());
       });
@@ -1020,7 +1035,7 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
         }]);
 
 
-  nameApp.controller('MyController', function($scope,$rootScope,$ionicLoading, $localStorage,$ionicModal,$controller) {
+  nameApp.controller('MyController', function($scope,$rootScope,$ionicLoading, $ionicPopup,  $localStorage,$ionicModal,$controller) {
 
   	angular.extend(this, $controller('detailCtrl', {$scope: $scope}));
 
@@ -1061,6 +1076,17 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
   
   
        $ionicLoading.hide();
+
+                                  $ionicPopup.alert({
+              title: 'Exito',
+              content: 'Tu puja fue realizada con exito'
+            }).then(function(res) {
+              console.log('necesaria conexion ainternet');
+               $scope.closeModal();
+
+            });
+
+
       }
       console.log("puja", snapshot.val());
       });
@@ -1239,7 +1265,7 @@ if($scope.imgURI == undefined){
 
             geoFire.set(pKey.key(), [lat, long]).then(function() {
             console.log("ID:"+ pKey.key() + ": setiado en pos: [" + lat + "," + long + "]");
-              alert("agregado");
+             // alert("agregado");
             });
 
 
@@ -1247,7 +1273,17 @@ if($scope.imgURI == undefined){
     
     console.log(data);
     $ionicLoading.hide();
-    alert('listo');
+
+                                      $ionicPopup.alert({
+              title: 'Exito',
+              content: 'Tu propuesta fue creada con exito'
+            }).then(function(res) {
+               delete $scope.data.propuesta;
+               $state.go('list');
+
+            });
+
+ 
       });
 
 			     //     $ionicLoading.hide();
@@ -1969,11 +2005,22 @@ var newpushRef = pushRef.push();
 
     var itemsRef = new Firebase('https://golddate.firebaseio.com/app/notificaciones/'+idUser);
      var defer = $q.defer();
+     var notis=[];
      itemsRef.once("value", function(snapshot) {
       //var nameSnapshot = snapshot.child("companyName");
       //var name = nameSnapshot.val();
-      console.log(snapshot.val());
-      defer.resolve(snapshot.val()); //this does not return the data
+                    snapshot.forEach(function(item,index){
+                      var tempo={};
+                      tempo=item.val();
+                      tempo.keyNoti=item.key();
+                
+                notis.push(tempo);
+                console.log(tempo);
+
+              });
+
+      console.log(notis);
+      defer.resolve(notis); //this does not return the data
     });
     return defer.promise;
 
@@ -2024,7 +2071,7 @@ console.log('enChatUser');
   
   },
 
-  addChat:function(idPropuesta,idGanador,idUserPropone, name){
+  addChat:function(idPropuesta,idGanador,idUserPropone, name, nameP){
 
 
 var itemsRef = new Firebase('https://golddate.firebaseio.com/app/chats');
@@ -2035,7 +2082,8 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/chats');
     return itemsRef.push({idPropuesta:idPropuesta,
                           idGanador:idGanador,
                           idPropietario:idUserPropone,
-                          nombreGanador: name});
+                          nombreGanador: name,
+                          nombrePropietario:nameP});
 
 
   }
