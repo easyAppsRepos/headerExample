@@ -1278,7 +1278,7 @@ if($scope.imgURI == undefined){
               title: 'Exito',
               content: 'Tu propuesta fue creada con exito'
             }).then(function(res) {
-               delete $scope.data.propuesta;
+               delete $scope.propuesta;
                $state.go('list');
 
             });
