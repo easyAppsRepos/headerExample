@@ -1146,7 +1146,7 @@ $scope.categoriaSeleccionada=cat;
   });
 });
 
-    nameApp.controller('crearPropuestaCtrl', function($scope, $localStorage, $timeout, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal,FotosUsuario) {
+    nameApp.controller('crearPropuestaCtrl', function($scope, $localStorage, $state, $timeout, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal,FotosUsuario) {
 //color #6239AB
 $scope.propuesta = {};
 $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
