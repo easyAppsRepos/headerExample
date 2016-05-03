@@ -322,13 +322,45 @@ $scope.pujantes=[];
 
 $scope.crearChat= function(g,nombreP){
 
-  var ganador=g;
+
+
+ var myPopup = $ionicPopup.show({
+    template: '',
+    title: 'Confirmacion',
+    subTitle: 'Estas a punto de seleccionar a <b>'+nombreP+'</b> como ganador',
+    scope: $scope,
+    buttons: [
+      { text: 'Cancel' },
+      {
+        text: 'Continuar',
+        type: 'button-positive',
+        onTap: function(e) {
+
+            var ganador=g;
   var idPropuesta=$scope.idPropuestaSeleccionada;
   var idUserPropuesta=$localStorage.user[0].uid;
 
 ChatsUsuario.addChat(idPropuesta,ganador,idUserPropuesta, nombreP,$localStorage.user[0].name);
+                                      $ionicPopup.alert({
+              title: 'Seleccion exitosa',
+              content:'Se ha creado un chat con el ganador de tu propuesta'
+            }).then(function(res) {
+               //delete $scope.propuesta;
+               $scope.closeModal();
+               
 
-  console.log("Ganador: "+g+" IdPropuesta: "+idPropuesta+" idUserPropuesta: "+idUserPropuesta)
+            });
+
+
+
+        }
+      }
+    ]
+  });
+
+
+
+ // console.log("Ganador: "+g+" IdPropuesta: "+idPropuesta+" idUserPropuesta: "+idUserPropuesta)
 }
 
 
@@ -341,7 +373,24 @@ $scope.getNotificaciones();
  };
 
 
+ $scope.pagarPuja = function(k){
+
+  console.log('pagar puja : s'+k)
+ }
+
+
  $scope.escogerGanador = function(k){
+
+var refExiste = new Firebase("https://golddate.firebaseio.com/app/chats");
+
+
+  refExiste.orderByChild("idPropuesta").equalTo(k).once("value", function(snapshot) {
+  var a = snapshot.exists();
+
+  if(a){alert('ya has escogido un ganador para esta propuesta')}
+  else{
+
+
 
  $scope.pujantes=[];
 var refPujas = new Firebase("https://golddate.firebaseio.com/app/pujas/"+k);
@@ -365,6 +414,15 @@ snap.forEach(function(item,index){
 $scope.openModal('fade-in-scale','seleccionarGanador.html');
 
 });
+
+  }
+  console.log(a);
+
+  });
+ // console.log(snapshot.val());
+
+
+
  }
 
 

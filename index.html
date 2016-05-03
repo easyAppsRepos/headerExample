@@ -685,7 +685,10 @@
                             <h2 style='display: inline-block;margin-left: 45px;'>{{noti.titulo}}</h2>
                             <p style="margin-left: 45px;">{{noti.subTitulo}}</p>
                          
-                        <ion-option-button ng-click="escogerGanador('{{noti.idPropuesta}}')" class="button-balanced icon ion-trophy"></ion-option-button>
+                        <ion-option-button ng-show='!noti.idChat' ng-click="escogerGanador('{{noti.idPropuesta}}')" class="button-balanced icon ion-trophy"></ion-option-button>
+
+                        <ion-option-button ng-show='noti.idChat' ng-click="pagarPuja('{{noti.idPropuesta}}')" class="button-balanced icon ion-card"></ion-option-button>
+
                         <ion-option-button ng-click='borrarNoti("{{noti.keyNoti}}")' class="button-assertive icon ion-trash-a"></ion-option-button>
                     </ion-item>
                 </ion-list>
