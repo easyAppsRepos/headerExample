@@ -18,7 +18,7 @@
         <script src="lib/ionic/js/ionic.bundle.js"></script>
 
 
-]<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
  <script type="text/javascript"  src='http://maps.googleapis.com/maps/api/js?key=AIzaSyAzB2FNhXiXDe1TnKFMQyoZRASVehAKLvs&sensor=true'></script>
 
 <script type="text/javascript" src="js/gmaps.js"></script>
@@ -64,7 +64,7 @@
         <ion-item ng-controller='userInfoCtrl' class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
           <div class="user-image-container">
             <pre-img ratio="_1_1" helper-class="rounded-image">
-              <img class="user-image" ng-src="https://s3.amazonaws.com/ggdate/{{userInfo.userPic}}" spinner-on-load>
+              <img class="user-image" ng-src="{{getFoto(userInfo.userPic)}}" spinner-on-load>
             </pre-img>
           </div>
           <h2 class="greeting">{{userInfo.nombreUser}}</h2>
@@ -545,7 +545,7 @@
 			<div  class='miPerfil'>
 			<div class="" style="padding-top: 25px">
 				<div ng-click='cambiarFotoPerfil()' class="roundedBorder">
-				<img style="object-fit: cover;margin: 9px; height: 100px; width: 100px;"  class="user-image" ng-src="https://s3.amazonaws.com/ggdate/{{fotoUsuario}}" spinner-on-load="">
+				<img style="object-fit: cover;margin: 9px; height: 100px; width: 100px;"  class="user-image" ng-src="{{getFoto(fotoUsuario)}}" spinner-on-load="">
 				</div>
 			</div>
 			<div style="text-align: center; font-size: 20px; margin-top: 15px; color:lightgoldenrodyellow">
@@ -648,7 +648,7 @@
 					<div style='padding-top: 20px'class="list">
 
 					<a ng-click='openChat({{$index}},true)' ng-repeat='chat in misChatsGanados' class="item item-avatar">
-					<img ng-src="https://s3.amazonaws.com/ggdate/{{chat.idPropietario}}.jpg">
+					<img ng-src="{{getFoto(chat.idPropietario)}}">
 					<h2>{{chat.nombrePropietario}}</h2>
 					<p>Subasta ganada</p>
 					</a>
@@ -703,8 +703,8 @@
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
-			         <ion-nav-buttons side="right">
-<a style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+			         <ion-nav-buttons   side="right">
+<a ng-click='buscar()' style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
         
       </a>
    </ion-nav-buttons> 
@@ -717,7 +717,7 @@
 
 								<label class=" labelForm item item-input">
 					<i class="icon ion-search placeholder-icon"></i>
-					<input type="text" placeholder="Nombre o palabra">
+					<input ng-model='busqueda.nombre' type="text" placeholder="Nombre o palabra">
 						</label>
 
            <label  class="borderBot item itemForms " >
@@ -727,13 +727,13 @@
           <div style="color: rgb(102, 102, 102); ">De</div>
           </label>
               <label class="item item-input " style="margin-top: 5px;">
-                <input ng-model='' type="number" placeholder="Años">
+                <input  ng-model='busqueda.edadDe' type="number" placeholder="Años">
               </label>
                              <label  class="item itemForms ">
           <div style="color: rgb(102, 102, 102); ">a</div>
           </label>
               <label class="item item-input " style="margin-top: 5px;">
-                <input ng-model='' type="number" placeholder="Años">
+                <input  ng-model='busqueda.edadHasta' type="number" placeholder="Años">
               </label>
 
 
@@ -837,9 +837,15 @@
 					   Invita por Whatsapp
 					  </a>
 
-					  <a class="item item-icon-left" href="#">
+					  <a class="item item-icon-left" ng-click='compartirCorreo()'>
 					    <i class="icon ion-email"></i>
 					   Invita por email
+					  </a>
+
+
+					  <a class="item item-icon-left" ng-click='compartirOtro()'>
+					    <i class="icon ion-android-textsms"></i>
+					   Invita por otro medio
 					  </a>
 
 					  </div>
@@ -854,8 +860,24 @@
       <i class="icon ion-android-person-add larger positive"></i>
     </div>
     <form name="registerForm" novalidate ng-submit="registerForm.$valid && register(user)"
-    ng-class="{ 'has-error' : registerForm.txtemail.$invalid && registerForm.$submitted }">
+    ng-class="{ 'has-error' : registerForm.txtnombre.$invalid && registerForm.txtnombre.$invalid && registerForm.txtedad.$invalid && registerForm.$submitted }">
     <div class="list">
+
+            <label class="item item-input item-floating-label">
+          <span class="input-label">Nombre</span>
+        <input name="txtnombre" type="text" ng-model="user.nombre" placeholder="Tu nombre"
+        ng-minlength="3"
+        ng-maxlength="15"
+        required>
+      </label>
+
+                  <label class="item item-input item-floating-label">
+          <span class="input-label">Fecha de nacimiento</span>
+        <input name="txtedad" type="date" ng-model="user.fechaNacimiento" 
+        required>
+      </label>
+
+
         <label class="item item-input item-floating-label">
           <span class="input-label">Email</span>
         <input name="txtemail" type="email" ng-model="user.email" placeholder="Email"

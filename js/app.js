@@ -59,7 +59,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
             .state('filtrosVIP', {
       url: '/filtrosVIP',
       templateUrl: 'filtrosVIP.html',
-      controller: 'ListCtrl'
+      controller: 'filtrosVIPCtrl'
     })
 
             .state('compartir', {
@@ -285,7 +285,7 @@ console.log("asdad22");
 
          Utils.alertshow("Registro Exitoso","Usuario creado correctamente");
 
-         $location.path('/');
+        // $location.path('/');
 
       }, function(err) {
          Utils.hide();
@@ -304,6 +304,11 @@ console.log("asdad22");
  nameApp.controller('userInfoCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
     $scope.userInfo={};
 
+
+$scope.getFoto=function(s){
+return s.length < 40 ? 'https://s3.amazonaws.com/ggdate/'+s : s;
+
+}
     $scope.$on('userInfoBroad', function(event, args) {
 
      $scope.userInfo.nombreUser  = args.userName;
@@ -325,6 +330,12 @@ console.log("asdad22");
 
  nameApp.controller('miPerfilCtrl', function ($scope, $ionicSideMenuDelegate, $rootScope, $ionicLoading, $cordovaCamera, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
  
+
+ $scope.getFoto=function(s){
+return s.length < 40 ? 'https://s3.amazonaws.com/ggdate/'+s : s;
+
+}
+
   var refCompletadas = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas');
   refCompletadas.orderByChild("kPropone").equalTo($localStorage.user[0].uid).once("value", function(snapshot) {
   var a = snapshot.exists();
@@ -643,8 +654,58 @@ console.log("En mis Alergas");
 
 
 nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject,PushNoti, Auth, FURL, Utils) {
-     
+  
+
+  $scope.loguear = function(uid){
+   
+//pusjj
+        if(localStorage.getItem('pushKeyGD')){
+        var pushKeyGD=  localStorage.getItem('pushKeyGD');
+        var device= ionic.Platform.platform();
+        var uuid=ionic.Platform.device().uuid;
+  
+
+
+        var pushState = { 
+        pushK:pushKeyGD, 
+        device:device,
+        deviceId:uuid,
+        login:Date.now()
+        }
+
+        console.log(pushState);
+     var sessionPID= PushNoti.addPush(KEYFACE,pushState);
+  
+
+        }else{console.log("nopushK");}
+//endPush
+
+
+                  ref.child('app/userInfo/'+uid).once("value", function(snap) {
+
+              $localStorage = $localStorage.$default({
+  user: [],pruebaStorage: []
+});
+            $localStorage.user.push({ uid:uid,
+                                      sessionPID:sessionPID || null,
+                                      email:snap.val().email,
+                                     name:snap.val().nombre,
+                                      photo:snap.val().userPic,
+                                      vip:snap.val().vip}); 
+
+$rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
+                                        userPic:snap.val().userPic});
+    $rootScope.$broadcast('pushNuevo');
+
+                  $location.path('/');
+                  $state.go('list',{reload:true});
+            });
+
+
+  };   
  $scope.loginFace = function(){
+
+
 
      var ref = new Firebase("https://golddate.firebaseio.com");
     ref.authWithOAuthPopup("facebook", function(error, authData) {
@@ -653,6 +714,33 @@ nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDeleg
         alert("Ups, ha ocurrido un error inesperado :c");
       } else {
         console.log("Authenticated successfully with payload:", authData);
+
+
+
+  var refUser = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+authData.uid);
+  refUser.once("value", function(snap) {
+  var a = snap.exists();
+  if(a){
+
+    $scope.loguear(authData.uid);
+
+  }
+  else{
+
+
+        var refUserNew = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+authData.uid);
+        refUserNew.set({email:authData.facebook.email, 
+                        nombre:authData.facebook.displayName, 
+                        userPic:authData.facebook.profileImageURL,
+                        vip:false},$scope.loguear(authData.uid));
+    
+
+
+  }
+
+  });
+/*
+           
                    $localStorage.user.push({email:authData.facebook.email,
                                      name:authData.facebook.displayName,
                                       photo:authData.facebook.profileImageURL,
@@ -664,6 +752,7 @@ $rootScope.$broadcast('userInfoBroad', {userName:authData.facebook.displayName,
 
                   $location.path('/');
                   $state.go('list');
+               */   
 
 
       }
@@ -1046,32 +1135,6 @@ $scope.pages=[];
 
 nameApp.controller('ListCtrl', function($scope, $localStorage, $ionicModal, $http, Movies, $state,$ionicSlideBoxDelegate, $ionicSideMenuDelegate, Navigation) {
 console.log("adasdas en MENU SIDE");
-
-
-
-$scope.chico = false;
-$scope.chica = false;
-$scope.subasta = false;
-$scope.fijo = false;
-$scope.mas = false;
-$scope.menos = false;
-$scope.selected='';
-$scope.selected2='';
-$scope.selected3='';
-$scope.selected4='';
-$scope.selected6='';
-$scope.selected5='';
-
-  $scope.activeButton = function(item) {
-
-    if(item=='chico'){$scope.chico = !$scope.chico; if($scope.chico==true){$scope.selected='Select'}else{$scope.selected=''}}
-    if(item=='chica'){$scope.chica = !$scope.chica; if($scope.chica==true){$scope.selected2='Select'}else{$scope.selected2=''}}
-     if(item=='subasta'){$scope.subasta = !$scope.subasta; if($scope.subasta==true){$scope.selected3='Select'}else{$scope.selected3=''}}
-    if(item=='fijo'){$scope.fijo = !$scope.fijo; if($scope.fijo==true){$scope.selected4='Select'}else{$scope.selected4=''}}
-      if(item=='mas'){$scope.mas = !$scope.mas; if($scope.mas==true){$scope.selected5='Select'}else{$scope.selected5=''}}
-    if(item=='menos'){$scope.menos = !$scope.menos; if($scope.menos==true){$scope.selected6='Select'}else{$scope.selected6=''}}
-    }
-  
 
 
 
@@ -1813,12 +1876,74 @@ $scope.items = [
 
 
 
+nameApp.controller('filtrosVIPCtrl', function($scope, $state, $stateParams, $cordovaSocialSharing, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
+
+$scope.busqueda={};
+
+
+
+
+$scope.chico = false;
+$scope.chica = false;
+$scope.subasta = false;
+$scope.fijo = false;
+$scope.mas = false;
+$scope.menos = false;
+$scope.selected='';
+$scope.selected2='';
+$scope.selected3='';
+$scope.selected4='';
+$scope.selected6='';
+$scope.selected5='';
+
+  $scope.activeButton = function(item) {
+
+    if(item=='chico'){$scope.chico = !$scope.chico; if($scope.chico==true){$scope.selected='Select'}else{$scope.selected=''}}
+    if(item=='chica'){$scope.chica = !$scope.chica; if($scope.chica==true){$scope.selected2='Select'}else{$scope.selected2=''}}
+     if(item=='subasta'){$scope.subasta = !$scope.subasta; if($scope.subasta==true){$scope.selected3='Select'}else{$scope.selected3=''}}
+    if(item=='fijo'){$scope.fijo = !$scope.fijo; if($scope.fijo==true){$scope.selected4='Select'}else{$scope.selected4=''}}
+      if(item=='mas'){$scope.mas = !$scope.mas; if($scope.mas==true){$scope.selected5='Select'}else{$scope.selected5=''}}
+    if(item=='menos'){$scope.menos = !$scope.menos; if($scope.menos==true){$scope.selected6='Select'}else{$scope.selected6=''}}
+    }
+  
+
+
+
+
+  $scope.buscar=function(){
+
+if(typeof $scope.busqueda.nombre == 'undefined' || $scope.busqueda.nombre=='' ){
+    console.log('no nombre');
+
+}
+
+if(typeof $scope.busqueda.edadDe == 'undefined' || $scope.busqueda.edadDe=='' || typeof $scope.busqueda.edadHasta == 'undefined' || $scope.busqueda.edadHasta=='' ){
+    
+console.log('no edad');
+}
+
+
+if($scope.chico == true){console.log(' chico');}
+if($scope.chica == true){console.log(' chica');}
+if($scope.subasta == true){console.log('subasta');}
+if($scope.fijo == true){console.log(' fijo');}
+if($scope.mas == true){console.log(' mas');}
+if($scope.menos == true){console.log(' menos');}
+
+  
+
+  }
+
+
+
+});
+
 nameApp.controller('compartirCtrl', function($scope, $state, $stateParams, $cordovaSocialSharing, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
 
 $scope.compartirFace=function(){
 
     $cordovaSocialSharing
-    .shareViaFacebook(null, null, 'www.google.com')
+    .shareViaFacebook(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
     .then(function(result) {
       // Success!
             console.log(result);
@@ -1831,7 +1956,19 @@ $scope.compartirFace=function(){
 }
 
 
-$scope.compartirTwitter=function(){
+
+$scope.compartirCorreo=function(){
+
+    $cordovaSocialSharing
+    .shareViaEmail('Prueba Goldate', 'Goldate', null, null, null, null)
+    .then(function(result) {
+      // Success!
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+
+}
+$scope.compartirOtro=function(){
   $cordovaSocialSharing
     .share(null, null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41') // Share via native share sheet
     .then(function(result) {
@@ -1840,6 +1977,23 @@ $scope.compartirTwitter=function(){
     }, function(err) {
        console.log(err);
       // An error occured. Show a message to the user
+    });
+
+
+}
+
+$scope.compartirTwitter=function(){
+
+  $cordovaSocialSharing
+    .shareViaTwitter(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
+    .then(function(result) {
+          console.log(result);
+      console.log('ok');
+      // Success!
+    }, function(err) {
+            console.log(err);
+      console.log('error');
+      // An error occurred. Show a message to the user
     });
 
 
@@ -1950,6 +2104,27 @@ addMensajeRef.push({
 
 
 nameApp.controller('misMensajesCtrl', function($scope, $state, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
+
+
+$scope.getFoto=function(s){
+
+  var string = s;
+    substring = "facebook";
+if(string.indexOf(substring) > -1){
+//get value from firebase
+
+var ref = new Firebase("https://golddate.firebaseio.com/app/userInfo/"+s);
+ref.once("value", function(snap) {
+  return snap.val().userPic;
+});
+
+
+}
+else{
+  return 'https://s3.amazonaws.com/ggdate/'+s+'.jpg';
+}
+}
+
 
 $scope.kChats='';
 $scope.misChats={};
@@ -2079,8 +2254,9 @@ $state.go('UserMessages',{kChat:kc});
         var name = profile.email.match(/^([^@]*)@/)[1];
         var refUserNew = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+id);
         refUserNew.set({email:profile.email, 
-                        nombre:name, 
+                        nombre:user.nombre, 
                         userPic:'photoDefecto.png',
+                        fechaNacimiento:(user.fechaNacimiento).toString(),
                         vip:false});
     
         //

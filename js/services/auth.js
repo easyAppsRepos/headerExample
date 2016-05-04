@@ -31,7 +31,7 @@ angular.module('starter').factory('Auth', function(FURL, $firebaseAuth, $firebas
       return auth.$createUser({email: user.email, password: user.password})
         .then(function() {
           // authenticate so we have permission to write to Firebase
-          return Auth.login(user);
+          return true;
         })
         .then(function(data) {
           // store user data in Firebase after creating account
