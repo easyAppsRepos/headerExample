@@ -1821,7 +1821,11 @@ $scope.compartirFace=function(){
     .shareViaFacebook(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
     .then(function(result) {
       // Success!
+            console.log(result);
+      console.log('ok');
     }, function(err) {
+      console.log(err);
+      console.log('error');
       // An error occurred. Show a message to the user
     });
 }
@@ -1832,8 +1836,12 @@ $scope.compartirTwitter=function(){
   $cordovaSocialSharing
     .shareViaTwitter(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
     .then(function(result) {
+          console.log(result);
+      console.log('ok');
       // Success!
     }, function(err) {
+            console.log(err);
+      console.log('error');
       // An error occurred. Show a message to the user
     });
 
