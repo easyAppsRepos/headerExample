@@ -316,7 +316,7 @@ console.log("asdad22");
 */
 });
 
- nameApp.controller('miPerfilCtrl', function ($scope, $ionicSideMenuDelegate, $ionicLoading, $cordovaCamera, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
+ nameApp.controller('miPerfilCtrl', function ($scope, $ionicSideMenuDelegate, $rootScope, $ionicLoading, $cordovaCamera, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
  
 
      $scope.nombreUsuario=$localStorage.user[0].name;
@@ -363,6 +363,10 @@ console.log("asdad22");
     alert('listo');
     $scope.$applyAsync(function(){
       $scope.fotoUsuario=nombreImage;
+
+      $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
+                                        userPic:nombreImage});
+
     });
 
     }); 

@@ -64,7 +64,7 @@
         <ion-item ng-controller='userInfoCtrl' class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
           <div class="user-image-container">
             <pre-img ratio="_1_1" helper-class="rounded-image">
-              <img class="user-image" ng-src="https://s3.amazonaws.com/ggdate/{{fotoUsuario}}" spinner-on-load>
+              <img class="user-image" ng-src="https://s3.amazonaws.com/ggdate/{{userInfo.userPic}}" spinner-on-load>
             </pre-img>
           </div>
           <h2 class="greeting">{{userInfo.nombreUser}}</h2>
