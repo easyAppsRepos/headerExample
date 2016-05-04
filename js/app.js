@@ -316,7 +316,7 @@ console.log("asdad22");
 */
 });
 
- nameApp.controller('miPerfilCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
+ nameApp.controller('miPerfilCtrl', function ($scope,$ionicSideMenuDelegate, $cordovaCamera, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
  
 
      $scope.nombreUsuario=$localStorage.user[0].name;
