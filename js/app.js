@@ -392,9 +392,10 @@ console.log("asdad22");
     alert('listo');
     $scope.$applyAsync(function(){
       $scope.fotoUsuario=nombreImage;
-
+      $localStorage.user[0].photo
       $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
                                         userPic:nombreImage});
+      $localStorage.user[0].photo=nombreImage;
 
     });
 
