@@ -316,11 +316,81 @@ console.log("asdad22");
 */
 });
 
- nameApp.controller('miPerfilCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, Auth, FURL, Utils) {
+ nameApp.controller('miPerfilCtrl', function ($scope,$ionicSideMenuDelegate, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
  
 
      $scope.nombreUsuario=$localStorage.user[0].name;
     $scope.fotoUsuario=$localStorage.user[0].photo;
+
+    $scope.cambiarFotoPerfil = function(){
+
+
+   var isOnline = true;
+   if(isOnline){
+
+    var options = {
+      quality: 100,
+      //destinationType: Camera.DestinationType.DATA_URL,
+      destinationType: Camera.DestinationType.FILE_URI,
+      correctOrientation: true,
+ sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth:  500,
+      targetHeight: 500,
+      popoverOptions: CameraPopoverOptions
+  };
+
+      $cordovaCamera.getPicture(options).then(function (imageData) {
+      //    $scope.imgURI = "data:image/jpeg;base64," + imageData;
+     // $scope.imgURI=imageData;
+             $ionicLoading.show({
+      template: 'Cargando...'
+    });
+
+      var idUser = $localStorage.user[0].uid;
+         var nombreImage=idUser+Date.now()+'.jpg';
+      FotosUsuario.addFoto(idUser,imageData,nombreImage).then(function(data){
+    
+
+
+    var photoRef = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+idUser);
+    // Modify the 'first' and 'last' children, but leave other data at fredNameRef unchanged
+    photoRef.update({ userPic: nombreImage }, function(){
+
+   console.log(data);
+    $ionicLoading.hide();
+    alert('listo');
+
+    }); 
+
+ 
+      });
+
+      console.log("idasidasdo");
+
+      }, function (err) {
+              console.log("En error");
+                console.log(err);
+                alert(err);
+                 $ionicLoading.hide();
+       });
+      } else{
+                 $ionicLoading.hide();
+                    $ionicPopup.alert({
+              title: 'Error',
+              content: 'Es necesaria conexión a internet'
+            }).then(function(res) {
+              console.log('necesaria conexion ainternet');
+            });
+      }
+
+    
+  
+
+
+
+    };
 
 });
 
@@ -390,15 +460,15 @@ $scope.getNotificaciones();
 
  $scope.pagarPuja = function(k){
 
-
+/*
  PaypalService.initPaymentUI().then(function () {
                     PaypalService.makePayment(100, "Total").then(function(){
                       console.log('asda');
 
                     })
  });
-
-  console.log('pagar puja : s'+k)
+*/
+ alert('Pago por medio de Paypal');
  }
 
 
@@ -1318,7 +1388,7 @@ if($scope.imgURI == undefined){
       .getCurrentPosition(posOptions)
       .then(function (position) {
 
-           nombreImg=$localStorage.user[0].uid+Date.now()+'.jpg';
+           nombreImg=$localStorage.user[0].uid+'.jpg';
 
            lat  = position.coords.latitude
            long = position.coords.longitude
@@ -1921,7 +1991,7 @@ $state.go('UserMessages',{kChat:kc});
         var refUserNew = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+id);
         refUserNew.set({email:profile.email, 
                         nombre:name, 
-                        userPic:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADaElEQVRoge2Wy2sTURSHbyOC3bhTqGhaWo0iFHci1cTMuWma2NxYaqKCgqLoP6BiQcUB0YhtKYhoNiIFcTRatZuZ7txIFyLuxNfCByq1vhDxUZvk58JGk5CmSebOjIsc+EE2597vmzk3dxirV73+jwoGg4uJaDfnfJiI7hPReyL6RUQoDuc85jTv3yKitUQ0MhvsLHkXDAYXOwre2dm5hIhSVUAX57pj8JzzEBF9MAGfy1NFUQb9fv86O+H3ElFaAnxBFEUxAoFAu9XwO4goKxs+Lz+IKG4JPBF1ENGUhfC5ZDnnu6TCh8PhhUT03Ab4XL4pirJGmgARDdgIn8u4FHiv19tk0+iUSti0ABGddggeRHTLFLyqqi4ieuOgwM9wOLzQzNP3yYbaszWA4WMhvLjcjVsnQwhwC8eIiI7KhoYhCjJ+bhO6Q7xc//GaBTjnt62ALs6z4W5s2zyrRO3fTET00Cro4kymIti/PVBq3XtmBD5bCV2c76MRHNnXWbA+5/ytGYGS3/gyoYuT0QXOHuzK3++HGQFboEslf28pAnZA1wXyC1rbsh09G9NOC+zs8WVwefnS6gWurrzxOrkaIuR3TECE/HidXA1oK6q/C6B5vkLz4MFgOwK8tMCj816c6nXjVK8bjy/4KoarpC/ACQ8G2wHNA2ieLzULQPNgNBEquUliixt9XU3o62pCItZcsUAlfaOJUA6+ZoGbfxcwAWKq75/AteoFrnhWQfN8Kifw+IIPiS1uJGLNeJLcWLFAxX1/4D/WdIj/vIW2ZdBWXIcRsf0QQ48AmidVM3yBiCEmbRcwxDvT4HkC4w4I3JUnoIsBBwT65QmMdXvtPwPR9fIEUvF50MWEffBiAqrqkibAGGPQxWEbBQ5KhWeMMaTijTDEq3IbZy62YHqAlU3mYstcAi9wx79AugBjjEGPxGCIbFmJS62YHmgoAd+AzKXWueCzMKK9lsD/kxAn5xqB7EgH0slFmB6aj+mh+UgnFyE70lHB+ERPWArPGGMAa4AhUtLnfkxcBViD5QKMMQZVdc28ibLjVGGyMKInbIMvENEjMejipYl/m5fQRY/t4AUSqXgjjMihqu4JXUxgLHoAqXijo/D5BVV1wRAbYIh+GGJ8RmgKhpia+X0XRvQM9Oh66ZdUvepVe/0G8Z+FcEFDCTMAAAAASUVORK5CYII=',
+                        userPic:'photoDefecto.png',
                         vip:false});
     
         //

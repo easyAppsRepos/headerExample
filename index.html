@@ -64,7 +64,7 @@
         <ion-item ng-controller='userInfoCtrl' class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
           <div class="user-image-container">
             <pre-img ratio="_1_1" helper-class="rounded-image">
-              <img class="user-image" ng-src="{{userInfo.userPic}}" spinner-on-load>
+              <img class="user-image" ng-src="https://s3.amazonaws.com/ggdate/{{fotoUsuario}}" spinner-on-load>
             </pre-img>
           </div>
           <h2 class="greeting">{{userInfo.nombreUser}}</h2>
@@ -544,8 +544,8 @@
 			-->
 			<div  class='miPerfil'>
 			<div class="" style="padding-top: 25px">
-				<div class="roundedBorder">
-				<img style="object-fit: cover;margin: 9px; height: 100px; width: 100px;" src="img/user1.jpg" class="user-image" ng-src="{{fotoUsuario}}" spinner-on-load="">
+				<div ng-click='cambiarFotoPerfil()' class="roundedBorder">
+				<img style="object-fit: cover;margin: 9px; height: 100px; width: 100px;"  class="user-image" ng-src="https://s3.amazonaws.com/ggdate/{{fotoUsuario}}" spinner-on-load="">
 				</div>
 			</div>
 			<div style="text-align: center; font-size: 20px; margin-top: 15px; color:lightgoldenrodyellow">
@@ -682,7 +682,7 @@
            <ion-list show-delete="false" can-swipe="true">
                     <ion-item ng-repeat='noti in notificaciones'>
                         
-                           <img style="position: absolute; height: 50px; top: 0px; left: 0px; margin-top: 13px; margin-left: 5px;" src="img/user1.jpg">
+                           <img style="position: absolute; height: 50px; top: 0px; left: 0px; margin-top: 13px; margin-left: 5px;" ng-src="https://s3.amazonaws.com/ggdate/{{noti.idPropuesta}}.jpg">
                             <h2 style='display: inline-block;margin-left: 45px;'>{{noti.titulo}}</h2>
                             <p style="margin-left: 45px;">{{noti.subTitulo}}</p>
                          
