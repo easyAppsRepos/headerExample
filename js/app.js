@@ -326,7 +326,7 @@ console.log("asdad22");
 
 
 
- nameApp.controller('misAlertasCtrl', function ($scope, $ionicModal, $ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, ChatsUsuario, Auth, FURL, Utils) {
+ nameApp.controller('misAlertasCtrl', function ($scope, $ionicModal, $ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, ChatsUsuario, PaypalService, Auth, FURL, Utils) {
  //$scope.notificaciones={};
 
 
