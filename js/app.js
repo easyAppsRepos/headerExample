@@ -361,6 +361,9 @@ console.log("asdad22");
    console.log(data);
     $ionicLoading.hide();
     alert('listo');
+    $scope.$applyAsync(function(){
+      $scope.fotoUsuario=nombreImage;
+    });
 
     }); 
 
