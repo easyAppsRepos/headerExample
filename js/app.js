@@ -1818,7 +1818,7 @@ nameApp.controller('compartirCtrl', function($scope, $state, $stateParams, $cord
 $scope.compartirFace=function(){
 
     $cordovaSocialSharing
-    .shareViaFacebook(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
+    .shareViaFacebook(null, null, 'www.google.com')
     .then(function(result) {
       // Success!
             console.log(result);
@@ -1832,17 +1832,14 @@ $scope.compartirFace=function(){
 
 
 $scope.compartirTwitter=function(){
-
   $cordovaSocialSharing
-    .shareViaTwitter(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
+    .share(null, null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41') // Share via native share sheet
     .then(function(result) {
-          console.log(result);
-      console.log('ok');
+      console.log(result);
       // Success!
     }, function(err) {
-            console.log(err);
-      console.log('error');
-      // An error occurred. Show a message to the user
+       console.log(err);
+      // An error occured. Show a message to the user
     });
 
 
