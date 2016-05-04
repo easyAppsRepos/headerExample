@@ -318,6 +318,35 @@ console.log("asdad22");
 
  nameApp.controller('miPerfilCtrl', function ($scope, $ionicSideMenuDelegate, $rootScope, $ionicLoading, $cordovaCamera, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
  
+  var refCompletadas = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas');
+  refCompletadas.orderByChild("kPropone").equalTo($localStorage.user[0].uid).once("value", function(snapshot) {
+  var a = snapshot.exists();
+  if(a){
+
+    $scope.publicadas=snapshot.numChildren();
+     console.log('publicados:'+$scope.publicadas);
+  }
+  else{$scope.publicadas=0}
+
+  });
+
+
+
+  var refSubastando = new Firebase('https://golddate.firebaseio.com/app/propuestas');
+  refSubastando.orderByChild("kPropone").equalTo($localStorage.user[0].uid).once("value", function(snapshot) {
+  var a = snapshot.exists();
+  if(a){
+
+    $scope.subastando=snapshot.numChildren();
+     console.log('publicados:'+$scope.subastando);
+  }
+  else{$scope.subastando=0}
+
+  });
+
+
+
+
 
      $scope.nombreUsuario=$localStorage.user[0].name;
     $scope.fotoUsuario=$localStorage.user[0].photo;
@@ -349,7 +378,7 @@ console.log("asdad22");
     });
 
       var idUser = $localStorage.user[0].uid;
-         var nombreImage=idUser+Date.now()+'.jpg';
+         var nombreImage=idUser+'.jpg';
       FotosUsuario.addFoto(idUser,imageData,nombreImage).then(function(data){
     
 

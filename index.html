@@ -562,10 +562,10 @@
 
 			<div class="row" style="margin-top: 15px;color: lightcyan; font-size: 13px; background-color: #26a69a">
 			 <div class="col" style="text-align: center; border-right: solid 1px">
-			    <a style="font-size: 20px;">1</a><br><a>Subastando</a>
+			    <a style="font-size: 20px;">{{subastando}}</a><br><a>Subastando</a>
 			    </div>
 			  <div class="col" style="text-align: center;">
-			    <a style="font-size: 20px;">0</a><br><a>Completadas</a>
+			    <a style="font-size: 20px;">{{publicadas}}</a><br><a>Terminadas</a>
 			  </div>
 			  <div class="col" style='text-align: center; border-left: solid 1px;'>
 			    <a style="font-size: 20px;">0</a><br><a>Opiniones</a>
@@ -626,7 +626,7 @@
 					<a ng-click='openChat({{$index}},false)' ng-repeat='chat in misChats' class="item item-avatar">
 					<img src="img/user2.jpg">
 					<h2>{{chat.nombreGanador}}</h2>
-					<p>-</p>
+					<p>Subasta finalizada</p>
 					</a>
 
 
@@ -650,7 +650,7 @@
 					<a ng-click='openChat({{$index}},true)' ng-repeat='chat in misChatsGanados' class="item item-avatar">
 					<img src="img/user2.jpg">
 					<h2>{{chat.nombrePropietario}}</h2>
-					<p>-</p>
+					<p>Subasta ganada</p>
 					</a>
 
 
@@ -1022,10 +1022,10 @@
 
     <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
       <label class="item-input-wrapper">
-        <input type="text" placeholder="Type your message" on-return="sendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
+        <input type="text" placeholder="Escribe tu mensaje" on-return="sendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
       </label>
       <button class="button button-clear" ng-click="sendMessage()">
-        Send
+        Enviar
       </button>
     </ion-footer-bar>
 
