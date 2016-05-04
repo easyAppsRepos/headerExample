@@ -62,6 +62,13 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ListCtrl'
     })
 
+            .state('compartir', {
+      url: '/compartir',
+      templateUrl: 'compartir.html',
+      controller: 'compartirCtrl'
+    })
+
+
 
             .state('configuracion', {
       url: '/configuracion',
@@ -1806,7 +1813,47 @@ $scope.items = [
 
 
 
+nameApp.controller('compartirCtrl', function($scope, $state, $stateParams, $cordovaSocialSharing, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
 
+$scope.compartirFace=function(){
+
+    $cordovaSocialSharing
+    .shareViaFacebook(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
+    .then(function(result) {
+      // Success!
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+}
+
+
+$scope.compartirTwitter=function(){
+
+  $cordovaSocialSharing
+    .shareViaTwitter(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
+    .then(function(result) {
+      // Success!
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+
+
+}
+
+$scope.compartirWhats=function(){
+
+    $cordovaSocialSharing
+    .shareViaWhatsApp(null, null, 'https://play.google.com/store/apps/details?id=com.whatsapp&hl=es_41')
+    .then(function(result) {
+      // Success!
+    }, function(err) {
+      // An error occurred. Show a message to the user
+    });
+
+}
+
+  });
+ 
 nameApp.controller('UserMessagesCtrl', function($scope, $state,$stateParams, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
   $scope.messages=[];
 $scope.chatSeleccionado=$stateParams.kChat;

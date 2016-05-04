@@ -48,7 +48,7 @@
 <gap:plugin name="cordova-plugin-splashscreen" version="" source="npm" />
 <gap:plugin name="cordova-plugin-device" version="" source="npm" />
 <gap:plugin name="cordova-plugin-statusbar" version="" source="npm" />
-
+<gap:plugin name="cordova-plugin-socialsharing" source="npm" />
   <plugin name="ionic-plugin-keyboard" source="npm" />
   <plugin name="com.telerik.plugins.nativepagetransitions" source="npm" />
    <gap:plugin name="cordova-plugin-whitelist" version="1.0.0" source="npm" />

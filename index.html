@@ -92,7 +92,7 @@
           <i class="icon ion-ios-toggle"></i>
           <h2 class="menu-text">Filtros VIP</h2>
         </ion-item>
-                <ion-item class="item-icon-left" nav-clear menu-close href='' transitiontype="fade" go-native>
+                <ion-item class="item-icon-left" nav-clear menu-close href='#/compartir' transitiontype="fade" go-native>
           <i class="icon ion-android-share-alt"></i>
 
           <h2 class="menu-text">Invita a tus amigos</h2>
@@ -624,7 +624,7 @@
 					<div style='padding-top: 20px'class="list">
 
 					<a ng-click='openChat({{$index}},false)' ng-repeat='chat in misChats' class="item item-avatar">
-					<img src="img/user2.jpg">
+					<img ng-src="https://s3.amazonaws.com/ggdate/{{chat.idGanador}}.jpg">
 					<h2>{{chat.nombreGanador}}</h2>
 					<p>Subasta finalizada</p>
 					</a>
@@ -648,7 +648,7 @@
 					<div style='padding-top: 20px'class="list">
 
 					<a ng-click='openChat({{$index}},true)' ng-repeat='chat in misChatsGanados' class="item item-avatar">
-					<img src="img/user2.jpg">
+					<img ng-src="https://s3.amazonaws.com/ggdate/{{chat.idPropietario}}.jpg">
 					<h2>{{chat.nombrePropietario}}</h2>
 					<p>Subasta ganada</p>
 					</a>
@@ -795,6 +795,54 @@
 				</div>
 
 
+			</ion-content>	
+      </ion-view>
+  </script> 
+
+
+
+    <script id="compartir.html" type="text/ng-template">
+      <ion-view title='Compartir'>		
+			<ion-nav-buttons side="left"  >
+			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
+			</ion-nav-buttons>
+
+			<ion-content style='top: 45px !important' >
+						<div style="
+						text-align: center;
+						margin-top: 20px;
+						margin-bottom: 25px;
+						color: #666;
+						font-size: 17px;
+						">
+						<img src="img/share.png">
+						<div style="
+						margin-top: 11PX;
+						">Invita a tus amigos a conocernos</div>
+						</div>
+					<div class="list">
+
+					  <a ng-click='compartirFace()' class="item item-icon-left" >
+					    <i class="icon ion-social-facebook"></i>
+					   Invita por Facebook
+					  </a>
+
+					  <a ng-click='compartirTwitter()' class="item item-icon-left" >
+					    <i class="icon ion-social-twitter"></i>
+					   Invita por Twitter
+					  </a>
+
+					    <a  ng-click='compartirWhats()' class="item item-icon-left">
+					    <i class="icon ion-social-whatsapp"></i>
+					   Invita por Whatsapp
+					  </a>
+
+					  <a class="item item-icon-left" href="#">
+					    <i class="icon ion-email"></i>
+					   Invita por email
+					  </a>
+
+					  </div>
 			</ion-content>	
       </ion-view>
   </script> 
