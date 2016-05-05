@@ -1477,7 +1477,7 @@ return true;
 }
 
 if($scope.imgURI == undefined){
-
+/*
      var alertPopup = $ionicPopup.alert({
      title: 'Foto necesaria',
      template: 'Debes agregar una foto para continuar'
@@ -1488,7 +1488,7 @@ if($scope.imgURI == undefined){
    });
 
 return true;
-
+*/
        //$scope.imgURI='';
 }
       	//obtener fecha actual
@@ -1527,7 +1527,7 @@ var newPostRef = propuestaRef.push();
 var postID = newPostRef.key();
 
 
-        var pKey=propuestaRef.set({
+        var pKey=newPostRef.set({
         categoria: $scope.propuesta.categoria,
         chica: $scope.propuesta.chico == undefined ? null :$scope.propuesta.chico,
         chica: $scope.propuesta.chica == undefined ? null :$scope.propuesta.chica,
@@ -1543,16 +1543,16 @@ var postID = newPostRef.key();
         vip:true,
         imgPropuesta:postID+'.jpg'
         },function(){
-          
+
           nombreImg=postID+'.jpg';
 
 
-           ref.child('pujas/'+pKey.key()).push({valorPuja:$scope.propuesta.precio,
+           ref.child('pujas/'+postID).push({valorPuja:$scope.propuesta.precio,
                                           pujante:'Valor inicial',
                                           fechaPuja:Date.now()});
 
-            geoFire.set(pKey.key(), [lat, long]).then(function() {
-            console.log("ID:"+ pKey.key() + ": setiado en pos: [" + lat + "," + long + "]");
+            geoFire.set(postID, [lat, long]).then(function() {
+            console.log("ID:"+ postID + ": setiado en pos: [" + lat + "," + long + "]");
              // alert("agregado");
             });
 
