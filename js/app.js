@@ -306,8 +306,9 @@ console.log("asdad22");
 
 
 $scope.getFoto=function(s){
-return s.length < 40 ? 'https://s3.amazonaws.com/ggdate/'+s : s;
-
+  if(s){
+  return s.length < 40 ? 'https://s3.amazonaws.com/ggdate/'+s : s;
+  }
 }
     $scope.$on('userInfoBroad', function(event, args) {
 
@@ -674,7 +675,7 @@ nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDeleg
         }
 
         console.log(pushState);
-     var sessionPID= PushNoti.addPush(KEYFACE,pushState);
+     var sessionPID= PushNoti.addPush(uid,pushState);
   
 
         }else{console.log("nopushK");}
