@@ -53,4 +53,31 @@
   <plugin name="com.telerik.plugins.nativepagetransitions" source="npm" />
    <gap:plugin name="cordova-plugin-whitelist" version="1.0.0" source="npm" />
   <gap:plugin name="cordova-plugin-network-information" source="npm" version="1.0.1" />
+
+
+
+
+  <icon src="icon.png" />
+
+    <icon gap:platform="android" gap:qualifier="ldpi" src="res/icon/android/drawable-ldpi-icon.png" />
+    <icon gap:platform="android" gap:qualifier="mdpi" src="res/icon/android/drawable-mdpi-icon.png" />
+    <icon gap:platform="android" gap:qualifier="hdpi" src="res/icon/android/drawable-hdpi-icon.png" />
+    <icon gap:platform="android" gap:qualifier="xhdpi" src="res/icon/android/drawable-xhdpi-icon.png" />
+    <icon gap:platform="android" gap:qualifier="xxhdpi" src="res/icon/android/drawable-xxhdpi-icon.png" />
+    <icon gap:platform="android" gap:qualifier="xxxhdpi" src="res/icon/android/drawable-xxxhdpi-icon.png" />
+    <icon gap:platform="ios" height="40" src="res/icon/ios/icon-40.png" width="40" />
+    <icon gap:platform="ios" height="80" src="res/icon/ios/icon-40@2x.png" width="80" />
+    <icon gap:platform="ios" height="50" src="res/icon/ios/icon-50.png" width="50" />
+    <icon gap:platform="ios" height="100" src="res/icon/ios/icon-50@2x.png" width="100" />
+    <icon gap:platform="ios" height="60" src="res/icon/ios/icon-60.png" width="60" />
+    <icon gap:platform="ios" height="120" src="res/icon/ios/icon-60@2x.png" width="120" />
+    <icon gap:platform="ios" height="180" src="res/icon/ios/icon-60@3x.png" width="180" />
+    <icon gap:platform="ios" height="72" src="res/icon/ios/icon-72.png" width="72" />
+    <icon gap:platform="ios" height="144" src="res/icon/ios/icon-72@2x.png" width="144" />
+    <icon gap:platform="ios" height="76" src="res/icon/ios/icon-76.png" width="76" />
+    <icon gap:platform="ios" height="152" src="res/icon/ios/icon-76@2x.png" width="152" />
+
+
+
+
 </widget>
