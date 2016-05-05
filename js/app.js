@@ -37,6 +37,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
       .state('register', {
+        cache:false,
       url: '/register',
       templateUrl: 'register.html',
       controller:'registerController'
@@ -44,6 +45,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
 
 
                     .state('login', {
+                      cache:false,
       url: '/login',
       templateUrl: 'login.html',
       controller: 'loginCtrl'
@@ -284,7 +286,7 @@ console.log("asdad22");
          console.log("Antes de loguear:" + JSON.stringify(user));
 
          Utils.alertshow("Registro Exitoso","Usuario creado correctamente");
-
+         $state.go('login');
         // $location.path('/');
 
       }, function(err) {
@@ -1475,7 +1477,19 @@ return true;
 }
 
 if($scope.imgURI == undefined){
-       $scope.imgURI='';
+
+     var alertPopup = $ionicPopup.alert({
+     title: 'Foto necesaria',
+     template: 'Debes agregar una foto para continuar'
+   });
+
+   alertPopup.then(function(res) {
+     return true;
+   });
+
+return true;
+
+       //$scope.imgURI='';
 }
       	//obtener fecha actual
       	          $ionicLoading.show({

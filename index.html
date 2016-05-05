@@ -855,10 +855,22 @@
   </script> 
 
 <script id='register.html' type="text/ng-template">
-  <ion-view view-title="Register">
-  <ion-content class="padding-top">
+  <ion-view view-title="Registro">
+  <ion-content style='background-color: rgb(234, 234, 234);' class="padding-top">
     <div class="text-center padding-top">
       <i class="icon ion-android-person-add larger positive"></i>
+    </div>
+<div style="
+    height: 75px;
+    text-align: center;
+    margin-top: 21px;
+    margin-bottom: 16px;
+">
+    	<img src="img/iconos/Logos/logo2.png" style="
+    height: 100%;
+    border-radius: 70px;
+    text-align: center;
+">
     </div>
     <form name="registerForm" novalidate ng-submit="registerForm.$valid && register(user)"
     ng-class="{ 'has-error' : registerForm.txtnombre.$invalid && registerForm.txtnombre.$invalid && registerForm.txtedad.$invalid && registerForm.$submitted }">
@@ -873,8 +885,8 @@
       </label>
 
                   <label class="item item-input item-floating-label">
-          <span class="input-label">Fecha de nacimiento</span>
-        <input name="txtedad" type="date" ng-model="user.fechaNacimiento" 
+          <a>Fecha de nacimiento</a>
+        <input name="txtedad"  type="date" ng-model="user.fechaNacimiento" 
         required>
       </label>
 
@@ -906,7 +918,8 @@
       </div>
     </div>
     <div class="padding-top">
-      <input type="submit" value="Register" class="button button-block button-positive"/>
+      <input style='    background-color: lightcoral !important;
+    border: none !important;'type="submit" value="Crear Usuario" class="button button-block button-positive"/>
     </div>
   </form>
   </ion-content>
@@ -1163,7 +1176,7 @@
             <div class="input-label">
             Tiempo en Subasta
             </div>
-            <select ng-model='propuesta.diasEnSubasta' class='itemForms' >
+            <select style='max-width: 36% !important;'ng-model='propuesta.diasEnSubasta' class='itemForms' >
             <option value='150000' selected>30 min</option>
             <option value='10800000' selected>3 horas</option>
             <option value='21600000' selected>6 horas</option>
