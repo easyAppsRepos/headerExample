@@ -1501,8 +1501,7 @@ if($scope.imgURI == undefined){
       .getCurrentPosition(posOptions)
       .then(function (position) {
 
-           nombreImg=$localStorage.user[0].uid+'.jpg';
-
+           
            lat  = position.coords.latitude
            long = position.coords.longitude
 
@@ -1521,8 +1520,10 @@ if($scope.imgURI == undefined){
         kPropone:$localStorage.user[0].uid,
         nickPropone:$localStorage.user[0].name,
         vip:true,
-        imgPropuesta:nombreImg
+        imgPropuesta:pKey.key()+'.jpg'
         },function(){
+          nombreImg=pKey.key()+'.jpg';
+
 
            ref.child('pujas/'+pKey.key()).push({valorPuja:$scope.propuesta.precio,
                                           pujante:'Valor inicial',
