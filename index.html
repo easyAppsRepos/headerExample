@@ -239,7 +239,8 @@
 
 
   <script id="list.html" type="text/ng-template" >
-    <ion-view  view-title="GoldDate" hide-back-button="true"> 
+    
+    <ion-view title="{{navTitle}}"  hide-back-button="true" class="bubble-background">
     <ion-nav-buttons side="right">
 <a ng-controller='MyController' style="color: #fafafa; font-size: 17px;" class="button bar-positive ion-ios-search disable-user-behavior" ng-click="openModal('slide-in-up','my-modal.html')">
         Buscar
@@ -926,12 +927,12 @@
 
       <ion-view title='Mis Fotos'> 
   <ion-nav-buttons side="right">
-<a ng-click='takePhoto()' style="border:none;font-size: 27px; color:white;background-color: #4db6ac" class="button  ion-plus-circled disable-user-behavior">
+<a ng-click='takePhoto()' style="border:none;font-size: 27px; color:white;background-color: black" class="button  ion-plus-circled disable-user-behavior">
         
       </a>
    </ion-nav-buttons> 
 
-          <ion-nav-bar  class='bar-balance'>
+          <ion-nav-bar  class='bar-positive'>
   <ion-nav-back-button>
   </ion-nav-back-button>
     </ion-nav-bar>   

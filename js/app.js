@@ -331,6 +331,9 @@ $scope.getFoto=function(s){
 
  nameApp.controller('miPerfilCtrl', function ($scope, $ionicSideMenuDelegate, $rootScope, $ionicLoading, $cordovaCamera, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
  
+$scope.cumple=$localStorage.user[0].fechaNacimiento;
+
+console.log($scope.cumple);
 
  $scope.getFoto=function(s){
 return s.length < 40 ? 'https://s3.amazonaws.com/ggdate/'+s : s;
@@ -689,6 +692,7 @@ nameApp.controller('loginCtrl', function ($scope,$rootScope, $ionicSideMenuDeleg
 });
             $localStorage.user.push({ uid:uid,
                                       sessionPID:sessionPID || null,
+                                      fechaNacimiento:snap.val().fechaNacimiento || null,
                                       email:snap.val().email,
                                      name:snap.val().nombre,
                                       photo:snap.val().userPic,
@@ -850,6 +854,7 @@ console.log("enpat");
   user: [],pruebaStorage: []
 });
             $localStorage.user.push({ uid:userkey,
+                                        fechaNacimiento:snap.val().fechaNacimiento || null,
                                       sessionPID:sessionPID,
                                       email:snap.val().email,
                                      name:snap.val().nombre,
@@ -1630,7 +1635,7 @@ $scope.imgURI = imageData;
 console.log("en dash");
 
 
-
+$scope.navTitle='<img class="title-image" src="img/logo.png" style="height: 100%; width: 100%;">';
 $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
                                         userPic:$localStorage.user[0].photo});
 
