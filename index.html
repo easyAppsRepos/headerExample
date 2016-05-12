@@ -24,7 +24,7 @@
 <script type="text/javascript" src="js/gmaps.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
 
-
+<script src="https://js.braintreegateway.com/js/braintree-2.24.0.min.js"></script>
     <script type="text/javascript" src="js/firebase.js"></script>
 <script type="text/javascript" src="js/rsvp.min.js"></script>
 <script type="text/javascript" src="js/angularfire.min.js"></script>
@@ -44,7 +44,21 @@
     <!-- your app's js -->
     <script src="js/app.js"></script>
 
+<script>
+// We generated a client token for you so you can test out this code
+// immediately. In a production-ready integration, you will need to
+// generate a client token on your server (see section below).
+var clientToken = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJkOTM1OTRiMjYyODk0YTgwNjc4ZGFmYzc0MGM5ODA5OTM5YzEzNzAyM2UyY2ZlZTQ4Y2Y2N2I5NTMyMjk0MzY3fGNyZWF0ZWRfYXQ9MjAxNi0wNS0xMlQxNzo0NzoxNS45NjkyMjkxMDMrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
+
+braintree.setup(clientToken, "dropin", {
+  container: "payment-form"
+});
+</script>
+
+
   </head>
+
+
   <body >
    
   <!-- The nav bar that will be updated as we navigate -->
@@ -83,7 +97,7 @@
           <i class="icon ion-android-create"></i>
           <h2 class="menu-text">Crear propuesta</h2>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close  href='#/paypal' transitiontype="fade" go-native>
+        <ion-item class="item-icon-left" nav-clear menu-close  href='#/paypal/0' transitiontype="fade" go-native>
           <i class="icon ion-card"></i>
           <h2 class="menu-text">Paypal</h2>
         </ion-item>
@@ -705,7 +719,10 @@
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
 			         <ion-nav-buttons   side="right">
-<a ng-click='buscar()' style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+
+<a ng-click='buscar()'  ng-show='enBusqueda' style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-checkmark-circled disable-user-behavior">
+
+<a ng-click='cancelarBusqueda()'  ng-show='!enBusqueda' style="font-size: 27px; color: rgb(234, 234, 234);" class="button bar-positive  ion-android-cancel disable-user-behavior">
         
       </a>
    </ion-nav-buttons> 
@@ -716,6 +733,36 @@
 			<ion-content style='background-color: rgb(234, 234, 234); color:#666' overflow-scroll="false">
 				<div style="height: 45px"></div>
 
+<div ng-show='!enBusqueda' >
+	  <div style="text-align: center; font-size: 20px; margin-top: 15px;">Resultados de la busqueda</div>
+			<div class='etiquetas'>
+			<a ng-repeat='etiqueta in etiquetas'><i style='margin-right: 8px;' class='ion-ios-pricetags'></i>{{etiqueta}}</a>
+		</div>	
+
+
+<div style="margin-top: 15px">
+<div ng-show="arrayF.length==0" style="text-align: center;font-size: 18px;margin-top: 48px;">
+<img src="img/empty.png"><br>No se encontraron resultados</div>
+                      <div class='item itemFAV' ng-repeat='item in arrayF'
+                      >	
+                      <a style="position: absolute; top: 0px; width: 100%; height: 100%;" href="#/detail/{{item}}/{{propuestasValidas[item].nickPropone}}/{{propuestasValidas[item].pujaActual}}/{{propuestasValidas[item].tiempoRestante}}/{{propuestasValidas[item].descripcion}}/{{propuestasValidas[item].kPropone}}/{{propuestasValidas[item].imgPropuesta}}"></a>
+
+                      <img ng-src="https://s3.amazonaws.com/ggdate/{{propuestasValidas[item].imgPropuesta}}">
+                      <div>
+                          <a>{{propuestasValidas[item].nickPropone}}</a>
+                          <a>{{propuestasValidas[item].categoria}}</a>
+                          <a><i class='ion-star'></i><i class='ion-star'></i><i class='ion-star'></i><i class='ion-star'></i><i class='ion-star'></i></a>
+                        </div>
+                        
+                        </div>
+                        </div>
+
+                   
+                  </div>
+
+
+</div>
+<div ng-show='enBusqueda'>
 								<label class=" labelForm item item-input">
 					<i class="icon ion-search placeholder-icon"></i>
 					<input ng-model='busqueda.nombre' type="text" placeholder="Nombre o palabra">
@@ -780,22 +827,11 @@
 			
 
 
-					<div class=sexSelector>
-					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': mas}" ng-click="activeButton('mas')">
-						<img src='img/mas{{selected5}}.png'><br>
-						<spam>Mas pujado</spam>
-					</div>
-				
-					<div class="sexSelectorItem"  ng-class="{'filtroItemActive': menos}" ng-click="activeButton('menos')">
-						<img src='img/menos{{selected6}}.png'><br>
-						<spam>Menos pujado</spam>
-					</div>
-			
-				</div>
+
 
 				</div>
 
-
+</div>
 			</ion-content>	
       </ion-view>
   </script> 
@@ -1034,14 +1070,25 @@
 
 
         <script id="paypal.html" type="text/ng-template">
-      <ion-view title='Cuenta PayPal'>		
+      <ion-view title='Cuenta PayPal' hide-back-button="true">		
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
 			
 
-			<ion-content>
-                     
+			<ion-content style='    text-align: center !important;'>
+			<div style="height: 60px"></div>
+                   <form id="checkout" method="post" action="/checkout">
+  <div id="payment-form"></div>
+   <input type="button" value="Pagar {{pago.cantidadAPagar}} euros" style="
+    margin-top: 20px;
+    height: 50px;
+    width: 140px;
+">
+ <!--
+  <input type="submit" value="Pay $10">
+  -->
+</form>  
 			</ion-content>
       </ion-view>
   </script> 

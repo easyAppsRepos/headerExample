@@ -2,7 +2,62 @@
     padding: 2px 2px 2px 2px;
     height: 100px;
 }
- 
+ .etiquetas{
+      width: 100%;
+
+}
+
+
+.itemFAV div{
+display: inline-block;
+vertical-align: middle;
+height: 70px;
+width: 130px;
+line-height: 1.3;
+
+}
+
+.itemFAV div a:first-child{
+  font-size: 20px;
+  width: 100px;
+  color: #666;
+}
+
+.itemFAV div a:nth-child(2){
+  font-size:13px;
+  float: left;
+  width: 100px;
+  color: #666;
+}
+.itemFAV div a:nth-child(3){
+  font-size:13px;
+  float: left;
+  width: 100px;
+color: darkkhaki !important;
+
+}
+.etiquetas a {
+    margin-left: 12px;
+    height: 38px;
+    border: solid 1px khaki;
+    display: inline-block;
+    margin-top: 8px;
+    padding-top: 7px;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: darkkhaki !important;
+    font-size: 16px;
+    background-color: #666;
+
+}
+
+
+.itemFAV img{
+height: 70px;
+width: 70px;
+vertical-align: middle;
+}
+
 .image-modal {
     width: 100% !important;
     height: 100%;

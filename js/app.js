@@ -79,10 +79,12 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
 
-            .state('paypal;', {
-      url: '/paypal',
+
+            .state('paypal', {
+              cache : false,
+      url: '/paypal/:pago',
       templateUrl: 'paypal.html',
-      controller: 'ListCtrl'
+      controller: 'paypalCtrl'
     })
 
       .state('mapaUsuario;', {
@@ -520,7 +522,20 @@ $scope.getNotificaciones();
 
 
  $scope.pagarPuja = function(k){
+console.log(k);
+var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas/'+k+'/pujaActual');
+fnotif.once('value', function(s){
+    var a = s.exists();
+  if(a){$state.go('paypal',{pago:s.val()})}
+    if(!a){
 
+      var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+k+'/pujaActual');
+fnotif.once('value', function(ss){
+ 
+      $state.go('paypal',{pago:ss.val()})
+
+    });}
+});
 /*
  PaypalService.initPaymentUI().then(function () {
                     PaypalService.makePayment(100, "Total").then(function(){
@@ -529,7 +544,7 @@ $scope.getNotificaciones();
                     })
  });
 */
- alert('Pago por medio de Paypal');
+
  }
 
 
@@ -608,8 +623,11 @@ $scope.getNotificaciones = function(){
       }
    });
  }
+
+if($localStorage.user){
 if($localStorage.user.length>0){
 $scope.getNotificaciones();}
+}
 console.log("En mis Alergas");
 
 
@@ -889,6 +907,14 @@ $rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
       });
     }
   };
+
+});
+
+nameApp.controller('paypalCtrl',function($scope,$rootScope,$ionicHistory,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation)
+{
+$scope.pago={};
+$scope.pago.cantidadAPagar=$stateParams.pago;
+console.log($stateParams.pago);
 
 });
 
@@ -1376,6 +1402,7 @@ $scope.bajarPuja=function(){
 $scope.categoriaSeleccionada='Seleccionar categoria';
 
 $scope.setCategoria=function(cat){
+    $rootScope.$broadcast('catFiltro', { cat: cat });
 $scope.categoriaSeleccionada=cat;
    $scope.modal.hide();
      $scope.modal.remove();
@@ -1412,12 +1439,16 @@ $scope.categoriaSeleccionada=cat;
   });
 });
 
-    nameApp.controller('crearPropuestaCtrl', function($scope, $localStorage, $state, $timeout, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal,FotosUsuario) {
+
+
+    nameApp.controller('crearPropuestaCtrl', function($scope, $rootScope, $localStorage, $state, $timeout, $ionicPopup, $ionicLoading, $cordovaCamera, $cordovaGeolocation,$firebaseArray, $ionicModal,FotosUsuario) {
 //color #6239AB
 $scope.propuesta = {};
 $scope.modalClasses = ['slide-in-up', 'slide-in-down', 'fade-in-scale', 'fade-in-right', 'fade-in-left', 'newspaper', 'jelly', 'road-runner', 'splat', 'spin', 'swoosh', 'fold-unfold'];
 $scope.categoriaSeleccionada='Seleccionar categoria';
 $scope.setCategoria=function(cat){
+  console.log(cat);
+
 $scope.categoriaSeleccionada=cat;
 $scope.propuesta.categoria=cat;
    $scope.modal.hide();
@@ -1529,7 +1560,7 @@ var postID = newPostRef.key();
 
         var pKey=newPostRef.set({
         categoria: $scope.propuesta.categoria,
-        chica: $scope.propuesta.chico == undefined ? null :$scope.propuesta.chico,
+        chico: $scope.propuesta.chico == undefined ? null :$scope.propuesta.chico,
         chica: $scope.propuesta.chica == undefined ? null :$scope.propuesta.chica,
         fechaCreacion: Date.now(),
         diasEnSubasta:$scope.propuesta.diasEnSubasta,
@@ -1906,10 +1937,15 @@ $scope.items = [
 
 
 nameApp.controller('filtrosVIPCtrl', function($scope, $state, $stateParams, $cordovaSocialSharing, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
-
+$scope.enBusqueda=true;
 $scope.busqueda={};
+    $scope.propuestasValidas=[];
+    $scope.arrayF=[];
+$scope.$on('catFiltro', function(event, args) {
 
-
+     $scope.busqueda.categoriaFiltro = args.cat;
+    // do what you want to do
+});
 
 
 $scope.chico = false;
@@ -1936,30 +1972,225 @@ $scope.selected5='';
     }
   
 
-
-
+$scope.cancelarBusqueda = function(){
+  
+  $scope.enBusqueda=true;
+   $scope.propuestasValidas=[];
+    $scope.arrayF=[];
+    
+}
+$scope.etiquetas=[];
 
   $scope.buscar=function(){
+$scope.enBusqueda=false;
+    $scope.propuestasValidas=[];
+    $scope.arrayF=[];
+    $scope.etiquetas=[];
 
-if(typeof $scope.busqueda.nombre == 'undefined' || $scope.busqueda.nombre=='' ){
-    console.log('no nombre');
+$ionicScrollDelegate.scrollTop();
 
+
+      var ref = new Firebase("https://golddate.firebaseio.com/app/propuestas");
+     ref.once("value", function(snapshot) {
+   
+         snapshot.forEach(function(userSnapshot) {
+
+          if(!(typeof $scope.busqueda.nombre == 'undefined' || $scope.busqueda.nombre=='' )){
+          //filtro nombre
+            
+              var string = userSnapshot.val().nickPropone;
+              var substring = $scope.busqueda.nombre;
+             
+              if(string.indexOf(substring) > -1){
+                var s=userSnapshot.val();
+                s.tiempoRestante='Finaliza en: '+Math.round(((parseInt(userSnapshot.val().fechaCreacion)+parseInt(userSnapshot.val().diasEnSubasta))-Date.now())/3600000)+'h';
+
+                $scope.propuestasValidas[userSnapshot.key()]=s;
+                $scope.arrayF.push(userSnapshot.key());
+              }
+         
+        
+          }
+
+          else{
+                          var s=userSnapshot.val();
+                s.tiempoRestante='Finaliza en: '+Math.round(((parseInt(userSnapshot.val().fechaCreacion)+parseInt(userSnapshot.val().diasEnSubasta))-Date.now())/3600000)+'h';
+
+             $scope.propuestasValidas[userSnapshot.key()] = s;
+
+             $scope.arrayF.push(userSnapshot.key());
+            //aun vacio
+
+          }
+
+
+          if($scope.busqueda.categoriaFiltro){
+            console.log('FC');
+          var catP = userSnapshot.val().categoria;
+          var catF = $scope.busqueda.categoriaFiltro;
+          if(catP!==catF){
+            delete  $scope.propuestasValidas[userSnapshot.key()];
+            var index = $scope.arrayF.indexOf(userSnapshot.key());
+            if (index > -1) {
+                    $scope.arrayF.splice(index, 1);
+                }
+          }
+            //filtro cat ON
+
+          }
+
+          if($scope.chico == true){
+   console.log('FCO');
+          var chicoP = userSnapshot.val().chico;
+          var chicoF = true;
+          console.log(chicoP);
+          console.log(chicoF);
+          if(chicoP!==chicoF){
+           
+            delete  $scope.propuestasValidas[userSnapshot.key()];
+                      var index = $scope.arrayF.indexOf(userSnapshot.key());
+            if (index > -1) {
+                    $scope.arrayF.splice(index, 1);
+                }
+
+          }
+           
+           // query1: sexo / tipo
+          }
+
+
+          if($scope.chica == true){
+   console.log('FCA');
+          var chicaP = userSnapshot.val().chica;
+          var chicaF = true;
+          if(chicaP!==chicaF){
+            delete  $scope.propuestasValidas[userSnapshot.key()];
+                      var index = $scope.arrayF.indexOf(userSnapshot.key());
+            if (index > -1) {
+                    $scope.arrayF.splice(index, 1);
+                }
+          }
+           
+           // query1: sexo / tipo
+          }
+if(!($scope.fijo == true && $scope.subasta == true))
+{          if($scope.fijo == true){
+            console.log('FF');
+          var fP = userSnapshot.val().tipo;
+          var fF = "2";
+          if( fP !== fF){
+            delete  $scope.propuestasValidas[userSnapshot.key()];
+                      var index = $scope.arrayF.indexOf(userSnapshot.key());
+            if (index > -1) {
+                    $scope.arrayF.splice(index, 1);
+                }
+          }
+           
+           // query1: sexo / tipo
+          }
+
+          if($scope.subasta == true){
+            console.log('FF');
+          var sP = userSnapshot.val().tipo;
+          var sF = "1";
+          if( sP !== sF ){
+            delete  $scope.propuestasValidas[userSnapshot.key()];
+                      var index = $scope.arrayF.indexOf(userSnapshot.key());
+            if (index > -1) {
+                    $scope.arrayF.splice(index, 1);
+                }
+          }
+           
+           // query1: sexo / tipo
+          }
 }
+
+                  
+
+
+
+         });
+
+         console.log($scope.propuestasValidas);
+console.log($scope.arrayF);
+$scope.$applyAsync();
+
+
+});
+
+
+
+
+
 
 if(typeof $scope.busqueda.edadDe == 'undefined' || $scope.busqueda.edadDe=='' || typeof $scope.busqueda.edadHasta == 'undefined' || $scope.busqueda.edadHasta=='' ){
     
 console.log('no edad');
 }
 
+var query;
 
-if($scope.chico == true){console.log(' chico');}
-if($scope.chica == true){console.log(' chica');}
-if($scope.subasta == true){console.log('subasta');}
-if($scope.fijo == true){console.log(' fijo');}
-if($scope.mas == true){console.log(' mas');}
-if($scope.menos == true){console.log(' menos');}
+/*
 
+queryField:
+Categoria.
+chico_chica_tipo
+chico: 1
+chicha:2
+chico/chica:3
+
+tipo subasta:1
+tipo fijo:2
+
+
+CATEGORIA_SEXO_TIPO
+SEXO_TIPO
+
+
+query1: sexo / tipo
+*/
+
+if($scope.chico == true || $scope.chica == true && $scope.subasta == true || $scope.fijo == true){
+  console.log(' query1');
+  query=1;
+ // query1: sexo / tipo
+}
+else{
+  if($scope.chico == true || $scope.chica == true ){
+   
+
+  }
+    if( $scope.subasta == true || $scope.fijo == true ){
+    //query solo por tipo
+  }
+
+
+}
+
+
+if(!(typeof $scope.busqueda.nombre == 'undefined' || $scope.busqueda.nombre=='' )){$scope.etiquetas.push('nombre');} 
+if($scope.chico == true){ $scope.etiquetas.push('chico');}
+if($scope.chica == true){ $scope.etiquetas.push('chica');}
+if($scope.subasta == true){$scope.etiquetas.push('subasta');}
+if($scope.fijo == true){$scope.etiquetas.push('fijo');}
+if($scope.busqueda.categoriaFiltro){$scope.etiquetas.push('categoria');}
+
+
+
+
+
+
+/*
+    ref.orderByChild("tipo").equalTo("2").once("value", function(snapshot) {
+      console.log(snapshot.val());
+
+          ref.orderByChild('descripcion').startAt("tomar").endAt("b\uf8ff").on("child_added", function(snapshot) {
+  console.log(snapshot.key());
+});
   
+    });
+    */
+
 
   }
 
