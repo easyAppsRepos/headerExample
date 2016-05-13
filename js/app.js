@@ -2794,7 +2794,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   },
 
   addFoto:function(id,imageURI,fileName){
- var signingURI = "http://192.168.1.8:3000/signing";
+ var signingURI = "http://54.187.131.158:3000/signing";
        var deferred = $.Deferred(),
             ft = new FileTransfer(),
             options = new FileUploadOptions();
