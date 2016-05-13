@@ -2793,47 +2793,43 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   
   },
 
-  addFoto:function(id,ima,fileN){
-    var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+id);
-var fileName=fileN;
-var policy='eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0zMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZ2dkYXRlIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIiXSx7ImFjbCI6InB1YmxpYy1yZWFkIn0sWyJzdGFydHMtd2l0aCIsIiRDb250ZW50LVR5cGUiLCIiXSxbImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwwLDUyNDI4ODAwMF1dfQ==';
-var sig='LPSPg/uyMXb9OusWuOzA77abQoU=';
-    
-    var s3URI = encodeURI("https://ggdate.s3.amazonaws.com/"),
-        policyBase64 = policy,
-        signature = sig,
-        awsKey = 'AKIAIN4SR4IUCYFPFZ7A',
-        acl = "public-read";
-
-  var deferred = $q.defer();
-  ft = new FileTransfer(),
-  options = new FileUploadOptions();
-
- options.fileKey = "file";
+  addFoto:function(id,imageURI,fileName){
+ var signingURI = "http://192.168.1.8:3000/signing";
+       var deferred = $.Deferred(),
+            ft = new FileTransfer(),
+            options = new FileUploadOptions();
+ 
+        options.fileKey = "file";
         options.fileName = fileName;
         options.mimeType = "image/jpeg";
         options.chunkedMode = false;
-        options.params = {
-            "key": fileName,
-            "AWSAccessKeyId": awsKey,
-            "acl": acl,
-            "policy": policyBase64,
-            "signature": signature,
-            "Content-Type": "image/jpeg"
-        };
  
- ft.upload(ima, s3URI,
-            function (e) {
-              console.log(e);
-                deferred.resolve(itemsRef.push({src: fileName,state: 1 }));
-            },
-            function (e) {
-              console.log(e);
-                deferred.reject(e);
-            }, options);
+        $.ajax({url: signingURI, data: {"fileName": fileName}, dataType: "json", type: "POST"})
+            .done(function (data) {
+                options.params = {
+                    "key": fileName,
+                    "AWSAccessKeyId": data.awsKey,
+                    "acl": "public-read",
+                    "policy": data.policy,
+                    "signature": data.signature,
+                    "Content-Type": "image/jpeg"
+                };
  
-        return deferred.promise;
-
+                ft.upload(imageURI, "https://" + data.bucket + ".s3.amazonaws.com/",
+                    function (e) {
+                        deferred.resolve(e);
+                    },
+                    function (e) {
+                        alert("Upload failed");
+                        deferred.reject(e);
+                    }, options);
+ 
+            })
+            .fail(function (error) {
+                console.log(JSON.stringify(error));
+            });
+ 
+        return deferred.promise();
 
 
   },
