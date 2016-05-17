@@ -2819,7 +2819,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
                     function (e) {
                     	console.log('footosybuda');
 
-var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
+var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+id);
 itemsRef.push({src: name,state: 1 });
 
                         deferred.resolve(e);
