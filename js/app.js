@@ -1906,7 +1906,7 @@ var idUser = $localStorage.user[0].uid;
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
             // console.log(key + " -> " + data[key].src);
-            $scope.items.push({src:"https://s3.amazonaws.com/ggdate/"+data[key].src, 
+            $scope.items.push({src:"https://s3.amazonaws.com/gggdate/"+data[key].src, 
                                sub:'sub',
                                key: key});
         }
@@ -2820,6 +2820,7 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
                         deferred.resolve(e);
                     },
                     function (e) {
+                    	console.log(e);
                         alert("Upload failed");
                         deferred.reject(e);
                     }, options);
