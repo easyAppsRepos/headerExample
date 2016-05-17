@@ -1055,7 +1055,7 @@ $scope.bajarPuja=function(){
 
 
   $scope.openModal = function(animation, modalHtml) {
-   
+
     $ionicModal.fromTemplateUrl(modalHtml, {
       scope: $scope,
       animation: animation
@@ -1110,6 +1110,8 @@ $scope.imgPropuesta=$localStorage.pruebaStorage[fotoIndex].img;
 //console.log($stateParams.nickPropone);
 //console.log($stateParams.pujaActual);
 
+
+
 $scope.propuestaKey=$stateParams.idPropuesta;
 $scope.nickPropone=$stateParams.nickPropone;
 $scope.pujaActual=$stateParams.pujaActual;
@@ -1117,6 +1119,7 @@ $scope.tiempoRestante=$stateParams.tiempoRestante;
 $scope.descripcion=$stateParams.descripcion;
 $scope.fotoPropuesta=$stateParams.fotoPropuesta;
 var idPropone=$stateParams.idPropone;
+$scope.idPropone= $stateParams.idPropone;
 
 //
 /*
@@ -1342,6 +1345,11 @@ nameApp.directive('goNative', ['$ionicGesture', '$ionicPlatform', function($ioni
 
 
   	$scope.agregarPuja=function(we){
+
+    	  	console.log('ala');
+   if($localStorage.user[0].uid == $scope.idPropone){alert('No puedes pujar tu propia propuesta'); return true}
+console.log($scope.idPropone);
+console.log($localStorage.user[0].uid);
 
 //if($scope.pujaActual==undefined){console.log("aqui estoy 33")}
  if(($scope.inputSubasta)<=parseInt($scope.pujaActual) || $scope.inputSubasta == undefined){alert("Tu puja debe ser mayor")}
