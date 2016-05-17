@@ -470,6 +470,7 @@ $scope.pujantes=[];
 
 $scope.crearChat= function(g,nombreP){
 
+if(typeof g == 'undefined' || g == '' ){console.log('a3');return true;}
 
 
  var myPopup = $ionicPopup.show({
