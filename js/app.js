@@ -311,7 +311,7 @@ console.log("asdad22");
 
 $scope.getFoto=function(s){
   if(s){
-  return s.length < 40 ? 'https://s3.amazonaws.com/ggdate/'+s : s;
+  return s.length < 40 ? 'https://s3.amazonaws.com/gggdate/'+s : s;
   }
 }
     $scope.$on('userInfoBroad', function(event, args) {
@@ -340,7 +340,7 @@ $scope.cumple=$localStorage.user[0].fechaNacimiento;
 console.log($scope.cumple);
 
  $scope.getFoto=function(s){
-return s.length < 40 ? 'https://s3.amazonaws.com/ggdate/'+s : s;
+return s.length < 40 ? 'https://s3.amazonaws.com/gggdate/'+s : s;
 
 }
 
@@ -1139,7 +1139,7 @@ $scope.pages=[];
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
             // console.log(key + " -> " + data[key].src);
-            $scope.pages.push({background:"https://s3.amazonaws.com/ggdate/"+data[key].src, 
+            $scope.pages.push({background:"https://s3.amazonaws.com/gggdate/"+data[key].src, 
                                text:''});
         }
         $scope.$applyAsync();
@@ -2388,7 +2388,7 @@ ref.once("value", function(snap) {
 
 }
 else{
-  return 'https://s3.amazonaws.com/ggdate/'+s+'.jpg';
+  return 'https://s3.amazonaws.com/gggdate/'+s+'.jpg';
 }
 }
 
