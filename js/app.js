@@ -2817,6 +2817,11 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
  
                 ft.upload(imageURI, "https://" + data.bucket + ".s3.amazonaws.com/",
                     function (e) {
+                    	console.log('footosybuda');
+
+var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
+itemsRef.push({src: name,state: 1 });
+
                         deferred.resolve(e);
                     },
                     function (e) {
@@ -2836,14 +2841,6 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
   },
   asddFoto:function(idUser,imagen){
 
-var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser);
-
- AWS.config.update({
-    accessKeyId: "AKIAIKCUQ3YRYPUQ7FWQ",
-    secretAccessKey: "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",
-    "region": "eu-central-1"   
-});
-
  
      var defer = $q.defer();
 
@@ -2858,7 +2855,7 @@ console.log(imagen)
       console.log(data);
 
      
-    defer.resolve(itemsRef.push({src: name,state: 1 }));
+    defer.resolve();
 
   });
 
