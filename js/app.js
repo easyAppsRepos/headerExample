@@ -19,7 +19,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
       controller: 'ViewCtrl'
     })
      .state('detail', {
-      url: '/detail/:idPropuesta/:nickPropone/:pujaActual/:tiempoRestante/:descripcion/:idPropone/:fotoPropuesta',
+      url: '/detail/:idPropuesta/:nickPropone/:pujaActual/:tiempoRestante/:descripcion/:idPropone/:fotoPropuesta/:categoriaN/:vip',
       templateUrl: 'detail.html',
       controller: 'detailCtrl'
     })
@@ -334,7 +334,7 @@ $scope.getFoto=function(s){
 });
 
  nameApp.controller('miPerfilCtrl', function ($scope, $ionicSideMenuDelegate, $rootScope, $ionicLoading, $cordovaCamera, $state, $localStorage, $location,$http,$ionicPopup, $firebaseObject, FotosUsuario, Auth, FURL, Utils) {
- 
+ $scope.perfil={};
 $scope.cumple=$localStorage.user[0].fechaNacimiento;
 
 console.log($scope.cumple);
@@ -343,6 +343,114 @@ console.log($scope.cumple);
 return s.length < 40 ? 'https://s3.amazonaws.com/gggdate/'+s : s;
 
 }
+
+$scope.editSobreMi=function(type){
+   $scope.perfil.sobreMiEdit='';
+var placehold='';
+
+if(type==1){
+  tituloV = 'Sobre mi';
+  placehold = $scope.sobreMi;
+}
+else if(type==3){
+  tituloV = 'Edad';
+  placehold = $scope.edad;
+}
+  else{
+    tituloV = 'Mis intereses';
+     placehold = $scope.intereses;
+  }
+console.log('asd');
+   var myPopup = $ionicPopup.show({
+    cssClass: 'confirmarPedido',
+     template: type==3 ? '<div class="ttp"><input type="number" placeholder="'+placehold+'" style="border: 2px solid lightgray;" ng-model="perfil.sobreMiEdit"></input>' : '<div class="ttp"><textarea placeholder="'+placehold+'" style="height: 110px; border: 2px solid lightgray;" ng-model="perfil.sobreMiEdit"></textarea>',
+     title: '<div class="texD">'+tituloV+'</div>',
+   //  subTitle: '<div class="ss"> RESUMEN PEDIDO</div><div>Total del pedido:<br>  <h2>S/.'+(parseInt($scope.getTotal())+8.9)+'</h2><br><h3>Con cuanto cancelas?</h3></div>',
+     scope: $scope,
+     buttons: [
+       { text: 'Cancelar',
+          type:'fgg' },
+       {
+         text: '<b>Editar</b>',
+         type: 'button-positive',
+         onTap: function(e) {
+          console.log($scope.perfil.sobreMiEdit);
+
+                 $ionicLoading.show({
+      template: 'Cargando...'
+    });
+  
+          console.log('cambiar ');
+if(type==1){
+                var photoRef = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$localStorage.user[0].uid);
+
+    photoRef.update({ sobreMi: $scope.perfil.sobreMiEdit }, function(){
+    $ionicLoading.hide();
+    $scope.$applyAsync(function(){
+    $scope.sobreMi=$scope.perfil.sobreMiEdit;
+    });
+    }); 
+
+}
+
+if(type==3){
+                var photoRef = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$localStorage.user[0].uid);
+
+    photoRef.update({ edad: $scope.perfil.sobreMiEdit }, function(){
+    $ionicLoading.hide();
+    $scope.$applyAsync(function(){
+    $scope.edad=$scope.perfil.sobreMiEdit;
+    });
+    }); 
+
+}
+
+
+  else{
+                    var photoRef = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$localStorage.user[0].uid);
+
+    photoRef.update({ intereses: $scope.perfil.sobreMiEdit }, function(){
+    $ionicLoading.hide();
+    $scope.$applyAsync(function(){
+    $scope.intereses=$scope.perfil.sobreMiEdit;
+    });
+    }); 
+
+  }
+
+
+    
+
+
+
+     
+         }
+       },
+     ]
+   });
+
+}
+
+
+
+  var infoPerfil = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$localStorage.user[0].uid);
+  infoPerfil.once("value", function(snapshot) {
+var a = snapshot.exists();
+  if(a){
+    $scope.sobreMi=snapshot.val().sobreMi ? snapshot.val().sobreMi : 'Aun no completas esta parte de tu perfil';
+    $scope.intereses=snapshot.val().intereses ? snapshot.val().intereses : 'Aun no completas esta parte de tu perfil';
+     $scope.edad = snapshot.val().edad ? snapshot.val().edad : '?';
+      }
+  else{
+
+    $scope.sobreMi='Aun no completas esta parte de tu perfil';
+    $scope.intereses='Aun no completas esta parte de tu perfil';
+$scope.edad='?';
+  }
+
+
+  });
+ 
 
   var refCompletadas = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas');
   refCompletadas.orderByChild("kPropone").equalTo($localStorage.user[0].uid).once("value", function(snapshot) {
@@ -982,6 +1090,13 @@ nameApp.controller('seleccionarGanadorCtrl', function(){
 nameApp.controller('detailCtrl',function($scope, $ionicPopup, $rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation,FotosUsuario){
 
 
+
+
+
+
+
+
+
 //des
 
     $scope.agregarPuja=function(we){
@@ -1121,7 +1236,27 @@ $scope.descripcion=$stateParams.descripcion;
 $scope.fotoPropuesta=$stateParams.fotoPropuesta;
 var idPropone=$stateParams.idPropone;
 $scope.idPropone= $stateParams.idPropone;
+$scope.categoriaN=$stateParams.categoriaN;
+$scope.ivip=$stateParams.vip;
 
+
+if($scope.idPropone){
+if($scope.idPropone.indexOf('facebook') > -1){
+//get value from firebase
+
+var rdef = new Firebase("https://golddate.firebaseio.com/app/userInfo/"+idPropone);
+rdef.once("value", function(snap) {
+  console.log(snap.val());
+  $scope.ff = snap.val().userPic;
+});
+
+
+}
+else{
+  console.log(s)
+  $scope.ff= 'https://s3.amazonaws.com/gggdate/'+s+'.jpg';
+}
+}
 //
 /*
 $localStorage = $localStorage.$default({
@@ -1131,8 +1266,25 @@ $localStorage = $localStorage.$default({
   $localStorage.pruebaStorage.push($localStorage.pruebaStorage+1);
   console.log( $localStorage.pruebaStorage);
 */
+  var infoPerfill = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$scope.idPropone);
+  infoPerfill.once("value", function(snapshot) {
+var a = snapshot.exists();
+  if(a){
+    $scope.sobreMi=snapshot.val().sobreMi ? snapshot.val().sobreMi : 'incompleto';
+    $scope.intereses=snapshot.val().intereses ? snapshot.val().intereses : 'incompleto';
+     $scope.edad = snapshot.val().edad ? snapshot.val().edad : '?';
+      }
+  else{
+
+    $scope.sobreMi='incompleto';
+    $scope.intereses='incompleto';
+$scope.edad='?';
+  }
 
 
+  });
+ 
+console.log('ads333');
 
   $scope.openMenu = function () {
     $ionicSideMenuDelegate.toggleLeft();
@@ -1587,7 +1739,7 @@ var postID = newPostRef.key();
         idPropone: $localStorage.user[0].email,
         kPropone:$localStorage.user[0].uid,
         nickPropone:$localStorage.user[0].name,
-        vip:true,
+        vip:$localStorage.user[0].vip,
         imgPropuesta:postID+'.jpg'
         },function(){
 

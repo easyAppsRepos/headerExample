@@ -508,11 +508,19 @@ margin-right: 12px;
 
 }
 
+.edtBtn{
+  font-size: 27px;
+right: 0px;
+position: absolute;
+margin-right: 21px;
+margin-top: -8px;
+}
+
 .dashboardSubasta{
 width: 100%;
 bottom: 0px;
 border: solid 2px lightgray;
-height: 71px;
+height: 91px;
 display: inline-block;
 
 text-align: center;
