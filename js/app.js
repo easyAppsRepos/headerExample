@@ -1253,7 +1253,7 @@ rdef.once("value", function(snap) {
 
 }
 else{
-  console.log(s)
+
   $scope.ff= 'https://s3.amazonaws.com/gggdate/'+idPropone+'.jpg';
 }
 }
