@@ -393,7 +393,7 @@ if(type==1){
 
 }
 
-if(type==3){
+else if(type==3){
                 var photoRef = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$localStorage.user[0].uid);
 
     photoRef.update({ edad: $scope.perfil.sobreMiEdit }, function(){
