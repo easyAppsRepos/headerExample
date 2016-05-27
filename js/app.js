@@ -1732,6 +1732,7 @@ var postID = newPostRef.key();
         chica: $scope.propuesta.chica == undefined ? null :$scope.propuesta.chica,
         fechaCreacion: Date.now(),
         diasEnSubasta:$scope.propuesta.diasEnSubasta,
+        duracion:$scope.propuesta.duracion,
         descripcion: $scope.propuesta.descripcion,
         tipo: $scope.propuesta.tipo,
         estado: true,
@@ -1855,8 +1856,9 @@ $scope.imgURI = imageData;
 
     nameApp.controller('dashboardCtrl', function($scope, $rootScope,$location,$ionicSideMenuDelegate, $cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
 console.log("en dash");
-
-
+console.log($localStorage.user[0].vip);
+$scope.getLo=function(){return $localStorage.user[0].vip}
+$scope.userVip=$localStorage.user[0].vip;
 $scope.navTitle='<img class="title-image" src="img/logo.png" style="height: 100%; width: 100%;">';
 $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
                                         userPic:$localStorage.user[0].photo});
@@ -1907,7 +1909,8 @@ console.log("enKeyEntered");
 console.log(data.val());
            var subasta=  data.val();
            subasta.descripcionCorta=data.val().descripcion.substring(0,37)+'...';
-           subasta.tiempoRestante='Finaliza en: '+Math.round(((parseInt(data.val().fechaCreacion)+parseInt(data.val().diasEnSubasta))-Date.now())/3600000)+'h';
+         //  subasta.tiempoRestante='Finaliza en: '+Math.round(((parseInt(data.val().fechaCreacion)+parseInt(data.val().diasEnSubasta))-Date.now())/3600000)+'h';
+           subasta.tiempoRestante='Duracion: '+data.val().duracion;
            subasta.propuestaKey=data.key();
            // subasta.imgPropuesta="data:image/jpeg;base64,"+ data.val().imgPropuesta;
             //$scope.imgURI = "data:image/jpeg;base64," + imageURI;
@@ -2171,8 +2174,8 @@ $ionicScrollDelegate.scrollTop();
              
               if(string.indexOf(substring) > -1){
                 var s=userSnapshot.val();
-                s.tiempoRestante='Finaliza en: '+Math.round(((parseInt(userSnapshot.val().fechaCreacion)+parseInt(userSnapshot.val().diasEnSubasta))-Date.now())/3600000)+'h';
-
+                //s.tiempoRestante='Finaliza en: '+Math.round(((parseInt(userSnapshot.val().fechaCreacion)+parseInt(userSnapshot.val().diasEnSubasta))-Date.now())/3600000)+'h';
+ s.tiempoRestante='Duracion: '+userSnapshot.val().duracion;
                 $scope.propuestasValidas[userSnapshot.key()]=s;
                 $scope.arrayF.push(userSnapshot.key());
               }
@@ -2182,8 +2185,8 @@ $ionicScrollDelegate.scrollTop();
 
           else{
                           var s=userSnapshot.val();
-                s.tiempoRestante='Finaliza en: '+Math.round(((parseInt(userSnapshot.val().fechaCreacion)+parseInt(userSnapshot.val().diasEnSubasta))-Date.now())/3600000)+'h';
-
+               // s.tiempoRestante='Finaliza en: '+Math.round(((parseInt(userSnapshot.val().fechaCreacion)+parseInt(userSnapshot.val().diasEnSubasta))-Date.now())/3600000)+'h';
+                s.tiempoRestante='Duracion: '+userSnapshot.val().duracion;
              $scope.propuestasValidas[userSnapshot.key()] = s;
 
              $scope.arrayF.push(userSnapshot.key());

@@ -145,7 +145,7 @@ braintree.setup(clientToken, "dropin", {
         <ion-content  class="padding" style="background-color: lightgray ! important; margin: 4px; border-radius: 6px;">
   
         <div style="text-align: center;"><p style="font-size: 30px; margin-top: 10px; color: black;">{{pujaActual}}€</p><p style="color: rgb(102, 102, 102);">Pujas mas alta</p></div>
-        <div style="text-align: center;"><div ng-click='bajarPuja()' class="minusPlusBtn" style="background-color: darkcyan;">-</div><input ng-model='inputSubasta' style="text-align: center;display: inline-block;" type="number" min="{{pujaActual}}"><div style="background-color: darkcyan;" ng-click='subirPuja()' class="minusPlusBtn">+</div></div>
+        <div style="text-align: center;"><div ng-click='bajarPuja()' class="minusPlusBtn" style="background-color: darkcyan;">-</div><input ng-model='inputSubasta' style="width: 65% !important;text-align: center;display: inline-block;" type="number" min="{{pujaActual}}"><div style="background-color: darkcyan;" ng-click='subirPuja()' class="minusPlusBtn">+</div></div>
         
         <button class="button button-full" style="border: 1px solid rgb(255, 255, 255); color: white; background-color: darkcyan; margin-top: 25px" ng-click="agregarPuja()">Pujar</button>
 
@@ -285,6 +285,7 @@ braintree.setup(clientToken, "dropin", {
    </ion-nav-buttons> 
            <ion-nav-buttons side="left">
           <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+           <div ng-show='{{getLo()}}' style='margin-left: 15px;'><img style='height: 100%;' src='img/crown.png'></div>
         </ion-nav-buttons>   
 
 
@@ -1131,12 +1132,27 @@ braintree.setup(clientToken, "dropin", {
     height: 50px;
     width: 140px;
 ">
-
+<img src="img/crown.png">
    <button ng-show='{{pago.cantidadAPagar=="5.99"}}' type="button"  style="
     margin-top: 20px;
     height: 50px;
     width: 140px;
 ">Hacerme VIP <br> {{pago.cantidadAPagar}} euros</button>
+<img src="img/crown.png">
+
+     <div style="margin-top: 10px"><a style='color: rgb(102, 102, 102)'>Ventajas de ser un <b style='color: darkkhaki !important;'>GoldVip</b> </a></div>
+<div style='width: 90%;margin-left: 5%;color: rgb(102, 102, 102);text-align: left;margin-top: 20px;' ng-show='{{pago.cantidadAPagar=="5.99"}}'>
+ 
+  <p>
+*Podras subir propuestas ilimitadas cada dia del año.<br><br>
+*Tendras acceso a un filtro Vip donde podras encontrar exactamente lo que estas buscando.<br><br>
+*La gente tendra mayor acceso a tus propuestas.<br><br>
+*Nuestro porcentaje sera menor en cada propuesta ganadora.<br><br>
+*Tendras más capacidad para subir tus fotos.<br><br>
+
+  </p>
+  <div style="height: 25px"></div>
+</div>
 
  <!--
   <input type="submit" value="Pay $10">
@@ -1287,6 +1303,21 @@ braintree.setup(clientToken, "dropin", {
             </select>
             </label>
 
+            <label style='margin-top: 15px' class="borderBot item itemForms item-input item-select">
+            <div class="input-label">
+            Duracion de la cita
+            </div>
+            <select style='max-width: 36% !important;'ng-model='propuesta.duracion' class='itemForms' >
+
+            <option value='1h' selected>1 hora</option>
+            <option value='2h' selected>2 horas</option>
+            <option value='3h' selected>3 horas</option>
+            <option value='A acordar' selected>A acordar</option>
+
+            </select>
+            </label>
+
+
 
 
            <label  class="borderBot item itemForms ">
@@ -1313,7 +1344,7 @@ braintree.setup(clientToken, "dropin", {
 
 
            <label  class="borderBot item itemForms "  ng-controller='MyController'>
-          <div style="color: rgb(102, 102, 102); ">Precio oferta</div>
+          <div style="color: rgb(102, 102, 102); ">Precio Propuesta</div>
           </label>
               <label class="item item-input " style="margin-top: 5px;">
                 <input ng-model='propuesta.precio' type="number" placeholder="Euros">

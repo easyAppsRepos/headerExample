@@ -26,7 +26,8 @@
   <preference name="BackupWebStorage" value="none"/>
 
     <preference name="SplashScreen" value="splash" />
-    <preference name="splash-screen-duration" value="25000"/> 
+     <preference name="SplashScreenDelay" value="6000" />
+
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
@@ -41,11 +42,11 @@
 </plugin>
 
 <gap:plugin name="cordova-plugin-inappbrowser" version="" source="npm" />
-
+<gap:plugin name="cordova-plugin-splashscreen" version="" source="npm" />
 <gap:plugin name="cordova-plugin-file-transfer" version="" source="npm" />
 <gap:plugin name="cordova-plugin-camera" version="" source="npm" />
 <gap:plugin name="cordova-plugin-geolocation" version="" source="npm" />
-<gap:plugin name="cordova-plugin-splashscreen" version="" source="npm" />
+
 <gap:plugin name="cordova-plugin-device" version="" source="npm" />
 <gap:plugin name="cordova-plugin-statusbar" version="" source="npm" />
 <gap:plugin name="cordova-plugin-socialsharing" source="npm" />
@@ -76,6 +77,14 @@
     <icon gap:platform="ios" height="144" src="res/icon/ios/icon-72@2x.png" width="144" />
     <icon gap:platform="ios" height="76" src="res/icon/ios/icon-76.png" width="76" />
     <icon gap:platform="ios" height="152" src="res/icon/ios/icon-76@2x.png" width="152" />
+
+<splash src="splash.png" />
+
+    <splash src="res/splash/android/ldpi.png" platform="android" qualifier="ldpi" />
+<splash src="res/splash/android/mdpi.png" platform="android" qualifier="mdpi" />
+<splash src="res/splash/android/hdpi.png" platform="android" qualifier="hdpi" />
+<splash src="res/splash/android/xhdpi.png" platform="android" qualifier="xhdpi" />
+
 
 
 
