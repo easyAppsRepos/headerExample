@@ -1908,7 +1908,7 @@ var postID = newPostRef.key();
 
 
            ref.child('pujas/'+postID).push({valorPuja:$scope.propuesta.precio,
-                                          pujante:'Valor inicial',
+                                          pujante:'Inicial',
                                           fechaPuja:Date.now()});
 
             geoFire.set(postID, [lat, long]).then(function() {

@@ -193,7 +193,7 @@
 		<div ng-click='crearChat("{{puja.KPujante}}","{{puja.nombreP}}")' class="item" ng-repeat="puja in pujantes">
 
           <div  class='numbers'>{{puja.posicion}}</div>
-          <a>{{puja.nombreP}}</a>
+          <a>{{puja.nombreP.split(' ')[0]}}</a>
           <a class='pujasE'>{{puja.valorPuja}}€</a>
           </div>
 
@@ -277,7 +277,7 @@
            <ion-nav-buttons side="left">
           <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
          
-        <div ng-show='{{getLo()}}' style="margin-left: 15px !important; width: 35px !important; height: 35px !important;"><img style="height: 100% !important; width: 100% !important;" src="img/crown.png"></div>
+        <div style="margin-left: 15px !important; width: 35px !important; height: 35px !important;"><a href='#/paypal/5.99/0/0'><img  style="height: 100% !important; width: 100% !important;" src="img/crown.png"></a></div>
 
         </ion-nav-buttons>   
 
@@ -372,7 +372,7 @@
         <div class="item item-avatar">
         <img  ng-src='{{ff}}'>
         <img ng-show='{{ivip}}' src='img/crown.png' class='crownI'> 
-        <h2>{{nickPropone}}</h2>
+        <h2>{{nickPropone.split(' ')[0]}}</h2>
         <p>Conectado</p>
         </div>
         <div class="item item-body">
@@ -479,7 +479,7 @@
           <div ng-controller='detailCtrl' class="item" ng-repeat="puja in pujas">
 
           <div class='numbers'>{{puja.posicion}}</div>
-          <a>{{puja.nombreP}}</a>
+          <a>{{puja.nombreP.split(' ')[0]}}</a>
           <a class='pujasE'>{{puja.valorPuja}}€</a>
           </div>
         
@@ -796,11 +796,11 @@
 <img src="img/empty.png"><br>No se encontraron resultados</div>
                       <div class='item itemFAV' ng-repeat='item in arrayF'
                       >	
-                      <a style="position: absolute; top: 0px; width: 100%; height: 100%;" href="#/detail/{{item}}/{{propuestasValidas[item].nickPropone}}/{{propuestasValidas[item].pujaActual}}/{{propuestasValidas[item].tiempoRestante}}/{{propuestasValidas[item].descripcion}}/{{propuestasValidas[item].kPropone}}/{{propuestasValidas[item].imgPropuesta}}"></a>
+                      <a style="position: absolute; top: 0px; width: 100%; height: 100%;" href="#/detail/{{item}}/{{propuestasValidas[item].nickPropone}}/{{propuestasValidas[item].pujaActual}}/{{propuestasValidas[item].tiempoRestante}}/{{propuestasValidas[item].descripcion}}/{{propuestasValidas[item].kPropone}}/{{propuestasValidas[item].imgPropuesta}}/{{propuestasValidas[item].categoria}}/{{propuestasValidas[item].vip}}"></a>
 
                       <img ng-src="https://s3.amazonaws.com/gggdate/{{propuestasValidas[item].imgPropuesta}}">
                       <div>
-                          <a>{{propuestasValidas[item].nickPropone}}</a>
+                          <a>{{propuestasValidas[item].nickPropone.split(' ')[0]}}</a>
                           <a>{{propuestasValidas[item].categoria}}</a>
                           <a><i class='ion-star'></i><i class='ion-star'></i><i class='ion-star'></i><i class='ion-star'></i><i class='ion-star'></i></a>
                         </div>
