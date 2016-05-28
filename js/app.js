@@ -5,7 +5,7 @@ var nameApp = angular.module('starter', ['ionic','ngCordova','ngStorage','angula
  nameApp.constant('clientTokenPath', 'http://54.187.131.158:3000/client_token');
 nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
  
-
+$ionicConfigProvider.navBar.alignTitle('center');
 
   $ionicConfigProvider.views.transition('none');
  
