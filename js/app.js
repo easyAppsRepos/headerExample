@@ -1,6 +1,8 @@
 var map;
-var nameApp = angular.module('starter', ['ionic','ngCordova','ngStorage','angularGeoFire','firebase','ngMessages','ion-gallery']);
+var nameApp = angular.module('starter', ['ionic','ngCordova','ngStorage','angularGeoFire','firebase','ngMessages','ion-gallery', 'braintree-angular']);
  
+
+ nameApp.constant('clientTokenPath', 'http://54.187.131.158:3000/client_token');
 nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
  
 
@@ -1019,14 +1021,136 @@ $rootScope.$broadcast('userInfoBroad', {userName:snap.val().nombre,
 
 });
 
-nameApp.controller('paypalCtrl',function($scope,$rootScope,$ionicHistory,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation)
+
+nameApp.controller('yourCtrl', function($scope, $state, $braintree, $localStorage, $http, $ionicLoading) {
+$scope.payCenter=true;
+
+
+
+
+    var client;
+    $scope.creditCard = {
+      number: '',
+      expirationDate: ''
+    };
+
+    var startup = function() {
+      $braintree.getClientToken().success(function(token) {
+        client = new $braintree.api.Client({
+          clientToken: token
+        });
+      });
+    }
+
+    $scope.payButtonClicked = function(p,type) {
+
+ $ionicLoading.show({
+        template: 'Cargando...'
+      });
+
+console.log(document.getElementsByName("payment_method_nonce")[0].value);
+if(document.getElementsByName("payment_method_nonce")[0].value){
+ var url = 'http://54.187.131.158:3000/checkout';
+    $http
+      .post(url, {userID: $localStorage.user[0].uid, type:type,pago:p,payment_method_nonce:document.getElementsByName("payment_method_nonce")[0].value})
+      .success(function (response) {
+        console.log(response);
+        if(response==true){
+           $ionicLoading.hide();
+          alert('Transaccion Exitosa!');
+          $localStorage.user[0].vip=true;
+          $state.go('list');
+        }
+        else{
+          $ionicLoading.hide();
+          alert('Ha ocurrido un error');
+        }  
+      });
+
+  console.log('paypal');
+  return true;
+}
+
+if(typeof $scope.creditCard.number == "undefined" || $scope.creditCard.number == '' || typeof $scope.creditCard.expirationDate == "undefined" || $scope.creditCard.expirationDate == '' ){
+$ionicLoading.hide();
+alert('Datos incompletos');
+return true;
+
+
+}
+
+
+      // - Validate $scope.creditCard
+      // - Make sure client is ready to use
+
+      client.tokenizeCard({
+        number: $scope.creditCard.number,
+        expirationDate: $scope.creditCard.expirationDate
+      }, function (err, nonce) {
+console.log(nonce);
+
+   var url = 'http://54.187.131.158:3000/checkout';
+   // $log.debug(url);
+  
+    $http
+      .post(url, {userID: $localStorage.user[0].uid, type:type,pago:p,payment_method_nonce:nonce})
+      .success(function (response) {
+        console.log(response);
+        if(response==true){
+          $ionicLoading.hide();
+          alert('Transaccion Exitosa!');
+           $localStorage.user[0].vip=true;
+          $state.go('list');
+        }
+        else{
+          $ionicLoading.hide();
+          alert('Ha ocurrido un error');
+        }  
+      });
+        // - Send nonce to your server (e.g. to make a transaction)
+
+      });
+    };
+
+    startup();
+  });
+nameApp.controller('paypalCtrl',function($scope,$rootScope,$ionicHistory,$location, $http, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation, FotosUsuario)
 {
 
-  var clientToken = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJkOTM1OTRiMjYyODk0YTgwNjc4ZGFmYzc0MGM5ODA5OTM5YzEzNzAyM2UyY2ZlZTQ4Y2Y2N2I5NTMyMjk0MzY3fGNyZWF0ZWRfYXQ9MjAxNi0wNS0xMlQxNzo0NzoxNS45NjkyMjkxMDMrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
+$scope.sss=function(){console.log('sss');}
+/*
+
+FotosUsuario.getKP().then(function(data){
+  console.log(data);
+var clientToken = data;
 
 braintree.setup(clientToken, "dropin", {
   container: "payment-form"
 });
+
+});
+
+$scope.submitPay = function (form) {
+    //if (!$scope.contactForm.$valid) return;
+  console.log('asdasdasd22222222');
+  console.log(form);
+   // var url = form.attributes["target"];
+   var url = 'http://54.187.131.158:3000/checkout';
+   // $log.debug(url);
+  
+    $http
+      .post(url)
+      .success(function () {
+        console.log(response);
+      });
+
+      return false;
+    }
+
+    */
+
+
+
 
 $scope.pago={};
 $scope.pago.cantidadAPagar=$stateParams.pago;
@@ -1855,9 +1979,13 @@ $scope.imgURI = imageData;
     });
 
     nameApp.controller('dashboardCtrl', function($scope, $rootScope,$location,$ionicSideMenuDelegate, $cordovaGeolocation,$firebaseArray, $timeout, $localStorage, $state,$ionicPopup, $firebaseObject, Auth, FURL, Utils){
-console.log("en dash");
-console.log($localStorage.user[0].vip);
-$scope.getLo=function(){return $localStorage.user[0].vip}
+
+$scope.getLo=function(){
+if(localStorage.getItem('ngStorage-user') !== null && localStorage.getItem('ngStorage-user').length>5){
+  return $localStorage.user[0].vip}
+
+
+}
 $scope.userVip=$localStorage.user[0].vip;
 $scope.navTitle='<img class="title-image" src="img/logo.png" style="height: 100%; width: 100%;">';
 $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
@@ -2956,6 +3084,33 @@ var itemsRef = new Firebase('https://golddate.firebaseio.com/app/images/'+idUser
 
   
   },
+
+    getKP:function(){
+      var deferred = $q.defer();
+ var signingURI = "http://54.187.131.158:3000/client_token";
+
+ $http({
+  method: 'GET',
+  url: signingURI
+}).then(function successCallback(response) {
+    // this callback will be called asynchronously
+    // when the response is available
+    console.log(response);
+     deferred.resolve(response.data);
+  }, function errorCallback(response) {
+        console.log(response);
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+  });
+
+
+
+              
+
+   return deferred.promise;
+
+  },
+
 
   addFoto:function(id,imageURI,fileName){
  var signingURI = "http://54.187.131.158:3000/signing";

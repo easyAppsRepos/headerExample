@@ -28,7 +28,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
 
-<script src="https://js.braintreegateway.com/js/braintree-2.24.0.min.js"></script>
+<!-- <script src="https://js.braintreegateway.com/js/braintree-2.24.0.min.js"></script> -->
+<script src="js/braintree-angular.js"></script>
+
     <script type="text/javascript" src="js/firebase.js"></script>
 <script type="text/javascript" src="js/rsvp.min.js"></script>
 <script type="text/javascript" src="js/angularfire.min.js"></script>
@@ -48,16 +50,6 @@
     <!-- your app's js -->
     <script src="js/app.js"></script>
 
-<script>
-// We generated a client token for you so you can test out this code
-// immediately. In a production-ready integration, you will need to
-// generate a client token on your server (see section below).
-var clientToken = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJkOTM1OTRiMjYyODk0YTgwNjc4ZGFmYzc0MGM5ODA5OTM5YzEzNzAyM2UyY2ZlZTQ4Y2Y2N2I5NTMyMjk0MzY3fGNyZWF0ZWRfYXQ9MjAxNi0wNS0xMlQxNzo0NzoxNS45NjkyMjkxMDMrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
-
-braintree.setup(clientToken, "dropin", {
-  container: "payment-form"
-});
-</script>
 
 
   </head>
@@ -285,7 +277,9 @@ braintree.setup(clientToken, "dropin", {
    </ion-nav-buttons> 
            <ion-nav-buttons side="left">
           <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
-           <div ng-show='{{getLo()}}' style='margin-left: 15px;'><img style='height: 100% !important;' src='img/crown.png'></div>
+         
+        <div ng-show='{{getLo()}}' style="margin-left: 15px !important; width: 35px !important; height: 35px !important;"><img style="height: 100% !important; width: 100% !important;" src="img/crown.png"></div>
+
         </ion-nav-buttons>   
 
 
@@ -1125,22 +1119,69 @@ braintree.setup(clientToken, "dropin", {
 
 			<ion-content style='    text-align: center !important;'>
 			<div style="height: 60px"></div>
-                   <form id="checkout" method="post" action="/checkout">
-  <div id="payment-form"></div>
-   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="button" value="Pagar {{pago.cantidadAPagar}} euros" style="
-    margin-top: 20px;
-    height: 50px;
-    width: 140px;
-">
+      <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+   <!-- <form id="checkout" method="post" action="http://54.187.131.158:3000/checkout" target="dummyframe"> 
+
+   <form id="checkout" method="post" action='http://54.187.131.158:3000/checkout' target="dummyframe">
+
+<div id="payment-form"></div>
+   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;">
 <img src="img/crown.png">
-   <button ng-show='{{pago.cantidadAPagar=="5.99"}}' type="button"  style="
+   <button ng-show='{{pago.cantidadAPagar=="5.99"}}' type="submit"  style="
     margin-top: 20px;
     height: 50px;
     width: 140px;
 ">Hacerme VIP <br> {{pago.cantidadAPagar}} euros</button>
 <img src="img/crown.png">
+</form>
 
-     <div style="margin-top: 10px"><a style='color: rgb(102, 102, 102)'>Ventajas de ser un <b style='color: darkkhaki !important;'>GoldVip</b> </a></div>
+
+<form action="http://54.187.131.158:3000/checkout" method="post">
+
+  <braintree-dropin></braintree-dropin>
+
+  <input
+    type="submit"
+    value="Buy for $14"
+    />
+
+</form>
+
+-->
+
+<div  ng-controller="yourCtrl">
+
+<div   style="width: 90%;margin-left: 5%; margin-bottom: 20px;"><braintree-paypal></braintree-paypal></div>
+<div style="width: 90%;margin-left: 5%;text-align: left;color: #666;">
+<label>Numero de tarjeta</label>
+  <input style='display: inherit;'
+    ng-model="creditCard.number"
+    placeholder="4111111111111111"
+    />
+<label>Fecha Exp</label>
+  <input style='display: inherit;'
+    ng-model="creditCard.expirationDate"
+    placeholder="10/18"
+    />
+
+ </div>   
+<div>
+
+   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;" ng-click="payButtonClicked(pago.cantidadAPagar,2)">
+<img ng-show='{{pago.cantidadAPagar=="5.99"}}' src="img/crown.png">
+   <button ng-show='{{pago.cantidadAPagar=="5.99"}}' type="submit"  style="
+    margin-top: 20px;
+    height: 50px;
+    width: 140px;
+" ng-click="payButtonClicked(pago.cantidadAPagar,1)">Hacerme VIP <br> {{pago.cantidadAPagar}} euros</button>
+<img ng-show='{{pago.cantidadAPagar=="5.99"}}' src="img/crown.png">
+
+    </div>
+
+</div>
+
+
+     <div ng-show='{{pago.cantidadAPagar=="5.99"}}' style="margin-top: 10px"><a style='color: rgb(102, 102, 102)'>Ventajas de ser un <b style='color: darkkhaki !important;'>GoldVip</b> </a></div>
 <div style='width: 90%;margin-left: 5%;color: rgb(102, 102, 102);text-align: left;margin-top: 20px;' ng-show='{{pago.cantidadAPagar=="5.99"}}'>
  
   <p>
@@ -1157,7 +1198,7 @@ braintree.setup(clientToken, "dropin", {
  <!--
   <input type="submit" value="Pay $10">
   -->
-</form>  
+ 
 			</ion-content>
       </ion-view>
   </script> 

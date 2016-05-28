@@ -276,6 +276,9 @@ line-height: 2;
 
 }
 
+.centerPay{
+  margin-left: calc(50% - 57.5px);
+}
 .minusPlusBtn{
 height: 34px;
 width: 36px;
