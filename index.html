@@ -56,9 +56,9 @@
 
 
   <body >
-   
+
   <!-- The nav bar that will be updated as we navigate -->
-     <ion-side-menus enable-menu-with-back-views="true">
+     <ion-side-menus enable-menu-with-back-views="true" ng-cloak>
       <ion-side-menu-content>
         <ion-nav-bar class="bar-positive nav-title-slide-ios7">
           <ion-nav-back-button class="button-icon" transitiontype="fade" go-native><span class="icon ion-android-arrow-back"></span>Atras</ion-nav-back-button>
@@ -71,7 +71,7 @@
 
     <ion-content>
       <ion-list >
-        <ion-item ng-controller='userInfoCtrl' class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
+        <ion-item  ng-controller='userInfoCtrl' class="heading-item item item-avatar " nav-clear menu-close href="#/miPerfil" transitiontype="fade" go-native>
           <div class="user-image-container">
             <pre-img ratio="_1_1" helper-class="rounded-image">
               <img class="user-image" ng-src="{{getFoto(userInfo.userPic)}}" spinner-on-load>
