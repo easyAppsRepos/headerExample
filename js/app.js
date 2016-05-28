@@ -2976,15 +2976,15 @@ nameApp.factory('Utils', function($ionicLoading,$ionicPopup) {
       if(err && err.code) {
         switch (err.code) {
           case "EMAIL_TAKEN":
-            msg = "This Email has been taken."; break;
+            msg = "Este email ya ha sido tomado."; break;
           case "INVALID_EMAIL":
             msg = "Invalid Email."; break;
           case "NETWORK_ERROR":
-            msg = "Network Error."; break;
+            msg = "Error de conexion."; break;
           case "INVALID_PASSWORD":
-            msg = "Invalid Password."; break;
+            msg = "Password invalido."; break;
           case "INVALID_USER":
-            msg = "Invalid User."; break;
+            msg = "Usuario invalido."; break;
         }
       }
       Utils.alertshow("Error",msg);
