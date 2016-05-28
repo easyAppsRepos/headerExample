@@ -54,7 +54,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
       .state('miPerfil', {
-     
+     cache: false,
       url: '/miPerfil',
       templateUrl: 'miPerfil.html',
       controller: 'miPerfilCtrl'
@@ -85,7 +85,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
 
             .state('paypal', {
               cache : false,
-      url: '/paypal/:pago/:idProponeP',
+      url: '/paypal/:pago/:idProponeP/:idP',
       templateUrl: 'paypal.html',
       controller: 'paypalCtrl'
     })
@@ -641,13 +641,16 @@ console.log(k);
 var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas/'+k);
 fnotif.once('value', function(s){
     var a = s.exists();
-  if(a){$state.go('paypal',{pago:s.val().pujaActual,idProponeP:s.val().kPropone})}
+  if(a){
+    console.log(s.val().kPropone);
+    $state.go('paypal',{pago:s.val().pujaActual, idProponeP:s.val().kPropone,idP:0});
+  }
     if(!a){
 
-      var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+k+'/pujaActual');
+      var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+k);
 fnotif.once('value', function(ss){
  
-      $state.go('paypal',{pago:ss.val()})
+      $state.go('paypal',{pago:ss.val().pujaActual, idProponeP:ss.val().kPropone, idP:k})
 
     });}
 });
@@ -1046,7 +1049,7 @@ $scope.payCenter=true;
       });
     }
 
-    $scope.payButtonClicked = function(p,type,id) {
+    $scope.payButtonClicked = function(p,type,id,idP) {
 
  if($localStorage.user[0].vip == true && type == 1){
 
@@ -1059,16 +1062,21 @@ return true;
  $ionicLoading.show({
         template: 'Cargando...'
       });
+var idPo=0;
+if(type==1){
+  var UserID=$localStorage.user[0].uid;
 
-if(type==1){var UserID=$localStorage.user[0].uid}
+}
 
-if(type==2){var UserID=id}
+if(type==2){
+  var UserID=id;
+   idPo=idP;}
 
 console.log(document.getElementsByName("payment_method_nonce")[0].value);
 if(document.getElementsByName("payment_method_nonce")[0].value){
  var url = 'http://54.187.131.158:3000/checkout';
     $http
-      .post(url, {userID: UserID, type:type,pago:p,payment_method_nonce:document.getElementsByName("payment_method_nonce")[0].value})
+      .post(url, {idPropuesta: idPo, userID: UserID, type:type,pago:p,payment_method_nonce:document.getElementsByName("payment_method_nonce")[0].value})
       .success(function (response) {
         console.log(response);
         if(response==true){
@@ -1109,7 +1117,7 @@ console.log(nonce);
    // $log.debug(url);
   
     $http
-      .post(url, {userID: UserID, type:type,pago:p,payment_method_nonce:nonce})
+      .post(url, {idPropuesta: idPo, userID: UserID, type:type,pago:p,payment_method_nonce:nonce})
       .success(function (response) {
         console.log(response);
         if(response==true){
@@ -1174,7 +1182,8 @@ $scope.submitPay = function (form) {
 $scope.pago={};
 $scope.pago.cantidadAPagar=$stateParams.pago;
 $scope.pago.idProponeP=$stateParams.idProponeP;
-console.log($stateParams.pago);
+$scope.pago.idP=$stateParams.idP;
+console.log($scope.pago);
 
 });
 

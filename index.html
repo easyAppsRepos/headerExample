@@ -93,17 +93,14 @@
           <i class="icon ion-android-create"></i>
           <h2 class="menu-text">Crear Propuesta</h2>
         </ion-item>
-        <ion-item class="item-icon-left" nav-clear menu-close  href='#/paypal/0' transitiontype="fade" go-native>
-          <i class="icon ion-card"></i>
-          <h2 class="menu-text">Paypal</h2>
-        </ion-item>
+
 
         <ion-item class="item-icon-left" nav-clear menu-close href='#/filtrosVIP' transitiontype="fade" go-native>
           <i class="icon ion-ios-toggle"></i>
           <h2 class="menu-text">Filtros VIP</h2>
         </ion-item>
 
-                <ion-item class="item-icon-left" nav-clear menu-close href='#/paypal/5.99/0' transitiontype="fade" go-native>
+                <ion-item class="item-icon-left" nav-clear menu-close href='#/paypal/5.99/0/0' transitiontype="fade" go-native>
           <i class="icon ion-star"></i>
           <h2 class="menu-text">Hazte VIP</h2>
         </ion-item>
@@ -1178,7 +1175,7 @@
  </div>   
 <div>
 
-   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;" ng-click="payButtonClicked(pago.cantidadAPagar,2,pago.idProponeP)">
+   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;" ng-click="payButtonClicked(pago.cantidadAPagar,2,pago.idProponeP,pago.idP)">
 
 <img ng-show='{{pago.cantidadAPagar=="5.99"}}' src="img/crown.png">
    <button ng-show='{{pago.cantidadAPagar=="5.99"}}' type="submit"  style="
