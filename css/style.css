@@ -548,6 +548,7 @@ margin-left: 33px;
 .title{
   text-align: center;
   margin: 10px;
+  min-width: 100px !important;
 }
 
 .test-content{

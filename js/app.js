@@ -2017,7 +2017,7 @@ if(localStorage.getItem('ngStorage-user') !== null && localStorage.getItem('ngSt
 
 }
 $scope.userVip=$localStorage.user[0].vip;
-$scope.navTitle='<img class="title-image" src="img/logo.png" style="height: 100%; width: 100%;">';
+$scope.navTitle='<img class="title-image" src="img/logo.png" style="height: 100%; width: 100px;">';
 $rootScope.$broadcast('userInfoBroad', {userName:$localStorage.user[0].name,
                                         userPic:$localStorage.user[0].photo});
 

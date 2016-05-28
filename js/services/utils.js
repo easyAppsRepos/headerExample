@@ -33,15 +33,15 @@ angular.module('starter').factory('Utils', function($ionicLoading,$ionicPopup) {
 	    if(err && err.code) {
 	      switch (err.code) {
 	        case "EMAIL_TAKEN":
-	          msg = "This Email has been taken."; break;
+	          msg = "Este correo ya ha sido tomado."; break;
 	        case "INVALID_EMAIL":
-	          msg = "Invalid Email."; break;
+	          msg = "Email invalido."; break;
           case "NETWORK_ERROR":
 	          msg = "Network Error."; break;
 	        case "INVALID_PASSWORD":
-	          msg = "Invalid Password."; break;
+	          msg = "Contrasena invalida."; break;
 	        case "INVALID_USER":
-	          msg = "Invalid User."; break;
+	          msg = "Nombre de usuario invalido."; break;
 	      }
 	    }
 			Utils.alertshow("Error",msg);
