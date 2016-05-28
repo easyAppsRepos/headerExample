@@ -573,7 +573,7 @@ var a = snapshot.exists();
 
 
 
- nameApp.controller('misAlertasCtrl', function ($scope, $ionicModal, $ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, ChatsUsuario, PaypalService, Auth, FURL, Utils) {
+ nameApp.controller('misAlertasCtrl', function ($scope, $ionicModal, $rootScope, $ionicSideMenuDelegate, $state, PushNoti,$localStorage, $location,$http,$ionicPopup, $firebaseObject, ChatsUsuario, PaypalService, Auth, FURL, Utils) {
  //$scope.notificaciones={};
 
 
@@ -631,10 +631,17 @@ ChatsUsuario.addChat(idPropuesta,ganador,idUserPropuesta, nombreP,$localStorage.
 var notif = new Firebase('https://golddate.firebaseio.com/app/notificaciones/'+$localStorage.user[0].uid+'/'+k);
 notif.remove();
 $scope.getNotificaciones();
+//$rootScope.$broadcast('pushNuevo');
 
+$rootScope.$broadcast('borrarNotiss');
+console.log($scope.iconNoti);
 
  };
 
+$scope.$on('borrarNotiss', function(event, args) {
+$scope.$applyAsync(function(){$scope.iconNoti=$scope.iconNoti-1});
+    // do what you want to do
+});
 
  $scope.pagarPuja = function(k){
 console.log(k);
