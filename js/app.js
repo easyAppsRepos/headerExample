@@ -54,7 +54,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
       .state('miPerfil', {
-        cache:false,
+     
       url: '/miPerfil',
       templateUrl: 'miPerfil.html',
       controller: 'miPerfilCtrl'
@@ -85,7 +85,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
 
             .state('paypal', {
               cache : false,
-      url: '/paypal/:pago',
+      url: '/paypal/:pago/:idProponeP',
       templateUrl: 'paypal.html',
       controller: 'paypalCtrl'
     })
@@ -443,12 +443,15 @@ var a = snapshot.exists();
     $scope.sobreMi=snapshot.val().sobreMi ? snapshot.val().sobreMi : 'Aun no completas esta parte de tu perfil';
     $scope.intereses=snapshot.val().intereses ? snapshot.val().intereses : 'Aun no completas esta parte de tu perfil';
      $scope.edad = snapshot.val().edad ? snapshot.val().edad : '?';
+       $scope.cuenta = snapshot.val().cuenta ? snapshot.val().cuenta : '0';
       }
   else{
 
     $scope.sobreMi='Aun no completas esta parte de tu perfil';
     $scope.intereses='Aun no completas esta parte de tu perfil';
-$scope.edad='?';
+    $scope.edad='?';
+    $scope.cuenta = '0';
+
   }
 
 
@@ -635,10 +638,10 @@ $scope.getNotificaciones();
 
  $scope.pagarPuja = function(k){
 console.log(k);
-var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas/'+k+'/pujaActual');
+var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas/'+k);
 fnotif.once('value', function(s){
     var a = s.exists();
-  if(a){$state.go('paypal',{pago:s.val()})}
+  if(a){$state.go('paypal',{pago:s.val().pujaActual,idProponeP:s.val().kPropone})}
     if(!a){
 
       var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+k+'/pujaActual');
@@ -1043,7 +1046,7 @@ $scope.payCenter=true;
       });
     }
 
-    $scope.payButtonClicked = function(p,type) {
+    $scope.payButtonClicked = function(p,type,id) {
 
  if($localStorage.user[0].vip == true && type == 1){
 
@@ -1052,18 +1055,20 @@ return true;
 
  }
  
- 
+
  $ionicLoading.show({
         template: 'Cargando...'
       });
 
+if(type==1){var UserID=$localStorage.user[0].uid}
 
+if(type==2){var UserID=id}
 
 console.log(document.getElementsByName("payment_method_nonce")[0].value);
 if(document.getElementsByName("payment_method_nonce")[0].value){
  var url = 'http://54.187.131.158:3000/checkout';
     $http
-      .post(url, {userID: $localStorage.user[0].uid, type:type,pago:p,payment_method_nonce:document.getElementsByName("payment_method_nonce")[0].value})
+      .post(url, {userID: UserID, type:type,pago:p,payment_method_nonce:document.getElementsByName("payment_method_nonce")[0].value})
       .success(function (response) {
         console.log(response);
         if(response==true){
@@ -1104,7 +1109,7 @@ console.log(nonce);
    // $log.debug(url);
   
     $http
-      .post(url, {userID: $localStorage.user[0].uid, type:type,pago:p,payment_method_nonce:nonce})
+      .post(url, {userID: UserID, type:type,pago:p,payment_method_nonce:nonce})
       .success(function (response) {
         console.log(response);
         if(response==true){
@@ -1168,6 +1173,7 @@ $scope.submitPay = function (form) {
 
 $scope.pago={};
 $scope.pago.cantidadAPagar=$stateParams.pago;
+$scope.pago.idProponeP=$stateParams.idProponeP;
 console.log($stateParams.pago);
 
 });
@@ -1921,6 +1927,7 @@ var postID = newPostRef.key();
         },function(err){
         			console.log("err4r44");
         			console.log(err);
+              alert("Debes activar al GPS para continuar");
         				        $ionicLoading.hide();
     				} 
     				);
@@ -2117,7 +2124,7 @@ console.log(data.val());
 
   }, function(err) {
       console.log("err22");
-        console.log(err); 
+       alert('Debes activar el GPS del movil para el correcto funcionamiento del App'); 
     });
 }
  $scope.cargarDatos();  	
@@ -2787,7 +2794,8 @@ $state.go('UserMessages',{kChat:kc});
 
       }, function(err) {
         // error
-        $ionicLoading.hide();      
+        $ionicLoading.hide();  
+        alert("Debes activar el GPS");    
     });
     
    

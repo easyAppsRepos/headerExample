@@ -103,7 +103,7 @@
           <h2 class="menu-text">Filtros VIP</h2>
         </ion-item>
 
-                <ion-item class="item-icon-left" nav-clear menu-close href='#/paypal/5.99' transitiontype="fade" go-native>
+                <ion-item class="item-icon-left" nav-clear menu-close href='#/paypal/5.99/0' transitiontype="fade" go-native>
           <i class="icon ion-star"></i>
           <h2 class="menu-text">Hazte VIP</h2>
         </ion-item>
@@ -648,6 +648,17 @@
 <p>{{intereses}}</p>
 </div>
 </div>
+
+<div style="margin-top: 25px; width: 90%; margin-left: 5%; background-color: gray; height: 2px; opacity: 0.4;"></div>
+
+<div style="text-align: center; font-size: 13px; width: 90%; margin-left: 5%;margin-top: 25px; color: rgb(102, 102, 102);">
+<a style="font-size: 15px;">Mi cuenta</a>
+<div  style="margin-top: 20px; text-align: center">
+<p style='font-size: 25px;'><i class='ion-social-euro'></i>{{cuenta}}</p>
+</div>
+</div>
+<div style="height: 25px"></div>
+
       </ion-view>
   </script> 
 
@@ -1167,7 +1178,8 @@
  </div>   
 <div>
 
-   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;" ng-click="payButtonClicked(pago.cantidadAPagar,2)">
+   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;" ng-click="payButtonClicked(pago.cantidadAPagar,2,pago.idProponeP)">
+
 <img ng-show='{{pago.cantidadAPagar=="5.99"}}' src="img/crown.png">
    <button ng-show='{{pago.cantidadAPagar=="5.99"}}' type="submit"  style="
     margin-top: 20px;
