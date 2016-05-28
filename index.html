@@ -91,7 +91,7 @@
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close href='#/modalNewP' transitiontype="fade" go-native>
           <i class="icon ion-android-create"></i>
-          <h2 class="menu-text">Crear oferta</h2>
+          <h2 class="menu-text">Crear Propuesta</h2>
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close  href='#/paypal/0' transitiontype="fade" go-native>
           <i class="icon ion-card"></i>
@@ -185,7 +185,7 @@
 				</div>
 				<div style="text-align: justify;  color: #666">
 	
-				<p >* Al seleccionar el ganador de tu oferta este sera notificado y se abrira un chat entre ambos</p>
+				<p >* Al seleccionar el ganador de tu propuesta este sera notificado y se abrira un chat entre ambos</p>
 		
 			
 				</div>
@@ -296,7 +296,7 @@
        <div style="height: 75px"></div>
           <div style="text-align: center; margin-top: 80px; font-size: 18px; color: rgb(102, 102, 102);" ng-show="cargandoPropuestas">
           <ion-spinner icon="dots"></ion-spinner>
-          <p>Cargando ofertas</p>
+          <p>Cargando propuestas</p>
           </div>
           <div id="container" ng-show='!cargandoPropuestas'>
           <div class="left-column" ng-repeat="subasta in subastas"  >
@@ -1285,7 +1285,7 @@
     </script>
     <script id="modalNewP.html" type="text/ng-template">
 
-          <ion-view title='Crear Oferta' hide-back-button='true'>		
+          <ion-view title='Crear Propuesta' hide-back-button='true'>		
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
@@ -1375,7 +1375,7 @@
 
 						<label style='margin-top: 15px' class="borderBot item itemForms item-input item-select">
 						<div class="input-label">
-						Tipo de oferta
+						Tipo de propuesta
 						</div>
 						<select ng-model='propuesta.tipo' class='itemForms'>
 						<option value='1' selected>Subasta</option>

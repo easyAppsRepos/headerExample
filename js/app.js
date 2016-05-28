@@ -61,6 +61,7 @@ nameApp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider
     })
 
             .state('filtrosVIP', {
+              cache: false,
       url: '/filtrosVIP',
       templateUrl: 'filtrosVIP.html',
       controller: 'filtrosVIPCtrl'
@@ -1044,9 +1045,19 @@ $scope.payCenter=true;
 
     $scope.payButtonClicked = function(p,type) {
 
+ if($localStorage.user[0].vip == true && type == 1){
+
+alert('Ya eres VIP');
+return true;
+
+ }
+ 
+ 
  $ionicLoading.show({
         template: 'Cargando...'
       });
+
+
 
 console.log(document.getElementsByName("payment_method_nonce")[0].value);
 if(document.getElementsByName("payment_method_nonce")[0].value){
@@ -1116,6 +1127,9 @@ console.log(nonce);
   });
 nameApp.controller('paypalCtrl',function($scope,$rootScope,$ionicHistory,$location, $http, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation, FotosUsuario)
 {
+
+
+
 
 $scope.sss=function(){console.log('sss');}
 /*
@@ -2236,6 +2250,17 @@ $scope.items = [
 
 
 nameApp.controller('filtrosVIPCtrl', function($scope, $state, $stateParams, $cordovaSocialSharing, $localStorage, $timeout, $ionicScrollDelegate, ChatsUsuario) {
+
+if($localStorage.user[0].vip == false){
+  
+  setTimeout(function(){
+  alert('Lo sentimos, es necesario ser VIP para acceder');
+$state.go('list');
+}, 500);
+
+  
+}
+
 $scope.enBusqueda=true;
 $scope.busqueda={};
     $scope.propuestasValidas=[];
