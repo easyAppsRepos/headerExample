@@ -1079,7 +1079,8 @@ if(type==2){
   var UserID=id;
    idPo=idP;}
 
-console.log(document.getElementsByName("payment_method_nonce")[0].value);
+//console.log(document.getElementsByName("payment_method_nonce")[0].value);
+if(typeof document.getElementsByName("payment_method_nonce")[0] !== 'undefined' ){
 if(document.getElementsByName("payment_method_nonce")[0].value){
  var url = 'http://54.187.131.158:3000/checkout';
     $http
@@ -1101,7 +1102,7 @@ if(document.getElementsByName("payment_method_nonce")[0].value){
   console.log('paypal');
   return true;
 }
-
+}
 if(typeof $scope.creditCard.number == "undefined" || $scope.creditCard.number == '' || typeof $scope.creditCard.expirationDate == "undefined" || $scope.creditCard.expirationDate == '' ){
 $ionicLoading.hide();
 alert('Datos incompletos');
