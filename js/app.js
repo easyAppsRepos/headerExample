@@ -1259,7 +1259,7 @@ nameApp.controller('seleccionarGanadorCtrl', function(){
 
 
 nameApp.controller('administradorCtrl', function($scope){
-
+$scope.d={};
     var ref = new Firebase("https://golddate.firebaseio.com/app/userInfo");
     ref.once("value", function(snapshot) {
       var a = snapshot.numChildren();
@@ -1269,9 +1269,9 @@ nameApp.controller('administradorCtrl', function($scope){
 
          $scope.$applyAsync(function(){
     
-    $scope.totales=a;
+    $scope.d.totales=a;
    }); 
-         
+
       // c === 0 (since "Fred" is a string)
       console.log(snapshot.val())
     });
@@ -1283,7 +1283,7 @@ nameApp.controller('administradorCtrl', function($scope){
      
       // b === 2 ("first", "last")
       $scope.$applyAsync(function(){
-     $scope.propuestas=a;
+     $scope.d.propuestas=a;
    }); 
 
       // c === 0 (since "Fred" is a string)
@@ -1296,7 +1296,7 @@ nameApp.controller('administradorCtrl', function($scope){
      
       // b === 2 ("first", "last")
       $scope.$applyAsync(function(){
-  $scope.userVIP=a;
+  $scope.d.userVIP=a;
    }); 
   
     });
@@ -1310,7 +1310,7 @@ nameApp.controller('administradorCtrl', function($scope){
      
       // b === 2 ("first", "last")
    $scope.$applyAsync(function(){
-   	$scope.propuestasT=a;
+   	$scope.d.propuestasT=a;
    }); 
       // c === 0 (since "Fred" is a string)
     });
