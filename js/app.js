@@ -1266,7 +1266,12 @@ nameApp.controller('administradorCtrl', function($scope){
       // a === 1 ("name")
      
       // b === 2 ("first", "last")
+
+         $scope.$applyAsync(function(){
+    
     $scope.totales=a;
+   }); 
+         
       // c === 0 (since "Fred" is a string)
       console.log(snapshot.val())
     });
@@ -1277,7 +1282,10 @@ nameApp.controller('administradorCtrl', function($scope){
       // a === 1 ("name")
      
       // b === 2 ("first", "last")
-    $scope.propuestas=a;
+      $scope.$applyAsync(function(){
+     $scope.propuestas=a;
+   }); 
+
       // c === 0 (since "Fred" is a string)
     });
 
@@ -1287,7 +1295,10 @@ nameApp.controller('administradorCtrl', function($scope){
       // a === 1 ("name")
      
       // b === 2 ("first", "last")
-    $scope.userVIP=a;
+      $scope.$applyAsync(function(){
+  $scope.userVIP=a;
+   }); 
+  
     });
 
 
@@ -1298,7 +1309,9 @@ nameApp.controller('administradorCtrl', function($scope){
       // a === 1 ("name")
      
       // b === 2 ("first", "last")
-    $scope.propuestasT=a;
+   $scope.$applyAsync(function(){
+   	$scope.propuestasT=a;
+   }); 
       // c === 0 (since "Fred" is a string)
     });
 
