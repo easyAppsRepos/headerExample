@@ -1258,7 +1258,13 @@ nameApp.controller('seleccionarGanadorCtrl', function(){
 
 
 
-nameApp.controller('administradorCtrl', function($scope){
+nameApp.controller('administradorCtrl', function($scope, $timeout, $ionicLoading){
+
+	         $ionicLoading.show({
+        template: 'Cargando...'
+      });
+
+
 $scope.d={};
     var ref = new Firebase("https://golddate.firebaseio.com/app/userInfo");
     ref.once("value", function(snapshot) {
@@ -1311,6 +1317,7 @@ $scope.d={};
       // b === 2 ("first", "last")
    $scope.$applyAsync(function(){
    	$scope.d.propuestasT=a;
+   	  $ionicLoading.hide();
    }); 
       // c === 0 (since "Fred" is a string)
     });
