@@ -115,6 +115,13 @@
           <i class="icon ion-gear-a"></i>
           <h2 class="menu-text">Configuracion</h2>
         </ion-item>
+
+                <ion-item class="item-icon-left" nav-clear menu-close href='#/administrador' transitiontype="fade" go-native>
+          <i class="icon ion-arrow-graph-up-right"></i>
+          <h2 class="menu-text">Administrador</h2>
+        </ion-item>
+
+
           <ion-item ng-controller='loginCtrl' ng-click='logout()' href='#/login' class="item-icon-left" nav-clear menu-close transitiontype="fade" go-native>
           <i class="icon ion-log-out"></i>
           <h2 class="menu-text">Cerrar Sesión</h2>
@@ -1210,6 +1217,45 @@
   <input type="submit" value="Pay $10">
   -->
  
+			</ion-content>
+      </ion-view>
+  </script> 
+
+
+
+      <script id="administrador.html" type="text/ng-template">
+      <ion-view title='Panel de administracion' hide-back-button="true">		
+			<ion-nav-buttons side="left"  >
+			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
+			</ion-nav-buttons>
+			
+
+			<ion-content style='    text-align: center !important;'>
+			<div style="height: 60px"></div>
+
+				<div class='admi'>
+					<i class='ion-ios-people'></i>
+					<span>Usuarios registrados</span>
+					<span style="position: absolute; right: 0px; margin-right: 8px;">{{totales}}</span>
+				</div>
+
+				<div class='admi'>
+					<i class='ion-star'></i>
+					<span>Usuarios VIP</span>
+					<span style="position: absolute; right: 0px; margin-right: 8px;">{{userVIP}}</span>
+				</div>
+
+				<div class='admi'>
+					<i class='ion-arrow-graph-up-right'></i>
+					<span>Propuestas activas</span>
+					<span style="position: absolute; right: 0px; margin-right: 8px;">{{propuestas}}</span>
+				</div>	
+				<div class='admi'>
+					<i class='ion-checkmark'></i>
+					<span>Propuestas terminadas</span>
+					<span style="position: absolute; right: 0px; margin-right: 8px;">{{propuestasT}}</span>
+				</div>									
+
 			</ion-content>
       </ion-view>
   </script> 

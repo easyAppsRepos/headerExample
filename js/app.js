@@ -81,6 +81,13 @@ $ionicConfigProvider.navBar.alignTitle('center');
       controller: 'ListCtrl'
     })
 
+                        .state('administrador', {
+              cache : false,
+      url: '/administrador',
+      templateUrl: 'administrador.html',
+      controller: 'administradorCtrl'
+    })
+
 
 
             .state('paypal', {
@@ -1246,7 +1253,59 @@ console.log("trayendo historial");
 nameApp.controller('seleccionarGanadorCtrl', function(){
 
 
+
 });
+
+
+
+nameApp.controller('administradorCtrl', function($scope){
+
+    var ref = new Firebase("https://golddate.firebaseio.com/app/userInfo");
+    ref.once("value", function(snapshot) {
+      var a = snapshot.numChildren();
+      // a === 1 ("name")
+     
+      // b === 2 ("first", "last")
+    $scope.totales=a;
+      // c === 0 (since "Fred" is a string)
+      console.log(snapshot.val())
+    });
+
+        var refs = new Firebase("https://golddate.firebaseio.com/app/propuestas");
+    refs.once("value", function(snapshot) {
+      var a = snapshot.numChildren();
+      // a === 1 ("name")
+     
+      // b === 2 ("first", "last")
+    $scope.propuestas=a;
+      // c === 0 (since "Fred" is a string)
+    });
+
+        var rsefs = new Firebase("https://golddate.firebaseio.com/app/userInfo");
+    rsefs.orderByChild("vip").equalTo(true).once("value", function(snapshot) {
+      var a = snapshot.numChildren();
+      // a === 1 ("name")
+     
+      // b === 2 ("first", "last")
+    $scope.userVIP=a;
+    });
+
+
+
+            var refss = new Firebase("https://golddate.firebaseio.com/app/propuestasTerminadas");
+    refss.once("value", function(snapshot) {
+      var a = snapshot.numChildren();
+      // a === 1 ("name")
+     
+      // b === 2 ("first", "last")
+    $scope.propuestasT=a;
+      // c === 0 (since "Fred" is a string)
+    });
+
+
+
+});
+
 
 nameApp.controller('detailCtrl',function($scope, $ionicPopup, $rootScope,$location, $state,$stateParams,$localStorage,$ionicModal,$ionicSlideBoxDelegate,$ionicSideMenuDelegate, Navigation,FotosUsuario){
 
