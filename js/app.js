@@ -82,7 +82,6 @@ $ionicConfigProvider.navBar.alignTitle('center');
     })
 
                         .state('administrador', {
-              cache : false,
       url: '/administrador',
       templateUrl: 'administrador.html',
       controller: 'administradorCtrl'
@@ -1260,6 +1259,8 @@ nameApp.controller('seleccionarGanadorCtrl', function(){
 
 nameApp.controller('administradorCtrl', function($scope, $timeout, $ionicLoading){
 
+
+$scope.actualizar=function(){
 	         $ionicLoading.show({
         template: 'Cargando...'
       });
@@ -1321,7 +1322,7 @@ $scope.d={};
    }); 
       // c === 0 (since "Fred" is a string)
     });
-
+}
 
 
 });
