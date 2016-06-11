@@ -8,6 +8,8 @@
     <title></title>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
      <link href="js/gallery/ion-gallery.css" rel="stylesheet">
+     <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+
     <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -100,7 +102,7 @@
           <h2 class="menu-text">Filtros VIP</h2>
         </ion-item>
 
-                <ion-item class="item-icon-left" nav-clear menu-close href='#/paypal/5.99/0/0' transitiontype="fade" go-native>
+                <ion-item class="item-icon-left" nav-clear menu-close href='#/paypal/5.99/0/0/0' transitiontype="fade" go-native>
           <i class="icon ion-star"></i>
           <h2 class="menu-text">Hazte VIP</h2>
         </ion-item>
@@ -112,8 +114,8 @@
           <h2 class="menu-text">Invita a tus amigos</h2>
         </ion-item>
         <ion-item class="item-icon-left" nav-clear menu-close href='#/configuracion' transitiontype="fade" go-native>
-          <i class="icon ion-gear-a"></i>
-          <h2 class="menu-text">Configuracion</h2>
+          <i class="icon ion-android-happy"></i>
+          <h2 class="menu-text">Calificar</h2>
         </ion-item>
 
                 <ion-item class="item-icon-left" nav-clear menu-close href='#/administrador' transitiontype="fade" go-native>
@@ -284,7 +286,7 @@
            <ion-nav-buttons side="left">
           <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
          
-        <div style="margin-left: 15px !important; width: 35px !important; height: 35px !important;"><a href='#/paypal/5.99/0/0'><img  style="height: 100% !important; width: 100% !important;" src="img/crown.png"></a></div>
+        <div style="margin-left: 15px !important; width: 35px !important; height: 35px !important;"><a href='#/paypal/5.99/0/0/0'><img  style="height: 100% !important; width: 100% !important;" src="img/crown.png"></a></div>
 
         </ion-nav-buttons>   
 
@@ -591,12 +593,17 @@
 			
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior" href="#/" transitiontype="fade"  go-native></a>
+
+
 			</ion-nav-buttons>
 
 			<ion-nav-buttons side="right"  >
 			<a style="font-size: 27px;margin-right: 8px; color: white; background-color: #4db6ac; border:none"  class="button ion-ios-location disable-user-behavior" href="#/mapaUsuario" transitiontype="fade"  go-native></a>
 
         <a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  href="#/fotosUsuario" class="button ion-ios-camera disable-user-behavior"></a>
+
+           
+
 			</ion-nav-buttons>
 			
 
@@ -615,12 +622,12 @@
 				<img style="object-fit: cover;margin: 9px; height: 100px; width: 100px;"  class="user-image" ng-src="{{getFoto(fotoUsuario)}}" spinner-on-load="">
 				</div>
 			</div>
-			<div style="text-align: center; font-size: 20px; margin-top: 15px; color:lightgoldenrodyellow">
-				<i class='ion-star'></i>
-				<i class='ion-star'></i>
-				<i class='ion-star'></i>
-				<i class='ion-star'></i>
-				<i class='ion-star'></i>
+			<div  style="text-align: center; font-size: 20px; margin-top: 15px; color:lightgoldenrodyellow">
+				<i style='color: lightgray' ng-class="{'amarillo': estrellas>=1}" class='ion-star'></i>
+				<i style='color: lightgray' ng-class="{'amarillo': estrellas>=2}" class='ion-star'></i>
+				<i style='color: lightgray'  ng-class="{'amarillo': estrellas>=3}" class='ion-star'></i>
+				<i  style='color: lightgray' ng-class="{'amarillo': estrellas>=4}" class='ion-star'></i>
+				<i style='color: lightgray' ng-class="{'amarillo': estrellas>=5}" class='ion-star'></i>
 			</div>
 			<div style="text-align: center; font-size: 20px; margin-top: 15px; color:#fafafa;">
 				<a>{{nombreUsuario}}</a><br><a style="font-size: 13px"></a>
@@ -1184,7 +1191,7 @@
  </div>   
 <div>
 
-   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;" ng-click="payButtonClicked(pago.cantidadAPagar,2,pago.idProponeP,pago.idP)">
+   <input ng-show='{{pago.cantidadAPagar!=="5.99"}}' type="submit" value="Pagar {{pago.cantidadAPagar}} euros" style="margin-top: 20px;height: 50px;width: 140px;" ng-click="payButtonClicked(pago.cantidadAPagar,2,pago.idProponeP,pago.idP, pago.nombrePropone)">
 
 <img ng-show='{{pago.cantidadAPagar=="5.99"}}' src="img/crown.png">
    <button ng-show='{{pago.cantidadAPagar=="5.99"}}' type="submit"  style="
@@ -1261,7 +1268,7 @@
   </script> 
 
       <script id="configuracion.html" type="text/ng-template">
-      <ion-view title='Configuracion'>		
+      <ion-view title='Calificaciones'>		
 			<ion-nav-buttons side="left"  >
 			<a style="font-size: 27px; color: white; background-color: #4db6ac; border:none"  class="button ion-android-arrow-back disable-user-behavior bar-positive" href="#/" transitiontype="fade"  go-native></a>
 			</ion-nav-buttons>
@@ -1269,22 +1276,19 @@
 
 			<ion-content style='background-color: rgb(234, 234, 234); color:#666'>
 			<div style="height: 45px"></div>
-			<ul class="list">
+				<div style="height: 75px; border-bottom: 1px solid lightgray; margin-top: 10px;" ng-repeat='item in lista'>
 
-  <li class="item item-toggle">
-     Notificaciones
+					<div>Calificar a {{item.nombre}}</div>	
+					<div  ng-controller="RatingController as rating" class="container">
+<div style="position: absolute; right: 0px; margin: 10px; height: 27px; width: 77px; text-align: center; border: 1px solid darkkhaki; line-height: 1.8;" ng-click='calificar(rating.rating1,item.idCalificar, $index)'>Calificar</div>
+  <div star-rating ng-model="rating.rating1" max="5" on-rating-select="rating.rateFunction(rating)"></div>
 
-     <label class="toggle toggle-assertive">
-       <input type="checkbox">
-       <div class="track">
-         <div class="handle"></div>
-       </div>
-     </label>
-  </li>
 
-  
 
-</ul>
+
+</div>
+
+				</div>
 			</ion-content>
       </ion-view>
   </script> 

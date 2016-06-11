@@ -85,6 +85,14 @@
 <splash src="res/splash/android/hdpi.png" platform="android" qualifier="hdpi" />
 <splash src="res/splash/android/xhdpi.png" platform="android" qualifier="xhdpi" />
 
+    <splash src="res/splash/ios/1.png" platform="ios" width="640" height="1136"/>
+    <splash src="res/splash/ios/2.png" platform="ios" height="1334"/>
+    <splash src="res/splash/ios/3.png" platform="ios" height="2208"/>
+    <splash src="res/splash/ios/5.png" platform="ios" height="960"/>
+    <splash src="res/splash/ios/6.png" platform="ios" height="480"/>
+
+
+
 
 
 

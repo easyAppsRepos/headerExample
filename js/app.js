@@ -76,9 +76,10 @@ $ionicConfigProvider.navBar.alignTitle('center');
 
 
             .state('configuracion', {
+            	cache: false,
       url: '/configuracion',
       templateUrl: 'configuracion.html',
-      controller: 'ListCtrl'
+      controller: 'configuracionCtrl'
     })
 
                         .state('administrador', {
@@ -91,7 +92,7 @@ $ionicConfigProvider.navBar.alignTitle('center');
 
             .state('paypal', {
               cache : false,
-      url: '/paypal/:pago/:idProponeP/:idP',
+      url: '/paypal/:pago/:idProponeP/:idP/:nombrePropone',
       templateUrl: 'paypal.html',
       controller: 'paypalCtrl'
     })
@@ -353,6 +354,16 @@ return s.length < 40 ? 'https://s3.amazonaws.com/gggdate/'+s : s;
 
 }
 
+$scope.calificar=function(){
+ // var calificar = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$localStorage.user[0].uid+'/estrellas');
+   // calificar.push({ 'calificacion': 2},function(){console.log('okadok')});
+
+  var calificar = new Firebase('https://golddate.firebaseio.com/app/calificaciones/'+$localStorage.user[0].uid);
+  calificar.push({ 'idCalificar': $localStorage.user[0].uid, 'nombre':'Pedrito Calamar'},function(){console.log('okadok')});
+
+}
+
+
 $scope.editSobreMi=function(type){
    $scope.perfil.sobreMiEdit='';
 var placehold='';
@@ -442,14 +453,32 @@ else if(type==3){
 
 
 
+
   var infoPerfil = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$localStorage.user[0].uid);
   infoPerfil.once("value", function(snapshot) {
 var a = snapshot.exists();
   if(a){
+
+var getStar = function(){
+var rating=5;
+var veces=0;
+
+for(var key in snapshot.val().estrellas) {
+   rating=rating+(snapshot.val().estrellas[key].calificacion);
+   veces++;
+}
+return Math.round(rating/veces);
+}
+
+
+
+  	console.log(snapshot.val());
     $scope.sobreMi=snapshot.val().sobreMi ? snapshot.val().sobreMi : 'Aun no completas esta parte de tu perfil';
     $scope.intereses=snapshot.val().intereses ? snapshot.val().intereses : 'Aun no completas esta parte de tu perfil';
      $scope.edad = snapshot.val().edad ? snapshot.val().edad : '?';
        $scope.cuenta = snapshot.val().cuenta ? snapshot.val().cuenta : '0';
+       $scope.estrellas = snapshot.val().estrellas ? getStar() : 5;
+       console.log($scope.estrellas);
       }
   else{
 
@@ -457,6 +486,7 @@ var a = snapshot.exists();
     $scope.intereses='Aun no completas esta parte de tu perfil';
     $scope.edad='?';
     $scope.cuenta = '0';
+    // $scope.estrellas = 5;
 
   }
 
@@ -656,14 +686,14 @@ fnotif.once('value', function(s){
     var a = s.exists();
   if(a){
     console.log(s.val().kPropone);
-    $state.go('paypal',{pago:s.val().pujaActual, idProponeP:s.val().kPropone,idP:0});
+    $state.go('paypal',{pago:s.val().pujaActual, idProponeP:s.val().kPropone,idP:0, nombrePropone:s.val().nickPropone});
   }
     if(!a){
 
       var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+k);
 fnotif.once('value', function(ss){
  
-      $state.go('paypal',{pago:ss.val().pujaActual, idProponeP:ss.val().kPropone, idP:k})
+      $state.go('paypal',{pago:ss.val().pujaActual, idProponeP:ss.val().kPropone, idP:k, nombrePropone:ss.val().nickPropone})
 
     });}
 });
@@ -1062,7 +1092,7 @@ $scope.payCenter=true;
       });
     }
 
-    $scope.payButtonClicked = function(p,type,id,idP) {
+    $scope.payButtonClicked = function(p,type,id,idP,nombrePropone) {
 
  if($localStorage.user[0].vip == true && type == 1){
 
@@ -1083,7 +1113,9 @@ if(type==1){
 
 if(type==2){
   var UserID=id;
-   idPo=idP;}
+   idPo=idP;
+
+}
 
 //console.log(document.getElementsByName("payment_method_nonce")[0].value);
 if(typeof document.getElementsByName("payment_method_nonce")[0] !== 'undefined' ){
@@ -1096,6 +1128,13 @@ if(document.getElementsByName("payment_method_nonce")[0].value){
         if(response==true){
            $ionicLoading.hide();
           alert('Transaccion Exitosa!');
+          if(type==2){
+
+  var calificar = new Firebase('https://golddate.firebaseio.com/app/calificaciones');
+  calificar.child($localStorage.user[0].uid).push({ 'idCalificar': UserID, 'nombre':nombrePropone},function(){console.log('okadok')});
+  calificar.child(UserID).push({ 'idCalificar': $localStorage.user[0].uid, 'nombre':$localStorage.user[0].name},function(){console.log('okadok')});
+
+          }
           $localStorage.user[0].vip=true;
           $state.go('list');
         }
@@ -1137,6 +1176,15 @@ console.log(nonce);
         if(response==true){
           $ionicLoading.hide();
           alert('Transaccion Exitosa!');
+
+                    if(type==2){
+
+  var calificar = new Firebase('https://golddate.firebaseio.com/app/calificaciones');
+  calificar.child($localStorage.user[0].uid).push({ 'idCalificar': UserID, 'nombre':nombrePropone},function(){console.log('okadok')});
+  calificar.child(UserID).push({ 'idCalificar': $localStorage.user[0].uid, 'nombre':$localStorage.user[0].name},function(){console.log('okadok')});
+
+          }
+
            $localStorage.user[0].vip=true;
           $state.go('list');
         }
@@ -1197,6 +1245,7 @@ $scope.pago={};
 $scope.pago.cantidadAPagar=$stateParams.pago;
 $scope.pago.idProponeP=$stateParams.idProponeP;
 $scope.pago.idP=$stateParams.idP;
+$scope.pago.nombrePropone=$stateParams.nombrePropone;
 console.log($scope.pago);
 
 });
@@ -1254,6 +1303,82 @@ nameApp.controller('seleccionarGanadorCtrl', function(){
 
 
 });
+
+
+
+nameApp.controller('configuracionCtrl', function($scope, $timeout, $rootScope, $localStorage, $ionicLoading, $ionicPopup){
+$scope.lista={};
+$scope.$on('act', function(event, args) {
+	$scope.lista=args.lista;
+});
+      	$scope.$on('lista', function(event, args) {
+console.log(args.indexArray);
+var idBorrar=Object.keys($scope.lista)[args.indexArray];
+	delete $scope.lista[Object.keys($scope.lista)[args.indexArray]];
+	var fredRef = new Firebase('https://golddate.firebaseio.com/app/calificaciones/'+$localStorage.user[0].uid+'/'+idBorrar);
+
+	var onComplete = function(error) {
+	if (error) {
+	   $ionicLoading.hide();
+	alert('Ha ocurrido un error');
+	} else {
+
+	$ionicLoading.hide();
+	$scope.getCali();
+
+
+	}
+	};
+	fredRef.remove(onComplete);
+
+    // $scope.indexArray = args.indexArray;
+    
+    // do what you want to do
+});
+
+
+
+$scope.getCali = function(){
+
+
+  var infoPerfil = new Firebase('https://golddate.firebaseio.com/app/calificaciones/'+$localStorage.user[0].uid);
+  infoPerfil.once("value", function(snapshot) {
+var a = snapshot.exists();
+  if(a){
+  	$scope.lista=snapshot.val();
+ 
+  	console.log(snapshot.val());
+  }
+  else {
+  	console.log('no cali');
+  }	
+
+ });
+}
+
+
+  var infoPerfil = new Firebase('https://golddate.firebaseio.com/app/calificaciones/'+$localStorage.user[0].uid);
+  infoPerfil.once("value", function(snapshot) {
+var a = snapshot.exists();
+  if(a){
+  	$rootScope.$broadcast('act', { lista: snapshot.val() });
+  //	$scope.lista=snapshot.val();
+ 
+  	console.log(snapshot.val());
+  }
+  else {
+  	console.log('no cali');
+  }	
+
+ });
+
+
+
+
+
+});
+
+
 
 
 
@@ -1894,8 +2019,32 @@ $scope.propuesta.categoria=cat;
   });
 
 
+  		$scope.agregarPropuesta = function(){
 
-      $scope.agregarPropuesta = function(){
+  			    var ref = new Firebase('https://golddate.firebaseio.com/app/propuestas');
+    ref.orderByChild("kPropone").equalTo($localStorage.user[0].uid).once("value", function(snapshot) {
+
+    var a = snapshot.exists();
+  if(a){
+  	if(snapshot.val().fechaCreacion+(3600000*24) > Date.now()){
+  		alert('Solo puedes crear 1 propuesta diaria');
+  	}
+  	else{
+  		 $scope.agregarPropuestaa();
+  	}
+  }
+  else{
+  	 $scope.agregarPropuestaa();
+  }
+  
+    
+    });
+
+  		}
+
+      $scope.agregarPropuestaa = function(){
+
+
 
 if($scope.propuesta.categoria == undefined || $scope.propuesta.diasEnSubasta == undefined 
    || $scope.propuesta.descripcion == undefined  || $scope.propuesta.tipo == undefined
@@ -1917,7 +2066,7 @@ return true;
 }
 
 if($scope.imgURI == undefined){
-/*
+
      var alertPopup = $ionicPopup.alert({
      title: 'Foto necesaria',
      template: 'Debes agregar una foto para continuar'
@@ -1928,7 +2077,7 @@ if($scope.imgURI == undefined){
    });
 
 return true;
-*/
+
        //$scope.imgURI='';
 }
       	//obtener fecha actual
@@ -3489,6 +3638,108 @@ nameApp.factory('PaypalService', ['$q', '$ionicPlatform', 'shopSettings', '$filt
 
         return service;
     }]);
+
+
+      function RatingController($rootScope, $scope, $localStorage, $ionicLoading) {
+
+
+
+
+      	$scope.calificar=function(rating,idCalificar,gg){
+      		console.log(rating);
+      		console.log(idCalificar);
+      		console.log(gg);
+      
+//var idBorrar=Object.keys($scope.lista)[gg];
+
+             $ionicLoading.show({
+      template: 'Cargando...'
+    });
+
+     var calificar = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+idCalificar+'/estrellas');
+	calificar.push({ 'calificacion': rating},function(){
+
+		 	$rootScope.$broadcast('lista', { indexArray: gg });
+			/*
+				var fredRef = new Firebase('https://golddate.firebaseio.com/app/calificaciones/'+$localStorage.user[0].uid+'/'+idBorrar);
+
+				var onComplete = function(error) {
+				if (error) {
+					   $ionicLoading.hide();
+				alert('Ha ocurrido un error');
+				} else {
+					delete $scope.lista[gg];
+				 $ionicLoading.hide();
+				 $scope.getCali();
+
+
+				}
+				};
+				fredRef.remove(onComplete);
+				*/
+		});
+
+	}
+    this.rating1 = 5;
+
+    this.isReadonly = true;
+    this.rateFunction = function(rating) {
+      console.log('Rating selected: ' + rating);
+    };
+
+
+
+
+
+  }
+
+  function starRating() {
+    return {
+      restrict: 'EA',
+      template:
+        '<ul class="star-rating" ng-class="{readonly: readonly}">' +
+        '  <li ng-repeat="star in stars" class="star" ng-class="{filled: star.filled}" ng-click="toggle($index)">' +
+        '    <i class="fa fa-star"></i>' + // or &#9733
+        '  </li>' +
+        '</ul>',
+      scope: {
+        ratingValue: '=ngModel',
+        max: '=?', // optional (default is 5)
+        onRatingSelect: '&?',
+        readonly: '=?'
+      },
+      link: function(scope, element, attributes) {
+        if (scope.max == undefined) {
+          scope.max = 5;
+        }
+        function updateStars() {
+          scope.stars = [];
+          for (var i = 0; i < scope.max; i++) {
+            scope.stars.push({
+              filled: i < scope.ratingValue
+            });
+          }
+        };
+        scope.toggle = function(index) {
+          if (scope.readonly == undefined || scope.readonly === false){
+            scope.ratingValue = index + 1;
+            scope.onRatingSelect({
+              rating: index + 1
+            });
+          }
+        };
+        scope.$watch('ratingValue', function(oldValue, newValue) {
+          if (newValue) {
+            updateStars();
+          }
+        });
+      }
+    };
+  }
+
+
+nameApp.controller('RatingController', RatingController)
+    .directive('starRating', starRating);
 
 
 
