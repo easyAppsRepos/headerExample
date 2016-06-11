@@ -2023,15 +2023,23 @@ $scope.propuesta.categoria=cat;
 
   			    var ref = new Firebase('https://golddate.firebaseio.com/app/propuestas');
     ref.orderByChild("kPropone").equalTo($localStorage.user[0].uid).once("value", function(snapshot) {
-
+var band=0;
     var a = snapshot.exists();
+    console.log(a);
+     console.log(snapshot.val());
   if(a){
-  	if(snapshot.val().fechaCreacion+(3600000*24) > Date.now()){
-  		alert('Solo puedes crear 1 propuesta diaria');
-  	}
-  	else{
-  		 $scope.agregarPropuestaa();
-  	}
+
+		snapshot.forEach(function(childSnapshot) {
+		if((parseInt(childSnapshot.val().fechaCreacion)+(3600000*24)) > Date.now()){
+		
+		band=3;
+		}
+		});
+		if(band==3){
+			alert('Solo puedes crear 1 propuesta diaria');
+			return true;
+		}
+		//$scope.agregarPropuestaa();
   }
   else{
   	 $scope.agregarPropuestaa();
@@ -3181,7 +3189,7 @@ nameApp.factory('Utils', function($ionicLoading,$ionicPopup) {
         showBackdrop: false,
         maxWidth: 200,
         showDelay: 500,
-        template: '<p class="item-icon-left">Loading...<ion-spinner icon="lines"/></p>'
+        template: '<p class="item-icon-left">Cargando...<ion-spinner icon="lines"/></p>'
       });
     },
 
