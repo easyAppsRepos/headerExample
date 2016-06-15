@@ -2091,7 +2091,7 @@ return true;
 
 	
 }
-/// cambiar urgente
+/// cambiar urgente 
 if($scope.imgURI == undefined){
 
      var alertPopup = $ionicPopup.alert({
