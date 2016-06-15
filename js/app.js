@@ -2091,7 +2091,7 @@ return true;
 
 	
 }
-/* cambiar urgente
+/// cambiar urgente
 if($scope.imgURI == undefined){
 
      var alertPopup = $ionicPopup.alert({
@@ -2107,7 +2107,7 @@ return true;
 
        //$scope.imgURI='';
 }
-*/
+
       	//obtener fecha actual
       	          $ionicLoading.show({
       template: 'Cargando...'
