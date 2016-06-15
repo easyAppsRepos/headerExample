@@ -118,7 +118,7 @@
           <h2 class="menu-text">Calificar</h2>
         </ion-item>
 
-                <ion-item class="item-icon-left" nav-clear menu-close href='#/administrador' transitiontype="fade" go-native>
+                <ion-item  ng-controller='userInfoCtrl' ng-show='administrador=="raalfagui@hotmail.com" || administrador=="goldate1987@gmail.com" ||  administrador=="ritajose8687-@hotmail.com"' class="item-icon-left" nav-clear menu-close href='#/administrador' transitiontype="fade" go-native>
           <i class="icon ion-arrow-graph-up-right"></i>
           <h2 class="menu-text">Administrador</h2>
         </ion-item>
@@ -762,7 +762,7 @@
            <ion-list show-delete="false" can-swipe="true">
                     <ion-item ng-repeat='noti in notificaciones'>
                         
-                           <img style="width: 50px;position: absolute; height: 50px; top: 0px; left: 0px; margin-top: 13px; margin-left: 5px;" ng-src="https://s3.amazonaws.com/gggdate/{{noti.idPropuesta}}.jpg">
+                           <img ng-click="mostrarPerfil(noti.idPropuesta,noti.titulo)" style="width: 50px;position: absolute; height: 50px; top: 0px; left: 0px; margin-top: 13px; margin-left: 5px;" ng-src="https://s3.amazonaws.com/gggdate/{{noti.idPropuesta}}.jpg">
                             <h2 style='display: inline-block;margin-left: 45px;'>{{noti.titulo}}</h2>
                             <p style="margin-left: 45px;">{{noti.subTitulo}}</p>
                          
@@ -774,6 +774,7 @@
                     </ion-item>
                 </ion-list>
           </div>
+          <div style="height:40px"></div>
 			</ion-content>
       </ion-view>
   </script> 
@@ -1030,13 +1031,62 @@
 
 </script>
   <script id="mapaUsuario.html" type="text/ng-template">
-      <ion-view title='Ubicacion'>		
+      <ion-view title='Perfil'>		
 			<ion-content>
                       <div id="map" data-tap-disabled="true"></div>
 			</ion-content>
       </ion-view>
   </script> 
+  <script id="perfilUsuario.html" type="text/ng-template">
+      <ion-view title='Perfil'>    
+      <ion-content style='background-color: rgb(234, 234, 234);'>
+                     <div>
+                             <div style="height: 45px;"></div>
+      
+                   
+ <div class="item item-body fondoGris" style="text-align: center">
+ <a><b>{{nombreUsuario}}</b></a>
+ <div  style="text-align: center; font-size: 20px; margin-top: 15px; color:lightgoldenrodyellow">
+        <i style='color: lightgray' ng-class="{'amarillo': estrellas>=1}" class='ion-star'></i>
+        <i style='color: lightgray' ng-class="{'amarillo': estrellas>=2}" class='ion-star'></i>
+        <i style='color: lightgray'  ng-class="{'amarillo': estrellas>=3}" class='ion-star'></i>
+        <i  style='color: lightgray' ng-class="{'amarillo': estrellas>=4}" class='ion-star'></i>
+        <i style='color: lightgray' ng-class="{'amarillo': estrellas>=5}" class='ion-star'></i>
+      </div>
+ </div>
+                            <div class="item item-body fondoGris">
+                            <div style='width: 100%; text-align: center;' ng-show='!(pages.length > 0)'>No hay fotos disponibles</div>
+                            <a class="item item-list-detail" ng-show='pages.length > 0'>
+                            <ion-scroll direction="x">
+                            <img ng-repeat="image in pages" ng-src="{{image.background}}" ng-click="showImages($index)" class="image-list-thumb"/>
+                            </ion-scroll>
+                            </a>
 
+                            </div>
+
+                            <div class="item item-body fondoGris">
+                            <div style="text-align: center; font-size: 13px; width: 90%; margin-left: 5%;margin-top: 20px; color: rgb(102, 102, 102);">
+
+                            <a style="font-size: 15px;"><b>Sobre mi</b></a>
+
+                            <div style="margin-top: 20px; font-size: 19px;"><img style='vertical-align: middle;' src='img/cupl.png'>{{edad}}</div>
+                            <p style="margin-top: 20px">{{sobreMi}}</p>
+                            </div>
+                            <div style="margin-top: 25px; width: 90%; margin-left: 5%; background-color: gray; height: 2px; opacity: 0.4;"></div>
+                            <div style="text-align: center; font-size: 13px; width: 90%; margin-left: 5%;margin-top: 25px; color: rgb(102, 102, 102);">
+
+                            <a style="font-size: 15px;"><b>Intereses</b></a>
+                            <div  style="margin-top: 20px; text-align: center">
+                            <p>{{intereses}}</p>
+                            </div>
+                            </div>
+
+                            <div style="height: 55px;"></div>
+                            </div>
+                     </div>
+      </ion-content>
+      </ion-view>
+  </script> 
     <script id="fotosUsuario.html" type="text/ng-template">
 
       <ion-view title='Mis Fotos'> 
