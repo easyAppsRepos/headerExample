@@ -468,7 +468,7 @@ var a = snapshot.exists();
 
 var getStar = function(){
 var rating=5;
-var veces=0;
+var veces=1;
 
 for(var key in snapshot.val().estrellas) {
    rating=rating+(snapshot.val().estrellas[key].calificacion);
@@ -3367,12 +3367,14 @@ $scope.pages=[];
 
 var getStar = function(estre){
 var rating=5;
-var veces=0;
+var veces=1;
+
 
 for(var key in estre) {
    rating=rating+(estre[key].calificacion);
    veces++;
 }
+
 return Math.round(rating/veces);
 }
 
@@ -3409,7 +3411,7 @@ fnotif.once('value', function(s){
       $scope.sobreMi=snapshot.val().sobreMi ? snapshot.val().sobreMi : 'incompleto';
       $scope.intereses=snapshot.val().intereses ? snapshot.val().intereses : 'incompleto';
       $scope.edad = snapshot.val().edad ? snapshot.val().edad : '?';
-      $scope.estrellas = snapshot.val().estrellas ? getStar() : 5;
+      $scope.estrellas = snapshot.val().estrellas ? getStar(snapshot.val().estrellas) : 5;
       }
       else{
 
@@ -3457,7 +3459,7 @@ fnotif.once('value', function(ss){
       $scope.sobreMi=snapshot.val().sobreMi ? snapshot.val().sobreMi : 'incompleto';
       $scope.intereses=snapshot.val().intereses ? snapshot.val().intereses : 'incompleto';
       $scope.edad = snapshot.val().edad ? snapshot.val().edad : '?';
-      $scope.estrellas = snapshot.val().estrellas ? getStar() : 5;
+      $scope.estrellas = snapshot.val().estrellas ? getStar(snapshot.val().estrellas) : 5;
       }
       else{
 
