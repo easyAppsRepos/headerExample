@@ -1912,6 +1912,7 @@ console.log($localStorage.user[0].uid);
                    refPuja.child('pujas/'+$scope.propuestaKey).push({valorPuja:$scope.inputSubasta,
                                             pujante:$localStorage.user[0].name,
                                             KPujante:$localStorage.user[0].uid,
+                                            KUserPropuesta:$scope.idPropone,
                                             fechaPuja:Date.now()});
                    $rootScope.$broadcast('actualizarPuja', {puja:$scope.inputSubasta});
                    $scope.pujaActual=$scope.inputSubasta;
@@ -2049,8 +2050,10 @@ var band=0;
   if(a){
 
 		snapshot.forEach(function(childSnapshot) {
-		if((parseInt(childSnapshot.val().fechaCreacion)+(3600000*24)) > Date.now()){
-		
+      console.log(parseInt(childSnapshot.val().fechaCreacion)+(3600000*24));
+      console.log(Date.now());
+		if($localStorage.user[0].vip == false && (parseInt(childSnapshot.val().fechaCreacion)+(3600000*24)) > Date.now()){
+		  return true;
 		band=3;
 		}
 		});
@@ -2091,7 +2094,7 @@ return true;
 
 	
 }
-/// cambiar urgente 
+/*/ cambiar urgente 
 if($scope.imgURI == undefined){
 
      var alertPopup = $ionicPopup.alert({
@@ -2107,7 +2110,7 @@ return true;
 
        //$scope.imgURI='';
 }
-
+*/
       	//obtener fecha actual
       	          $ionicLoading.show({
       template: 'Cargando...'
@@ -2225,6 +2228,7 @@ var postID = newPostRef.key();
 	};
 */ 
   $scope.selectPicture = function () {
+
    var isOnline = true;
    if(isOnline){
 
@@ -2432,6 +2436,11 @@ $scope.items = [];
 
 
     $scope.takePhoto = function () {
+        console.log($scope.items.length);
+        if($scope.items.length>3 && $localStorage.user[0].vip == false){
+         alert('Solo los usuarios VIP pueden subir mas de 3 fotos');
+         return true;
+        }
    var isOnline = true;
    if(isOnline){
 
@@ -3378,15 +3387,7 @@ for(var key in estre) {
 return Math.round(rating/veces);
 }
 
-
-
-
-var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestasTerminadas/'+$stateParams.idPropuesta);
-fnotif.once('value', function(s){
-    var a = s.exists();
-  if(a){
-    console.log(s.val().kPropone);
-      FotosUsuario.getFotos(s.val().kUserPuja).then(function(data){
+      FotosUsuario.getFotos($stateParams.idPropuesta).then(function(data){
       for (var key in data) {
       if (data.hasOwnProperty(key)) {
       // console.log(key + " -> " + data[key].src);
@@ -3397,14 +3398,14 @@ fnotif.once('value', function(s){
       }
 
            //test
-            var indfoPerfill = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+s.val().kUserPuja);
+            var indfoPerfill = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+$stateParams.idPropuesta);
             indfoPerfill.once("value", function(snapshot) {
             $scope.nombreUsuario = snapshot.val().nombre;
             });
             //test
 
 
-      var infoPerfill = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+s.val().kUserPuja);
+      var infoPerfill = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+$stateParams.idPropuesta);
       infoPerfill.once("value", function(snapshot) {
       var aa = snapshot.exists();
       if(aa){
@@ -3428,55 +3429,9 @@ fnotif.once('value', function(s){
 
       console.log(data);
       });
-  }
-    if(!a){
-
-      var fnotif = new Firebase('https://golddate.firebaseio.com/app/propuestas/'+$stateParams.idPropuesta);
-fnotif.once('value', function(ss){
+  
  
-           FotosUsuario.getFotos(ss.val().kUserPuja).then(function(data){
-      for (var key in data) {
-      if (data.hasOwnProperty(key)) {
-      // console.log(key + " -> " + data[key].src);
-      $scope.pages.push({background:"https://s3.amazonaws.com/gggdate/"+data[key].src, 
-                       text:''});
-      }
-      $scope.$applyAsync();
-      } 
-           //test
-            var indfoPerfill = new Firebase('https://golddate.firebaseio.com/app/userInfo/'+ss.val().kUserPuja);
-            indfoPerfill.once("value", function(snapshot) {
-              console.log(snapshot);
-            $scope.nombreUsuario = snapshot.val().nombre;
-            });
-            //test
 
-            var infoPerfill = new Firebase('https://golddate.firebaseio.com/app/infoPerfil/'+ss.val().kUserPuja);
-            console.log(ss.val().kUserPuja);
-      infoPerfill.once("value", function(snapshot) {
-      var aa = snapshot.exists();
-      if(aa){
-      $scope.sobreMi=snapshot.val().sobreMi ? snapshot.val().sobreMi : 'incompleto';
-      $scope.intereses=snapshot.val().intereses ? snapshot.val().intereses : 'incompleto';
-      $scope.edad = snapshot.val().edad ? snapshot.val().edad : '?';
-      $scope.estrellas = snapshot.val().estrellas ? getStar(snapshot.val().estrellas) : 5;
-      }
-      else{
-
-      $scope.sobreMi='incompleto';
-      $scope.intereses='incompleto';
-      $scope.edad='?';
-      $scope.estrellas = 5;
-      }
-
-      $scope.$applyAsync();
-      });
-      console.log(data);
-      });
-
-    });
-    }
-});
 
 
 
